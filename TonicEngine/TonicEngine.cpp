@@ -11,6 +11,10 @@
 #include "GameObject.h"
 #include "Scene.h"
 
+//Components
+#include "FPSComponent.h"
+#include "TextComponent.h"
+
 using namespace std;
 using namespace std::chrono;
 
@@ -44,6 +48,11 @@ void dae::TonicEngine::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
+	//Fonts
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 28);
+
+	
 	auto go = std::make_shared<GameObject>();
 	go->SetTexture("background.jpg");
 	scene.Add(go);
@@ -53,10 +62,15 @@ void dae::TonicEngine::LoadGame() const
 	go->SetPosition(216, 180);
 	scene.Add(go);
 
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
 	to->SetPosition(80, 20);
 	scene.Add(to);
+
+	auto fpsCounter = std::make_shared<GameObject>();
+	fpsCounter->SetPosition(30, 15);
+	fpsCounter->AddComponent(std::make_shared<FPSComponent>(fpsCounter.get(), fpsFont));
+	fpsCounter->GetComponent<FPSComponent>()->DisplayFPS(true);
+	scene.Add(fpsCounter);
 }
 
 void dae::TonicEngine::Cleanup()
@@ -81,17 +95,26 @@ void dae::TonicEngine::Run()
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
 
+		auto previous = high_resolution_clock::now();
+		float lag{};
+		float ms_per_update = MsPerFrame / 1000.f;
+
 		bool doContinue = true;
 		while (doContinue)
 		{
 			const auto currentTime = high_resolution_clock::now();
-			
+			const float elapsed = duration_cast<duration<float>>(currentTime - previous).count();
+			previous = currentTime;
+			lag += elapsed;
+
 			doContinue = input.ProcessInput();
-			sceneManager.Update();
+			while (lag >= ms_per_update)
+			{
+				sceneManager.Update(ms_per_update);
+				lag -= ms_per_update;
+			}
+
 			renderer.Render();
-			
-			auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());
-			this_thread::sleep_for(sleepTime);
 		}
 	}
 

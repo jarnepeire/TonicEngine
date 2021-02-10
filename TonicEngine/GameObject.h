@@ -1,14 +1,18 @@
 #pragma once
 #include "Transform.h"
 #include "SceneObject.h"
+#include <vector>
+
+class TextComponent;
+class Component;
 
 namespace dae
 {
 	class Texture2D;
-	class GameObject : public SceneObject
+	class GameObject final : public SceneObject
 	{
 	public:
-		void Update() override;
+		void Update(float dt) override;
 		void Render() const override;
 
 		void SetTexture(const std::string& filename);
@@ -20,9 +24,28 @@ namespace dae
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
+		
+		
+		template<typename T>
+		inline std::shared_ptr<T> GetComponent()
+		{
+			for (std::shared_ptr<Component> pComponent : m_pComponents)
+			{
+				
+				auto pTemp = std::dynamic_pointer_cast<T>(pComponent);
+				if (pTemp != nullptr)
+					return pTemp;
+			}
+			return nullptr;
+		}
 
+		void AddComponent(std::shared_ptr<Component> component);
+		Transform& GetTransform() { return m_Transform; }
+		
 	private:
 		Transform m_Transform;
 		std::shared_ptr<Texture2D> m_Texture{};
+		std::vector<std::shared_ptr<Component>> m_pComponents;
 	};
+
 }
