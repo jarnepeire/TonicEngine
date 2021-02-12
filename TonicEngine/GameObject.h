@@ -14,8 +14,6 @@ namespace dae
 	public:
 		void Update(float dt) override;
 		void Render() const override;
-
-		void SetTexture(const std::string& filename);
 		void SetPosition(float x, float y);
 
 		GameObject() = default;
@@ -31,7 +29,6 @@ namespace dae
 		{
 			for (std::shared_ptr<Component> pComponent : m_pComponents)
 			{
-				
 				auto pTemp = std::dynamic_pointer_cast<T>(pComponent);
 				if (pTemp != nullptr)
 					return pTemp;
@@ -44,7 +41,6 @@ namespace dae
 		
 	private:
 		Transform m_Transform;
-		std::shared_ptr<Texture2D> m_Texture{};
 		std::vector<std::shared_ptr<Component>> m_pComponents;
 	};
 

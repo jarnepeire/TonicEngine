@@ -7,13 +7,14 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include <SDL.h>
-#include "TextObject.h"
 #include "GameObject.h"
 #include "Scene.h"
 
 //Components
 #include "FPSComponent.h"
 #include "TextComponent.h"
+#include "RenderComponent.h"
+#include "ImageComponent.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -46,30 +47,38 @@ void dae::TonicEngine::Initialize()
  */
 void dae::TonicEngine::LoadGame() const
 {
+	//Scene
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	//Fonts
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 28);
 
-	
-	auto go = std::make_shared<GameObject>();
-	go->SetTexture("background.jpg");
-	scene.Add(go);
+	//Background
+	auto bgObject = std::make_shared<GameObject>();
+	bgObject->AddComponent(std::make_shared<ImageComponent>(bgObject.get(), "background.jpg"));
+	bgObject->AddComponent(std::make_shared<RenderComponent>(bgObject.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	scene.Add(bgObject);
 
-	go = std::make_shared<GameObject>();
-	go->SetTexture("logo.png");
-	go->SetPosition(216, 180);
-	scene.Add(go);
+	//Logo
+	auto logoObject = std::make_shared<GameObject>();
+	logoObject->SetPosition(216, 180);
+	logoObject->AddComponent(std::make_shared<ImageComponent>(logoObject.get(), "logo.png"));
+	logoObject->AddComponent(std::make_shared<RenderComponent>(logoObject.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	scene.Add(logoObject);
 
-	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
+	//Header text
+	auto to = std::make_shared<GameObject>();
 	to->SetPosition(80, 20);
+	to->AddComponent(std::make_shared<TextComponent>(to.get(), "Programming 4 Assignment", font));
+	to->AddComponent(std::make_shared<RenderComponent>(to.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
 	scene.Add(to);
 
+	//FPS game object
 	auto fpsCounter = std::make_shared<GameObject>();
 	fpsCounter->SetPosition(30, 15);
 	fpsCounter->AddComponent(std::make_shared<FPSComponent>(fpsCounter.get(), fpsFont));
-	fpsCounter->GetComponent<FPSComponent>()->DisplayFPS(true);
+	fpsCounter->AddComponent(std::make_shared<RenderComponent>(fpsCounter.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
 	scene.Add(fpsCounter);
 }
 
@@ -90,6 +99,7 @@ void dae::TonicEngine::Run()
 
 	LoadGame();
 
+	
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
@@ -108,6 +118,8 @@ void dae::TonicEngine::Run()
 			lag += elapsed;
 
 			doContinue = input.ProcessInput();
+
+			//Fixed Update
 			while (lag >= ms_per_update)
 			{
 				sceneManager.Update(ms_per_update);

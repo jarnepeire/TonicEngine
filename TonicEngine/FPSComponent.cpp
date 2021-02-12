@@ -3,14 +3,24 @@
 #include "GameObject.h"
 #include "TextComponent.h"
 
-FPSComponent::FPSComponent(dae::GameObject* parent, const std::shared_ptr<dae::Font>& font)
+FPSComponent::FPSComponent(dae::GameObject* parent)
 	: Component(parent)
-	, m_DisplayFPS(true)
-	, m_pTextComponent(std::make_shared<TextComponent>(m_pGameObject, "0", font))
+	, m_DisplayFPS(false)
 	, m_Frames()
 	, m_TotalTime()
 	, m_FPS()
 {
+}
+
+FPSComponent::FPSComponent(dae::GameObject* parent, const std::shared_ptr<dae::Font>& font)
+	: Component(parent)
+	, m_DisplayFPS(true)
+	, m_Frames()
+	, m_TotalTime()
+	, m_FPS()
+{
+	//To ensure there's a text component to receive the FPS stats
+	m_pGameObject->AddComponent(std::make_shared<TextComponent>(parent, "0", font));
 }
 
 void FPSComponent::Update(float dt)
@@ -26,20 +36,11 @@ void FPSComponent::Update(float dt)
 		//Update text
 		if (m_DisplayFPS)
 		{
-			m_pTextComponent->SetText(std::to_string(m_FPS));
-			
+			m_pGameObject->GetComponent<TextComponent>()->SetText(std::to_string(m_FPS));
 		}
 	}
-
-	//Text
-	m_pTextComponent->Update(dt);
 }
 
 void FPSComponent::Render()
 {
-	//Update text
-	if (m_DisplayFPS)
-	{
-		m_pTextComponent->Render();
-	}
 }

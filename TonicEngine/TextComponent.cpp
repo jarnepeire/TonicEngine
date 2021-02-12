@@ -8,6 +8,7 @@
 #include "Font.h"
 #include "Texture2D.h"
 #include "GameObject.h"
+#include "RenderComponent.h"
 
 using namespace dae;
 TextComponent::TextComponent(dae::GameObject* parent, const std::string& text, const std::shared_ptr<Font>& font)
@@ -46,8 +47,9 @@ void TextComponent::Render()
 {
 	if (m_Texture != nullptr)
 	{
+		auto pRender = m_pGameObject->GetComponent<RenderComponent>();
 		const auto pos = m_Transform.GetPosition() + m_pGameObject->GetTransform().GetPosition();
-		Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
+		pRender->RenderTexture(*m_Texture, pos.x, pos.y);
 	}
 }
 

@@ -1,16 +1,26 @@
 #pragma once
 #include "Component.h"
 
-struct SDL_Window;
+namespace dae
+{
+	class Texture2D;
+}
 struct SDL_Renderer;
 
 class RenderComponent : public Component
 {
 public:
-	RenderComponent(dae::GameObject* parent);
+	RenderComponent(dae::GameObject* parent, SDL_Renderer* pRenderer);
 	virtual ~RenderComponent() = default;
 
 	void Update(float dt) override;
 	void Render() override;
+
+	void RenderTexture(const dae::Texture2D& texture, float x, float y) const;
+	void RenderTexture(const dae::Texture2D& texture, float x, float y, float width, float height) const;
+
+private:
+	SDL_Renderer* m_pSDLRenderer;
+
 };
 
