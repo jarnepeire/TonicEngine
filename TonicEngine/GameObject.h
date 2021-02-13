@@ -3,7 +3,6 @@
 #include "SceneObject.h"
 #include <vector>
 
-class TextComponent;
 class Component;
 
 namespace dae

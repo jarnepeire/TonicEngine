@@ -92,14 +92,16 @@ void dae::TonicEngine::Cleanup()
 
 void dae::TonicEngine::Run()
 {
+	//Initializes the SDL Renderer, setup for window
 	Initialize();
 
-	// tell the resource manager where he can find the game data
+	//Tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
 
+	//Create all game objects
 	LoadGame();
 
-	
+	//Game Loop: http://gameprogrammingpatterns.com/game-loop.html
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
