@@ -1,15 +1,90 @@
 #pragma once
-#include <XInput.h>
+#include <Windows.h>
+#include <Xinput.h>
+#include <map>
+#include <vector>
+
+#include "Command.h"
 #include "Singleton.h"
+#include <memory>
+
+#pragma warning (disable:4201)
+#include <glm/vec2.hpp>
 
 namespace dae
 {
 	enum class ControllerButton
 	{
-		ButtonA,
-		ButtonB,
-		ButtonX,
-		ButtonY
+		ButtonA = XINPUT_GAMEPAD_A,
+		ButtonB = XINPUT_GAMEPAD_B,
+		ButtonX = XINPUT_GAMEPAD_X,
+		ButtonY = XINPUT_GAMEPAD_Y,
+
+		ButtonDPAD_Up = XINPUT_GAMEPAD_DPAD_UP,
+		ButtonDPAD_Down = XINPUT_GAMEPAD_DPAD_DOWN,
+		ButtonDPAD_Left = XINPUT_GAMEPAD_DPAD_LEFT,
+		ButtonDPAD_Right = XINPUT_GAMEPAD_DPAD_RIGHT,
+
+		ButtonStart = XINPUT_GAMEPAD_START,
+		ButtonBack = XINPUT_GAMEPAD_BACK,
+
+		ButtonLeftThumbstick = XINPUT_GAMEPAD_LEFT_THUMB,
+		ButtonRightThumbstick = XINPUT_GAMEPAD_RIGHT_THUMB,
+
+		ButtonLS = XINPUT_GAMEPAD_LEFT_SHOULDER,
+		ButtonRS = XINPUT_GAMEPAD_RIGHT_SHOULDER,
+
+		//Reason for this, is to keep the simplicity of having 1 enum class to define all possible input buttons
+		//Since there's only 2 triggers, and 2 thumbsticks, they get differentated by ControllerButtonType
+		LeftTrigger = -1,
+		RightTrigger = -2,
+
+		LeftThumbstick = -3,
+		RightThumbstick = -4
+	};
+
+	enum class ControllerButtonType
+	{
+		wButton,
+		Trigger,
+		Thumbstick
+	};
+
+	enum class ControllerTriggerState
+	{
+		NULL_VALUE,
+		Pressed,
+		Released,
+		Hold
+	};
+
+	struct InputSetting
+	{
+		//Simple constructor
+		InputSetting() {}
+		InputSetting(ControllerButton button, ControllerButtonType type, ControllerTriggerState triggerState)
+		{
+			Button = button;
+			Type = type;
+			TriggerState = triggerState;
+		}
+
+		// operator== is required to compare keys in case of hash collision
+		bool operator==(const InputSetting& is) const
+		{
+			return Button == is.Button && TriggerState == is.TriggerState;
+		}
+
+		// operator< is required to compare keys in case of hash collision
+		bool operator<(const InputSetting& is) const
+		{
+			return Button < is.Button;
+		}
+
+		//Member variables
+		ControllerButton Button{};
+		ControllerButtonType Type{};
+		ControllerTriggerState TriggerState{};
 	};
 
 	class InputManager final : public Singleton<InputManager>
@@ -17,8 +92,21 @@ namespace dae
 	public:
 		bool ProcessInput();
 		bool IsPressed(ControllerButton button) const;
+		bool WasPressed(ControllerButton button) const;
+
+		void AddInputAction(ControllerButton button, ControllerButtonType type, ControllerTriggerState triggerState, std::shared_ptr<Command> command);
+
+		glm::vec2 GetThumbstickDirectionNormalized(ControllerButton button);
+		float GetTriggerForce(ControllerButton button);
 	private:
-		XINPUT_STATE m_CurrentState{};
+		XINPUT_STATE m_PreviousState;
+		XINPUT_STATE m_CurrentState;
+		std::map<InputSetting, std::shared_ptr<Command>> m_InputActions;
+
+		/* Private functions */
+		dae::ControllerTriggerState GetCurrentTriggerState(ControllerButton button);
+		bool DidThumbstickMove(ControllerButton button);
+		bool IsTriggerPressed(ControllerButton button);
 	};
 
 }
