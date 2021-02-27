@@ -1,27 +1,5 @@
 #include "TonicEnginePCH.h"
 #include "Command.h"
 #include "GameObject.h"
+#include "CharacterComponent.h"
 
-void FireCommand::Execute()
-{
-}
-
-void DuckCommand::Execute()
-{
-}
-
-void JumpCommand::Execute()
-{
-}
-
-void FartCommand::Execute()
-{
-}
-
-void MoveCommand::Execute()
-{
-}
-
-void FlyCommand::Execute()
-{
-}

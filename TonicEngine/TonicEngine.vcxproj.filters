@@ -22,6 +22,9 @@
     <Filter Include="Input">
       <UniqueIdentifier>{2095795b-8469-49bd-a0dd-257b533497b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Observers">
+      <UniqueIdentifier>{87252fb2-2924-494e-8d7e-7284698b049f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TonicEnginePCH.h">
@@ -105,6 +108,18 @@
     <ClInclude Include="Command.h">
       <Filter>Input</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterComponent.h">
+      <Filter>Component Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Component Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TonicEnginePCH.cpp">
@@ -181,6 +196,18 @@
     </ClCompile>
     <ClCompile Include="Command.cpp">
       <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterComponent.cpp">
+      <Filter>Component Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
+      <Filter>Component Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -20,10 +20,14 @@ TextComponent::TextComponent(dae::GameObject* parent, const std::string& text, c
 {
 }
 
+void TextComponent::FixedUpdate(float dt)
+{
+	UNREFERENCED_PARAMETER(dt);
+}
+
 void TextComponent::Update(float dt)
 {
 	UNREFERENCED_PARAMETER(dt);
-
 	if (m_NeedsUpdate)
 	{
 		const SDL_Color color = { 255,255,255 }; // only white text is supported now

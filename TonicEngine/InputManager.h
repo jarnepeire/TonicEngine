@@ -85,25 +85,28 @@ namespace dae
 		ControllerButton Button{};
 		ControllerButtonType Type{};
 		ControllerTriggerState TriggerState{};
+		mutable bool IsTriggered = false;
 	};
 
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
 		bool ProcessInput();
-		bool IsPressed(ControllerButton button) const;
-		bool WasPressed(ControllerButton button) const;
-
+		bool IsInputTriggered(ControllerButton button, ControllerButtonType type, ControllerTriggerState triggerState);
 		void AddInputAction(ControllerButton button, ControllerButtonType type, ControllerTriggerState triggerState, std::shared_ptr<Command> command);
 
 		glm::vec2 GetThumbstickDirectionNormalized(ControllerButton button);
 		float GetTriggerForce(ControllerButton button);
+
 	private:
 		XINPUT_STATE m_PreviousState;
 		XINPUT_STATE m_CurrentState;
-		std::map<InputSetting, std::shared_ptr<Command>> m_InputActions;
+		std::map<dae::InputSetting, std::shared_ptr<Command>> m_InputActions;
 
 		/* Private functions */
+		bool IsPressed(ControllerButton button) const;
+		bool WasPressed(ControllerButton button) const;
+
 		dae::ControllerTriggerState GetCurrentTriggerState(ControllerButton button);
 		bool DidThumbstickMove(ControllerButton button);
 		bool IsTriggerPressed(ControllerButton button);

@@ -11,6 +11,11 @@ RenderComponent::RenderComponent(dae::GameObject* parent, SDL_Renderer* pRendere
 {
 }
 
+void RenderComponent::FixedUpdate(float dt)
+{
+	UNREFERENCED_PARAMETER(dt);
+}
+
 void RenderComponent::Update(float dt)
 {
 	UNREFERENCED_PARAMETER(dt);

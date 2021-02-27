@@ -13,6 +13,7 @@ public:
 	RenderComponent(dae::GameObject* parent, SDL_Renderer* pRenderer);
 	virtual ~RenderComponent() = default;
 
+	void FixedUpdate(float dt) override;
 	void Update(float dt) override;
 	void Render() override;
 

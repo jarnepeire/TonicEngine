@@ -4,14 +4,23 @@
 #include "Renderer.h"
 #include "TextComponent.h"
 #include "FPSComponent.h"
+#include "Subject.h"
 
 dae::GameObject::~GameObject()
 {
 }
 
-void dae::GameObject::AddComponent(std::shared_ptr<Component> component)
+//void dae::GameObject::AddComponent(std::shared_ptr<Component> component)
+//{
+//	m_pComponents.push_back(component);
+//}
+
+void dae::GameObject::FixedUpdate(float dt)
 {
-	m_pComponents.push_back(component);
+	for (auto pComp : m_pComponents)
+	{
+		pComp->FixedUpdate(dt);
+	}
 }
 
 void dae::GameObject::Update(float dt)
@@ -33,4 +42,9 @@ void dae::GameObject::Render() const
 void dae::GameObject::SetPosition(float x, float y)
 {
 	m_Transform.SetPosition(x, y, 0.0f);
+}
+
+void dae::GameObject::NotifySubject(Event e)
+{
+	m_pSubject->Notify(this, e);
 }

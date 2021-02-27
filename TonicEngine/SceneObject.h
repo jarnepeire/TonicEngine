@@ -4,6 +4,7 @@ namespace dae
 	class SceneObject
 	{
 	public:
+		virtual void FixedUpdate(float dt) = 0;
 		virtual void Update(float dt) = 0;
 		virtual void Render() const = 0;
 

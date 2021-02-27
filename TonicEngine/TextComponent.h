@@ -15,6 +15,7 @@ public:
 	TextComponent(dae::GameObject* parent, const std::string& text = "", const std::shared_ptr<dae::Font>& font = nullptr);
 	virtual ~TextComponent() = default;
 
+	void FixedUpdate(float dt) override;
 	void Update(float dt) override;
 	void Render() override;
 

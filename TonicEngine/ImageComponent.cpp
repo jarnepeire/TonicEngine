@@ -12,6 +12,11 @@ ImageComponent::ImageComponent(dae::GameObject* parent, const std::string& filen
 {
 }
 
+void ImageComponent::FixedUpdate(float dt)
+{
+	UNREFERENCED_PARAMETER(dt);
+}
+
 void ImageComponent::Update(float dt)
 {
 	UNREFERENCED_PARAMETER(dt);

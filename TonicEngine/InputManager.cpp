@@ -15,27 +15,9 @@ bool dae::InputManager::ProcessInput()
 		//We're only looping over registered input buttons that actually have a command (action) bind to them
 		for (std::pair<const InputSetting, std::shared_ptr<Command>>& it : m_InputActions)
 		{
-			//As of right now, the command of first key that is being pushed will be returned and executed
-			switch (it.first.Type)
-			{
-			case ControllerButtonType::wButton:
-				if (GetCurrentTriggerState(it.first.Button) == it.first.TriggerState)
-					it.second->Execute();
-				break;
-
-			case ControllerButtonType::Trigger:
-				if (IsTriggerPressed(it.first.Button))
-					it.second->Execute();
-				break;
-
-			case ControllerButtonType::Thumbstick:
-				if (DidThumbstickMove(it.first.Button))
-					it.second->Execute();
-				break;
-
-			default:
-				break;
-			}
+			//Execute command that is bound to input
+			if (IsInputTriggered(it.first.Button, it.first.Type, it.first.TriggerState))
+				it.second->Execute();
 		}
 	}
 
@@ -55,6 +37,30 @@ bool dae::InputManager::ProcessInput()
 
 	//If all went well -> return true
 	return true;
+}
+
+bool dae::InputManager::IsInputTriggered(ControllerButton button, ControllerButtonType type, ControllerTriggerState triggerState)
+{
+	//Check if the input that is requested matches the current state of input
+	switch (type)
+	{
+	case ControllerButtonType::wButton:
+		return (GetCurrentTriggerState(button) == triggerState);
+		break;
+
+	case ControllerButtonType::Trigger:
+		return (IsTriggerPressed(button));
+		break;
+
+	case ControllerButtonType::Thumbstick:
+		return (DidThumbstickMove(button));
+		break;
+
+	default:
+		return false;
+		break;
+	}
+	
 }
 
 bool dae::InputManager::IsPressed(ControllerButton button) const

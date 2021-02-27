@@ -11,6 +11,7 @@ class ImageComponent : public Component
 public:
 	ImageComponent(dae::GameObject* parent, const std::string& filename);
 
+	void FixedUpdate(float dt) override;
 	void Update(float dt) override;
 	void Render() override;
 
