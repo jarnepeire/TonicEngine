@@ -50,7 +50,7 @@ namespace dae
 		Thumbstick
 	};
 
-	enum class ControllerTriggerState
+	enum class TriggerState
 	{
 		NULL_VALUE,
 		Pressed,
@@ -62,7 +62,7 @@ namespace dae
 	{
 		//Simple constructor
 		InputSetting() {}
-		InputSetting(ControllerButton button, ControllerButtonType type, ControllerTriggerState triggerState)
+		InputSetting(ControllerButton button, ControllerButtonType type, TriggerState triggerState)
 		{
 			Button = button;
 			Type = type;
@@ -83,31 +83,33 @@ namespace dae
 
 		//Member variables
 		ControllerButton Button{};
+		int KeyboardKey{};
 		ControllerButtonType Type{};
-		ControllerTriggerState TriggerState{};
+		TriggerState TriggerState{};
 		mutable bool IsTriggered = false;
 	};
 
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
+
 		bool ProcessInput();
-		bool IsInputTriggered(ControllerButton button, ControllerButtonType type, ControllerTriggerState triggerState);
-		void AddInputAction(ControllerButton button, ControllerButtonType type, ControllerTriggerState triggerState, std::shared_ptr<Command> command);
+		bool IsInputTriggered(ControllerButton button, ControllerButtonType type, TriggerState triggerState);
+		void AddInputAction(int keyboardKey, ControllerButton button, ControllerButtonType type, TriggerState triggerState, std::shared_ptr<Command> command);
 
 		glm::vec2 GetThumbstickDirectionNormalized(ControllerButton button);
 		float GetTriggerForce(ControllerButton button);
 
 	private:
-		XINPUT_STATE m_PreviousState;
-		XINPUT_STATE m_CurrentState;
+		XINPUT_STATE m_PrevControllerState;
+		XINPUT_STATE m_CurrControllerState;
 		std::map<dae::InputSetting, std::shared_ptr<Command>> m_InputActions;
 
 		/* Private functions */
 		bool IsPressed(ControllerButton button) const;
 		bool WasPressed(ControllerButton button) const;
 
-		dae::ControllerTriggerState GetCurrentTriggerState(ControllerButton button);
+		dae::TriggerState GetCurrentTriggerState(ControllerButton button);
 		bool DidThumbstickMove(ControllerButton button);
 		bool IsTriggerPressed(ControllerButton button);
 	};

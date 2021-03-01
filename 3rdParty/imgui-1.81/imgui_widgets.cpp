@@ -60,6 +60,9 @@ Index of this file:
 #pragma warning (disable: 5054)     // operator '|': deprecated between enumerations of different types
 #endif
 #endif
+//-> Unreferenced local variable in release mode (is used in assert)
+#pragma warning (disable:4189)
+
 
 // Clang/GCC warnings with -Weverything
 #if defined(__clang__)

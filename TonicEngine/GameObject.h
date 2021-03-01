@@ -1,13 +1,9 @@
 #pragma once
 #include "Transform.h"
 #include "SceneObject.h"
-#include "Subject.h"
 #include <vector>
 
 class Component;
-//class Subject;
-enum class Event;
-
 namespace dae
 {
 	class Texture2D;
@@ -27,10 +23,7 @@ namespace dae
 		void Render() const override;
 		void SetPosition(float x, float y);
 
-		void NotifySubject(Event e);
-		std::unique_ptr<Subject>& GetSubject() { return m_pSubject; }
 		Transform& GetTransform() { return m_Transform; }
-
 
 		//Templated Component Code:
 		template<typename T>
@@ -55,7 +48,6 @@ namespace dae
 	private:
 		Transform m_Transform;
 		std::vector<std::shared_ptr<Component>> m_pComponents;
-		std::unique_ptr<Subject> m_pSubject = std::make_unique<Subject>();
 	};
 
 }

@@ -10,11 +10,6 @@ dae::GameObject::~GameObject()
 {
 }
 
-//void dae::GameObject::AddComponent(std::shared_ptr<Component> component)
-//{
-//	m_pComponents.push_back(component);
-//}
-
 void dae::GameObject::FixedUpdate(float dt)
 {
 	for (auto pComp : m_pComponents)
@@ -42,9 +37,4 @@ void dae::GameObject::Render() const
 void dae::GameObject::SetPosition(float x, float y)
 {
 	m_Transform.SetPosition(x, y, 0.0f);
-}
-
-void dae::GameObject::NotifySubject(Event e)
-{
-	m_pSubject->Notify(this, e);
 }

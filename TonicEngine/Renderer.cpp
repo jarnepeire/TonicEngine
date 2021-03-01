@@ -1,9 +1,11 @@
 #include "TonicEnginePCH.h"
+
 #include "Renderer.h"
 #include <SDL.h>
 #include "SDL_render.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
+
 #include "imgui.h"
 #include "backends/imgui_impl_opengl2.h"
 #include "backends/imgui_impl_sdl.h"
@@ -102,4 +104,11 @@ void dae::Renderer::DisplayUI() const
 	ImGui::SameLine();
 	ImGui::Button("Versus");
 	ImGui::PopStyleColor(3);
+
+	ImGui::Text("For Player 1:");
+	ImGui::Text("Both A+B on the controller/keyboard \nexecute commands and triggers \nthe notifies for the observers.");
+	ImGui::NewLine();
+	
+	ImGui::Text("For Player 2:");
+	ImGui::Text("Both X/Y on the controller/keyboard \nexecute commands and triggers \nthe notifies for the observers.");
 }

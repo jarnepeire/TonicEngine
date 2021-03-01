@@ -28,3 +28,12 @@ public:
 	void Execute() override;
 };
 
+//Temporary command to fit the needs of this assignment
+class ScoreCommand : public Command
+{
+public:
+	ScoreCommand(dae::GameObject* object) : Command(object) {}
+	virtual ~ScoreCommand() = default;
+	void Execute() override;
+};
+

@@ -1,14 +1,15 @@
 #include "TonicEnginePCH.h"
 #include "HealthComponent.h"
 #include "TextComponent.h"
+#include "Subject.h"
+#include "Observer.h"
+#include "InputManager.h"
 
-HealthComponent::HealthComponent(dae::GameObject* parent, int nbLives, const std::shared_ptr<TextComponent>& pTextComp)
+using namespace dae;
+HealthComponent::HealthComponent(dae::GameObject* parent, int nbLives)
 	: Component(parent)
 	, m_NbLives(nbLives)
-	, m_pTextComponent(pTextComp)
-	, m_DisplayText(true)
 {
-	m_pTextComponent->SetText("Lives: " + std::to_string(m_NbLives));
 }
 
 void HealthComponent::FixedUpdate(float dt)
@@ -19,7 +20,6 @@ void HealthComponent::FixedUpdate(float dt)
 void HealthComponent::Update(float dt)
 {
 	UNREFERENCED_PARAMETER(dt);
-	m_pTextComponent->SetText("Lives: " + std::to_string(m_NbLives));
 }
 
 void HealthComponent::Render()
@@ -29,4 +29,5 @@ void HealthComponent::Render()
 void HealthComponent::LoseLife()
 {
 	--m_NbLives;
+	m_pSubject->Notify(m_pGameObject, Event::EVENT_PLAYER_LOST_LIFE);
 }

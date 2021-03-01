@@ -11,5 +11,11 @@ public:
 	void FixedUpdate(float dt) override;
 	void Update(float dt) override;
 	void Render() override;
+
+	void GainScore(int score);
+	int GetScore() const { return m_Score; }
+private:
+	int m_Score;
+
 };
 

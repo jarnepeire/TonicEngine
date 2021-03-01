@@ -4,20 +4,12 @@
 #include "Observer.h"
 #include <algorithm>
 
-Subject::~Subject()
+void Subject::AddObserver(std::shared_ptr<Observer> pObserver)
 {
-	std::for_each(m_pObservers.begin(), m_pObservers.end(), [](Observer* pObserver)
-		{
-			if (pObserver) delete pObserver;
-		});
+	m_pObservers.push_back(pObserver);
 }
 
-void Subject::AddObserver(Observer* pObserver)
-{
-	m_pObservers.push_back(std::move(pObserver));
-}
-
-void Subject::RemoveObserver(Observer* pObserver)
+void Subject::RemoveObserver(std::shared_ptr<Observer> pObserver)
 {
 	auto itToRemove = std::remove(m_pObservers.begin(), m_pObservers.end(), pObserver);
 	m_pObservers.erase(itToRemove);
@@ -25,7 +17,7 @@ void Subject::RemoveObserver(Observer* pObserver)
 
 void Subject::Notify(dae::GameObject* pGameObject, Event e)
 {
-	std::for_each(m_pObservers.begin(), m_pObservers.end(), [&pGameObject, &e](Observer* pObserver)
+	std::for_each(m_pObservers.begin(), m_pObservers.end(), [&pGameObject, &e](std::shared_ptr<Observer> pObserver)
 		{
 			pObserver->Notify(pGameObject, e);
 		});
