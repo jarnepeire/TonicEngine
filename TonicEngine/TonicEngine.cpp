@@ -9,6 +9,7 @@
 #include <SDL.h>
 #include "GameObject.h"
 #include "Scene.h"
+#include "ServiceLocator.h"
 
 //Commands
 #include "Command.h"
@@ -34,6 +35,11 @@ void dae::TonicEngine::Initialize()
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
+
+	//Sound
+	SDL_Init(SDL_INIT_AUDIO);
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+		std::cout << "Error: " << Mix_GetError() << "\n";
 
 	m_Window = SDL_CreateWindow(
 		"Programming 4 assignment",
@@ -175,6 +181,10 @@ void dae::TonicEngine::Run()
 	//Create all game objects
 	LoadGame();
 
+	//Audio system
+	AudioSystem* pAudioSystem = new LogAudio(new SDLAudio());
+	ServiceLocator::RegisterAudioSystem(pAudioSystem);
+
 	//Game Loop: http://gameprogrammingpatterns.com/game-loop.html
 	{
 		auto& renderer = Renderer::GetInstance();
@@ -213,5 +223,7 @@ void dae::TonicEngine::Run()
 		}
 	}
 
+	delete pAudioSystem;
 	Cleanup();
+	
 }

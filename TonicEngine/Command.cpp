@@ -4,6 +4,8 @@
 #include "CharacterComponent.h"
 #include "HealthComponent.h"
 
+#include "ServiceLocator.h"
+
 void DieCommand::Execute()
 {
 	auto pHealth = m_pObject->GetComponent<HealthComponent>();
@@ -20,5 +22,6 @@ void ScoreCommand::Execute()
 	{
 		//Score will vary based on what you did later
 		pCharacter->GainScore(25);
+		ServiceLocator::GetAudioSystem().Play(0, 0.25f);
 	}
 }

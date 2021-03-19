@@ -15,38 +15,41 @@ bool dae::InputManager::ProcessInput()
 
 	//Reading the state of a controller: https://docs.microsoft.com/en-us/windows/win32/api/xinput/ns-xinput-xinput_state
 	ZeroMemory(&m_CurrControllerState, sizeof(XINPUT_STATE));
-	if (XInputGetState(0, &m_CurrControllerState) == ERROR_SUCCESS)
+	DWORD isControllerActive = XInputGetState(0, &m_CurrControllerState);
+
+	//Describing the state through bitmask of the digital buttons: https://docs.microsoft.com/en-us/windows/win32/api/xinput/ns-xinput-xinput_gamepad
+	//We're only looping over registered input buttons that actually have a command (action) bind to them
+	for (std::pair<const InputSetting, std::shared_ptr<Command>>& it : m_InputActions)
 	{
-		//Describing the state through bitmask of the digital buttons: https://docs.microsoft.com/en-us/windows/win32/api/xinput/ns-xinput-xinput_gamepad
-		//We're only looping over registered input buttons that actually have a command (action) bind to them
-		for (std::pair<const InputSetting, std::shared_ptr<Command>>& it : m_InputActions)
+		auto& input = it.first;
+		auto& command = it.second;
+
+		//Execute command pressed by keyboard
+		bool isHeld = (e.key.repeat != 0);
+		if (!isHeld && e.type == SDL_KEYDOWN && input.TriggerState == TriggerState::Pressed)
 		{
-			auto& input = it.first;
-			auto& command = it.second;
-
-			//Execute command pressed by keyboard
-			bool isHeld = (e.key.repeat != 0);
-			if (!isHeld && e.type == SDL_KEYDOWN && input.TriggerState == TriggerState::Pressed)
-			{
-				if ((int)e.key.keysym.scancode == input.KeyboardKey)
-					command->Execute();
-			}
-			else if (!isHeld && e.type == SDL_KEYUP && input.TriggerState == TriggerState::Released)
-			{
-				if ((int)e.key.keysym.scancode == input.KeyboardKey)
-					command->Execute();
-			}
-			else if ((int)e.key.keysym.scancode == input.KeyboardKey && isHeld && input.TriggerState == TriggerState::Hold)
-			{
+			if ((int)e.key.keysym.scancode == input.KeyboardKey)
 				command->Execute();
-			}
+		}
+		else if (!isHeld && e.type == SDL_KEYUP && input.TriggerState == TriggerState::Released)
+		{
+			if ((int)e.key.keysym.scancode == input.KeyboardKey)
+				command->Execute();
+		}
+		else if ((int)e.key.keysym.scancode == input.KeyboardKey && isHeld && input.TriggerState == TriggerState::Hold)
+		{
+			command->Execute();
+		}
 
+
+		if (isControllerActive == ERROR_SUCCESS)
+		{
 			//Execute command pressed by controller
 			if (IsInputTriggered(input.Button, input.Type, input.TriggerState))
 				command->Execute();
 		}
 	}
-
+	
 	//If all went well -> return true
 	return true;
 }

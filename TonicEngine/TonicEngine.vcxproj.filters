@@ -25,6 +25,9 @@
     <Filter Include="Observers">
       <UniqueIdentifier>{87252fb2-2924-494e-8d7e-7284698b049f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{27980843-0c32-4c8c-b126-de2f5c7bdeb9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TonicEnginePCH.h">
@@ -126,6 +129,12 @@
     <ClInclude Include="ScoreDisplay.h">
       <Filter>Observers</Filter>
     </ClInclude>
+    <ClInclude Include="ServiceLocator.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioSystem.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TonicEnginePCH.cpp">
@@ -220,6 +229,12 @@
     </ClCompile>
     <ClCompile Include="ScoreDisplay.cpp">
       <Filter>Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="ServiceLocator.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSystem.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
