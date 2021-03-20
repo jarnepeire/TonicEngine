@@ -28,6 +28,9 @@
     <Filter Include="Sound">
       <UniqueIdentifier>{27980843-0c32-4c8c-b126-de2f5c7bdeb9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound\SoundEventQueue">
+      <UniqueIdentifier>{f8c558e1-fbf1-497c-98a1-31842077373d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TonicEnginePCH.h">
