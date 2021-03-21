@@ -28,8 +28,8 @@
     <Filter Include="Sound">
       <UniqueIdentifier>{27980843-0c32-4c8c-b126-de2f5c7bdeb9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sound\SoundEventQueue">
-      <UniqueIdentifier>{f8c558e1-fbf1-497c-98a1-31842077373d}</UniqueIdentifier>
+    <Filter Include="Helpers">
+      <UniqueIdentifier>{98504d4d-cfb9-4e2b-85e9-f60915d83a4f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +138,12 @@
     <ClInclude Include="AudioSystem.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLAudio.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TonicEnginePCH.cpp">
@@ -237,6 +243,9 @@
       <Filter>Sound</Filter>
     </ClCompile>
     <ClCompile Include="AudioSystem.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLAudio.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>

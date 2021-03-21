@@ -10,6 +10,7 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include "ServiceLocator.h"
+#include "SDLAudio.h"
 
 //Commands
 #include "Command.h"
@@ -182,7 +183,11 @@ void dae::TonicEngine::Run()
 	LoadGame();
 
 	//Audio system
-	AudioSystem* pAudioSystem = new LogAudio(new SDLAudio());
+	SDLAudio* pSDLAudio = new SDLAudio();
+	pSDLAudio->AddSound(Event::EVENT_PLAYER_SCORED, "../Data/Sounds/sfx_gain_score.wav");
+	pSDLAudio->AddSound(Event::EVENT_PLAYER_LOST_LIFE, "../Data/Sounds/sfx_death.wav");
+
+	AudioSystem* pAudioSystem = new LogAudio(pSDLAudio);
 	ServiceLocator::RegisterAudioSystem(pAudioSystem);
 
 	//Game Loop: http://gameprogrammingpatterns.com/game-loop.html

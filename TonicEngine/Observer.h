@@ -1,14 +1,9 @@
 #pragma once
+#include "Event.h"
 namespace dae
 {
 	class GameObject;
 }
-
-enum class Event
-{
-	EVENT_PLAYER_LOST_LIFE,
-	EVENT_PLAYER_SCORED
-};
 
 class Observer
 {

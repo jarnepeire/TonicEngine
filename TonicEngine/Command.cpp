@@ -12,6 +12,7 @@ void DieCommand::Execute()
 	if (pHealth)
 	{
 		pHealth->LoseLife();
+		ServiceLocator::GetAudioSystem().Play(Event::EVENT_PLAYER_LOST_LIFE, 0.25f);
 	}
 }
 
@@ -22,6 +23,6 @@ void ScoreCommand::Execute()
 	{
 		//Score will vary based on what you did later
 		pCharacter->GainScore(25);
-		ServiceLocator::GetAudioSystem().Play(0, 0.25f);
+		ServiceLocator::GetAudioSystem().Play(Event::EVENT_PLAYER_SCORED, 0.25f);
 	}
 }
