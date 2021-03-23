@@ -2,6 +2,14 @@
 #include "SDLAudio.h"
 
 SDLAudio::SDLAudio()
+	: m_Head(0)
+	, m_Tail(0)
+	, m_MaxPending(1)
+	, m_Requests(m_MaxPending)
+	//-1 means to grab whatever channel is currently available
+	//other numbers are fixed channels to play sound on
+	, m_Channel(-1)
+	, m_SoundsMap()
 {
 }
 
@@ -34,14 +42,14 @@ void SDLAudio::Update()
 	Mix_PlayChannel(m_Channel, pSound, 0);
 
 	//We advance the 'head pointer' to the next element, or wrap it back around the buffer if needed
-	m_Head = (m_Head + 1) % MAX_PENDING;
+	m_Head = (m_Head + 1) % m_MaxPending;
 }
 
 void SDLAudio::Play(Event eventID, float volume)
 {
 	//A fix for the issue of having 2 of the same sound requests causing a really loud effect
 	//Check all pending requests for duplicates:
-	for (int i = m_Head; i != m_Tail; i = (i + 1) % MAX_PENDING)
+	for (int i = m_Head; i != m_Tail; i = (i + 1) % m_MaxPending)
 	{
 		//Meaning we found a request with similar ID
 		if (m_Requests[i].EventID == eventID)
@@ -55,11 +63,11 @@ void SDLAudio::Play(Event eventID, float volume)
 	}
 
 	//Meaning the max amount of requests are already pending
-	if ((m_Tail + 1) % MAX_PENDING == m_Head)
+	if ((m_Tail + 1) % m_MaxPending == m_Head)
 	{
 		//Double buffer size and copy over elements
-		MAX_PENDING *= 2;
-		m_Requests.resize(MAX_PENDING);
+		m_MaxPending *= 2;
+		m_Requests.resize(m_MaxPending);
 	}
 		
 	//Add new request to the end of the list.
@@ -68,7 +76,7 @@ void SDLAudio::Play(Event eventID, float volume)
 
 	//Move the tail 1 spot further or wrap the tail back around our fixed array if necessary, as our head advances too 
 	//-> this is why it's called a ring buffer
-	m_Tail = (m_Tail + 1) % MAX_PENDING;
+	m_Tail = (m_Tail + 1) % m_MaxPending;
 }
 
 void SDLAudio::AddSound(Event eventId, const char* filepath)

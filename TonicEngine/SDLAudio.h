@@ -13,10 +13,13 @@ public:
 
 	void AddSound(Event eventId, const char* filepath);
 private:
-	std::unordered_map<Event, Mix_Chunk*> m_SoundsMap;
+	int m_Head;
+	int m_Tail;
+	int m_MaxPending;
+	std::vector<PlayMessage> m_Requests;
 
-	//-1 means to grab whatever channel is currently available
-	//other numbers are fixed channels to play sound on
-	int m_Channel = -1;
+
+	int m_Channel;
+	std::unordered_map<Event, Mix_Chunk*> m_SoundsMap;
 };
 

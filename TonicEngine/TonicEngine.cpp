@@ -209,7 +209,7 @@ void dae::TonicEngine::Run()
 			lag += elapsed;
 
 			doContinue = input.ProcessInput();
-			pAudioSystem->Update();
+			ServiceLocator::GetAudioSystem().Update();
 
 			//Fixed Update
 			while (lag >= ms_per_update)

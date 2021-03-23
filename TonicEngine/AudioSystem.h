@@ -12,20 +12,12 @@ struct PlayMessage
 	float VolumePercentage{};
 };
 
-//Works as Event Queue
 class AudioSystem
 {
 public:
 	virtual ~AudioSystem() = default;
 	virtual void Update() = 0;
 	virtual void Play(Event id, float volumePercentage = 1.f) = 0;
-
-protected:
-	static int MAX_PENDING;
-	static std::vector<PlayMessage> m_Requests;
-
-	static int m_Head;
-	static int m_Tail;
 };
 
 class LogAudio : public AudioSystem
