@@ -9,7 +9,7 @@
 #include <SDL.h>
 #include "GameObject.h"
 #include "Scene.h"
-#include "ServiceLocator.h"
+#include "AudioLocator.h"
 #include "SDLAudio.h"
 
 //Commands
@@ -184,11 +184,11 @@ void dae::TonicEngine::Run()
 
 	//Audio system
 	SDLAudio* pSDLAudio = new SDLAudio();
-	pSDLAudio->AddSound(Event::EVENT_PLAYER_SCORED, "../Data/Sounds/sfx_gain_score.wav");
-	pSDLAudio->AddSound(Event::EVENT_PLAYER_LOST_LIFE, "../Data/Sounds/sfx_death.wav");
+	pSDLAudio->AddSound(SoundID::PlayerScored, "../Data/Sounds/sfx_gain_score.wav");
+	pSDLAudio->AddSound(SoundID::PlayerDied, "../Data/Sounds/sfx_death.wav");
 
 	AudioSystem* pAudioSystem = new LogAudio(pSDLAudio);
-	ServiceLocator::RegisterAudioSystem(pAudioSystem);
+	AudioLocator::RegisterAudioSystem(pAudioSystem);
 
 	//Game Loop: http://gameprogrammingpatterns.com/game-loop.html
 	{
@@ -209,7 +209,7 @@ void dae::TonicEngine::Run()
 			lag += elapsed;
 
 			doContinue = input.ProcessInput();
-			ServiceLocator::GetAudioSystem().Update();
+			AudioLocator::GetAudioSystem().Update();
 
 			//Fixed Update
 			while (lag >= ms_per_update)

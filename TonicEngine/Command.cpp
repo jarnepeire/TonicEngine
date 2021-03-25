@@ -3,8 +3,7 @@
 #include "GameObject.h"
 #include "CharacterComponent.h"
 #include "HealthComponent.h"
-
-#include "ServiceLocator.h"
+#include "AudioLocator.h"
 
 void DieCommand::Execute()
 {
@@ -12,7 +11,7 @@ void DieCommand::Execute()
 	if (pHealth)
 	{
 		pHealth->LoseLife();
-		ServiceLocator::GetAudioSystem().Play(Event::EVENT_PLAYER_LOST_LIFE, 0.25f);
+		AudioLocator::GetAudioSystem().Play(SoundID::PlayerDied, 0.2f);
 	}
 }
 
@@ -23,6 +22,11 @@ void ScoreCommand::Execute()
 	{
 		//Score will vary based on what you did later
 		pCharacter->GainScore(25);
-		ServiceLocator::GetAudioSystem().Play(Event::EVENT_PLAYER_SCORED, 0.25f);
+
+		std::cout << "Requesting 4 times the Score sound, to display the fix for the same layered sound\n";
+		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.25f);
+		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.25f);
+		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.25f);
+		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.25f);
 	}
 }

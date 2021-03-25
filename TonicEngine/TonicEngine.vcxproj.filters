@@ -31,6 +31,9 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{98504d4d-cfb9-4e2b-85e9-f60915d83a4f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ServiceLocators">
+      <UniqueIdentifier>{5627ba74-322c-4a04-b0f2-4c3068fd335e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TonicEnginePCH.h">
@@ -132,9 +135,6 @@
     <ClInclude Include="ScoreDisplay.h">
       <Filter>Observers</Filter>
     </ClInclude>
-    <ClInclude Include="ServiceLocator.h">
-      <Filter>Sound</Filter>
-    </ClInclude>
     <ClInclude Include="AudioSystem.h">
       <Filter>Sound</Filter>
     </ClInclude>
@@ -143,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="SDLAudio.h">
       <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioLocator.h">
+      <Filter>ServiceLocators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -239,14 +242,14 @@
     <ClCompile Include="ScoreDisplay.cpp">
       <Filter>Observers</Filter>
     </ClCompile>
-    <ClCompile Include="ServiceLocator.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
     <ClCompile Include="AudioSystem.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
     <ClCompile Include="SDLAudio.cpp">
       <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioLocator.cpp">
+      <Filter>ServiceLocators</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
