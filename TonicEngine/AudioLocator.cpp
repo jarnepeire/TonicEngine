@@ -12,7 +12,7 @@ AudioLocator::AudioLocator()
 
 void AudioLocator::RegisterAudioSystem(AudioSystem* pAudioSystem)
 {
-	std::lock_guard<std::mutex> lock{ m_Mutex };
+	//std::lock_guard<std::mutex> lock{ m_Mutex }; //Overkill 
 	if (pAudioSystem)
 		m_pAudioSystem = pAudioSystem;
 	else

@@ -2,7 +2,7 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 
-enum class SoundID : int
+enum SoundID : unsigned int
 {
 	PlayerScored,
 	PlayerDied
@@ -11,8 +11,9 @@ enum class SoundID : int
 struct PlayMessage
 {
 	PlayMessage() {}
-	SoundID ID{};
+	unsigned int ID{};
 	float VolumePercentage{};
+	float IsRequested{false};
 };
 
 class AudioSystem
@@ -21,8 +22,8 @@ public:
 	AudioSystem() = default;
 	virtual ~AudioSystem() = default;
 
-	virtual void Update() {};
-	virtual void Play(SoundID id, float volumePercentage = 1.f) = 0;
+	virtual void Update(float) {};
+	virtual void Play(unsigned int id, float volumePercentage = 1.f) = 0;
 };
 
 class LogAudio : public AudioSystem
@@ -37,8 +38,8 @@ public:
 		if (m_pAudioSystem) delete m_pAudioSystem;
 	}
 
-	void Update() override { m_pAudioSystem->Update(); }
-	void Play(SoundID id, float volumePercentage = 1.f) override
+	void Update(float dt) override { if (m_pAudioSystem) m_pAudioSystem->Update(dt); }
+	void Play(unsigned int id, float volumePercentage = 1.f) override
 	{
 		std::cout << "Playing ID: " << (int)id << ", at volume: " << volumePercentage << std::endl;
 		m_pAudioSystem->Play(id, volumePercentage);
@@ -52,7 +53,7 @@ class NullAudio : public AudioSystem
 {
 public:
 	virtual ~NullAudio() = default;
-	void Update() override {}
-	void Play(SoundID, float) override { std::cout << "NullAudio\n"; }
+	void Update(float) override {}
+	void Play(unsigned int, float) override { std::cout << "NullAudio\n"; }
 };
 

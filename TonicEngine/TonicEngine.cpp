@@ -158,9 +158,10 @@ void dae::TonicEngine::LoadGame() const
 	//Input
 	input.AddInputAction(SDL_SCANCODE_A, ControllerButton::ButtonA, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(qBert.get()));
 	input.AddInputAction(SDL_SCANCODE_B, ControllerButton::ButtonB, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(qBert.get()));
-	
+
 	input.AddInputAction(SDL_SCANCODE_X, ControllerButton::ButtonX, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(p2.get()));
 	input.AddInputAction(SDL_SCANCODE_Y, ControllerButton::ButtonY, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(p2.get()));
+
 }
 
 void dae::TonicEngine::Cleanup()
@@ -185,7 +186,7 @@ void dae::TonicEngine::Run()
 	//Audio system
 	SDLAudio* pSDLAudio = new SDLAudio();
 	pSDLAudio->AddSound(SoundID::PlayerScored, "../Data/Sounds/sfx_gain_score.wav");
-	pSDLAudio->AddSound(SoundID::PlayerDied, "../Data/Sounds/sfx_death.wav");
+	pSDLAudio->AddSound(SoundID::PlayerDied,"../Data/Sounds/sfx_death.wav");
 
 	AudioSystem* pAudioSystem = new LogAudio(pSDLAudio);
 	AudioLocator::RegisterAudioSystem(pAudioSystem);
@@ -209,7 +210,7 @@ void dae::TonicEngine::Run()
 			lag += elapsed;
 
 			doContinue = input.ProcessInput();
-			AudioLocator::GetAudioSystem().Update();
+			AudioLocator::GetAudioSystem().Update(elapsed);
 
 			//Fixed Update
 			while (lag >= ms_per_update)
