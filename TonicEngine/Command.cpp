@@ -12,11 +12,6 @@ void DieCommand::Execute()
 	{
 		pHealth->LoseLife();
 		AudioLocator::GetAudioSystem().Play(SoundID::PlayerDied, 0.2f);
-		AudioLocator::GetAudioSystem().Play(SoundID::PlayerDied, 0.2f);
-		AudioLocator::GetAudioSystem().Play(SoundID::PlayerDied, 0.2f);
-		AudioLocator::GetAudioSystem().Play(SoundID::PlayerDied, 0.2f);
-		AudioLocator::GetAudioSystem().Play(SoundID::PlayerDied, 0.2f);
-		AudioLocator::GetAudioSystem().Play(SoundID::PlayerDied, 0.2f);
 	}
 }
 
@@ -33,9 +28,6 @@ void ScoreCommand::Execute()
 		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.1f);
 		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.1f);
 		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.1f);
-		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.1f);
-		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.1f);
-		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.1f);
-		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.1f);
+		
 	}
 }

@@ -11,11 +11,11 @@ public:
 
 	void Update(float dt) override;
 	void Play(unsigned int id, float volume) override;
-
-	void ProcessRequests();
-
+	
 	//Adds a sound and returns true if adding was succesfull, returns false if ID already exists
 	bool AddSound(unsigned int eventId, const char* filepath);
+
+	//Adds a sound and returns the newly created sound ID for the given file
 	unsigned int AddSound(const char* filepath);
 
 private:
@@ -36,5 +36,8 @@ private:
 	std::mutex m_Mutex;
 	std::condition_variable m_HasRequests;
 	std::thread m_Thread;
+
+	//Private functions
+	void ProcessRequests();
 };
 

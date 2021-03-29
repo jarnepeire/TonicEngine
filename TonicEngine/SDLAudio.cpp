@@ -4,6 +4,7 @@
 SDLAudio::SDLAudio()
 	: m_Head(0)
 	, m_Tail(0)
+	//Start at 8 max requests at the same time
 	, m_MaxPending(8)
 	, m_Requests(m_MaxPending)
 	, m_Timer(0.f)
