@@ -1,5 +1,8 @@
 #pragma once
 #include "AudioSystem.h"
+#include <SDL.h>
+#include <SDL_mixer.h>
+
 #include <unordered_map>
 #include <mutex>
 
@@ -9,14 +12,13 @@ public:
 	SDLAudio();
 	virtual ~SDLAudio();
 
-	void Update(float dt) override;
 	void Play(unsigned int id, float volume) override;
 	
 	//Adds a sound and returns true if adding was succesfull, returns false if ID already exists
 	bool AddSound(unsigned int eventId, const char* filepath);
 
 	//Adds a sound and returns the newly created sound ID for the given file
-	unsigned int AddSound(const char* filepath);
+	unsigned int AddSound(const char* filepath) override;
 
 private:
 	//Ring Buffer
@@ -39,5 +41,8 @@ private:
 
 	//Private functions
 	void ProcessRequests();
+	bool CanPlaySound(Mix_Chunk** storedSound, unsigned int id);
+	void ResetDuplicateRequests();
+	bool IsDuplicateRequest(unsigned int id);
 };
 

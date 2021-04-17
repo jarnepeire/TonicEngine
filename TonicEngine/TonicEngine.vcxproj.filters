@@ -147,6 +147,12 @@
     <ClInclude Include="AudioLocator.h">
       <Filter>ServiceLocators</Filter>
     </ClInclude>
+    <ClInclude Include="NullAudio.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="LogAudio.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TonicEnginePCH.cpp">
@@ -250,6 +256,12 @@
     </ClCompile>
     <ClCompile Include="AudioLocator.cpp">
       <Filter>ServiceLocators</Filter>
+    </ClCompile>
+    <ClCompile Include="NullAudio.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="LogAudio.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

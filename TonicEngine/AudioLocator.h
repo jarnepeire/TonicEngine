@@ -1,6 +1,6 @@
 #pragma once
-#include "AudioSystem.h"
-#include <mutex>
+#include "NullAudio.h"
+//#include <mutex>
 
 class AudioLocator final
 {
@@ -11,7 +11,7 @@ public:
 private:
 	AudioLocator();
 
-	static std::mutex m_Mutex;
+	//static std::mutex m_Mutex;
 	static NullAudio m_pNullAudio;
 	static AudioSystem* m_pAudioSystem;
 };

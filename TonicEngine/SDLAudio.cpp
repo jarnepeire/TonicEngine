@@ -1,6 +1,9 @@
 #include "TonicEnginePCH.h"
 #include "SDLAudio.h"
 
+#include <chrono>
+using namespace std::chrono;
+
 SDLAudio::SDLAudio()
 	: m_Head(0)
 	, m_Tail(0)
@@ -19,20 +22,26 @@ SDLAudio::SDLAudio()
 
 SDLAudio::~SDLAudio()
 {
-	//Clean up sound chunk pointers
+	//Setup to make thread code exit condition true
+	m_Head = m_Tail;
+
+	//Wake up thread so it can end
+	m_HasRequests.notify_one();
+	m_Thread.join();
+
+	//Clean up sound chunk pointers, the thread will no longer access them
 	for (auto& it : m_SoundsMap)
 	{
 		it.second = nullptr;
 		Mix_FreeChunk(it.second);
 	}
-
-	//Wake up thread so it can end
-	m_HasRequests.notify_one();
-	m_Thread.join();
 }
 
 void SDLAudio::ProcessRequests()
 {
+	//Timer start
+	auto lastRequest = high_resolution_clock::now();
+
 	//Play the earliest request, located at 'head'
 	do
 	{
@@ -41,44 +50,20 @@ void SDLAudio::ProcessRequests()
 		std::unique_lock<std::mutex> lock{ m_Mutex };
 		if (m_Head != m_Tail)
 		{
-			bool canPlay = true;
+			//Timing for the duplicate requests reset (compared and calculated in seconds!)
+			auto now = high_resolution_clock::now();
+			auto duration = duration_cast<milliseconds>(now - lastRequest);
+
+			m_Timer += duration.count() / 1000.f;
+			lastRequest = now;
 
 			//Check if a sound is bound to the event first
+			bool canPlay = true;
 			unsigned int id = m_Requests[m_Head].ID;
 			Mix_Chunk* pSound = nullptr;
-			if (m_SoundsMap.find(id) != m_SoundsMap.end())
-			{
-				pSound = m_SoundsMap[id];
 
-				//A fix for the issue of having 2 of the same sound requests causing a really loud effect
-				//Reset the possibility for requests every "IntervalSameSounds" seconds
-				if (m_Timer >= m_IntervalSameSounds)
-				{
-					m_Timer = 0.f; //Full reset needed! If we just subtract Interval, it can be possible the timer is still bigger next iteration
-					for (int i = 0; i < m_MaxPending; ++i)
-					{
-						m_Requests[i].IsRequested = false;
-					}
-				}
-				else
-				{
-					//Check all pending requests for duplicates:
-					for (int i = 0; i < m_MaxPending; ++i)
-					{
-						if (m_Requests[i].ID == id && m_Requests[i].IsRequested)
-						{
-							//This sound has already been requested this frame, so dont proceed
-							canPlay = false;
-							break;
-						}
-					}
-				}
-			}
-			else
-			{
-				//Else continue with next request, if there are any! We need to call a wait otherwise we can skip the wait call
-				canPlay = false;
-			}
+			//Also checks for already requested sounds 
+			canPlay = CanPlaySound(&pSound, id);
 
 			if (canPlay)
 			{
@@ -88,9 +73,10 @@ void SDLAudio::ProcessRequests()
 				Mix_VolumeChunk(pSound, sdlVolume);
 				Mix_PlayChannel(m_Channel, pSound, 0);
 			}
-
+			
 			//We advance the 'head pointer' to the next element, or wrap it back around the buffer if needed
 			m_Head = (m_Head + 1) % m_MaxPending;
+
 		}
 
 		//Meaning there's no requests, the head caught up with the tail so wait for new requests
@@ -100,9 +86,53 @@ void SDLAudio::ProcessRequests()
 	} 	while (m_Head != m_Tail);
 }
 
-void SDLAudio::Update(float dt)
+bool SDLAudio::CanPlaySound(Mix_Chunk** storedSound, unsigned int id)
 {
-	m_Timer += dt;
+	bool canPlay = true;
+	if (m_SoundsMap.find(id) != m_SoundsMap.end())
+	{
+		*storedSound = m_SoundsMap[id];
+
+		//A fix for the issue of having 2 of the same sound requests causing a really loud effect
+		//Reset the possibility for requests every "IntervalSameSounds" seconds
+		if (m_Timer >= m_IntervalSameSounds)
+		{
+			ResetDuplicateRequests();
+		}
+		else
+		{
+			//This sound has already been requested this frame, so dont proceed
+			canPlay = (IsDuplicateRequest(id)) ? false : true;
+		}
+	}
+	else
+	{
+		//Else continue with next request, if there are any! We need to call a wait otherwise we can skip the wait call
+		canPlay = false;
+	}
+	return canPlay;
+}
+
+void SDLAudio::ResetDuplicateRequests()
+{
+	m_Timer = 0.f; //Full reset needed! If we just subtract Interval, it can be possible the timer is still bigger next iteration
+	for (int i = 0; i < m_MaxPending; ++i)
+	{
+		m_Requests[i].IsRequested = false;
+	}
+}
+
+bool SDLAudio::IsDuplicateRequest(unsigned int id)
+{
+	//Check all pending requests for duplicates:
+	for (int i = 0; i < m_MaxPending; ++i)
+	{
+		if (m_Requests[i].ID == id && m_Requests[i].IsRequested)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 void SDLAudio::Play(unsigned int id, float volume)
@@ -144,6 +174,7 @@ bool SDLAudio::AddSound(unsigned int id, const char* filepath)
 
 unsigned int SDLAudio::AddSound(const char* filepath)
 {
+	std::lock_guard<std::mutex> lock{ m_Mutex };
 	Mix_Chunk* pSound = Mix_LoadWAV(filepath);
 	unsigned int id = (unsigned int)m_SoundsMap.size();
 	m_SoundsMap.insert(std::pair<unsigned int, Mix_Chunk*>(id, pSound));

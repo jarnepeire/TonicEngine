@@ -3,7 +3,7 @@
 
 AudioSystem* AudioLocator::m_pAudioSystem = nullptr;
 NullAudio AudioLocator::m_pNullAudio = NullAudio();
-std::mutex AudioLocator::m_Mutex = std::mutex();
+//std::mutex AudioLocator::m_Mutex = std::mutex();
 
 AudioLocator::AudioLocator()
 {

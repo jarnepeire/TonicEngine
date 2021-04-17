@@ -9,8 +9,11 @@
 #include <SDL.h>
 #include "GameObject.h"
 #include "Scene.h"
+
+//Sound
 #include "AudioLocator.h"
 #include "SDLAudio.h"
+#include "LogAudio.h"
 
 //Commands
 #include "Command.h"
@@ -210,7 +213,6 @@ void dae::TonicEngine::Run()
 			lag += elapsed;
 
 			doContinue = input.ProcessInput();
-			AudioLocator::GetAudioSystem().Update(elapsed);
 
 			//Fixed Update
 			while (lag >= ms_per_update)
