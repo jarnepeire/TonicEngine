@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TonicEngine", "TonicEngine\TonicEngine.vcxproj", "{41B0EC47-D48C-4B0F-951B-D98595FFAE0A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{7E32DAF3-BC88-46E1-951D-ABC496A25BF9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameThanol", "GameThanol\GameThanol.vcxproj", "{9153BA21-90AC-4665-9AB5-26DB4A2B85B1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{41B0EC47-D48C-4B0F-951B-D98595FFAE0A} = {41B0EC47-D48C-4B0F-951B-D98595FFAE0A}
 	EndProjectSection
@@ -26,14 +26,14 @@ Global
 		{41B0EC47-D48C-4B0F-951B-D98595FFAE0A}.Release|x64.Build.0 = Release|x64
 		{41B0EC47-D48C-4B0F-951B-D98595FFAE0A}.Release|x86.ActiveCfg = Release|Win32
 		{41B0EC47-D48C-4B0F-951B-D98595FFAE0A}.Release|x86.Build.0 = Release|Win32
-		{7E32DAF3-BC88-46E1-951D-ABC496A25BF9}.Debug|x64.ActiveCfg = Debug|x64
-		{7E32DAF3-BC88-46E1-951D-ABC496A25BF9}.Debug|x64.Build.0 = Debug|x64
-		{7E32DAF3-BC88-46E1-951D-ABC496A25BF9}.Debug|x86.ActiveCfg = Debug|Win32
-		{7E32DAF3-BC88-46E1-951D-ABC496A25BF9}.Debug|x86.Build.0 = Debug|Win32
-		{7E32DAF3-BC88-46E1-951D-ABC496A25BF9}.Release|x64.ActiveCfg = Release|x64
-		{7E32DAF3-BC88-46E1-951D-ABC496A25BF9}.Release|x64.Build.0 = Release|x64
-		{7E32DAF3-BC88-46E1-951D-ABC496A25BF9}.Release|x86.ActiveCfg = Release|Win32
-		{7E32DAF3-BC88-46E1-951D-ABC496A25BF9}.Release|x86.Build.0 = Release|Win32
+		{9153BA21-90AC-4665-9AB5-26DB4A2B85B1}.Debug|x64.ActiveCfg = Debug|x64
+		{9153BA21-90AC-4665-9AB5-26DB4A2B85B1}.Debug|x64.Build.0 = Debug|x64
+		{9153BA21-90AC-4665-9AB5-26DB4A2B85B1}.Debug|x86.ActiveCfg = Debug|Win32
+		{9153BA21-90AC-4665-9AB5-26DB4A2B85B1}.Debug|x86.Build.0 = Debug|Win32
+		{9153BA21-90AC-4665-9AB5-26DB4A2B85B1}.Release|x64.ActiveCfg = Release|x64
+		{9153BA21-90AC-4665-9AB5-26DB4A2B85B1}.Release|x64.Build.0 = Release|x64
+		{9153BA21-90AC-4665-9AB5-26DB4A2B85B1}.Release|x86.ActiveCfg = Release|Win32
+		{9153BA21-90AC-4665-9AB5-26DB4A2B85B1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

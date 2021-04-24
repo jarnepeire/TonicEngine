@@ -156,6 +156,12 @@
     <ClInclude Include="TonicEngine.h">
       <Filter>DrinkingBar</Filter>
     </ClInclude>
+    <ClInclude Include="KeyboardMapping.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseGameThanol.h">
+      <Filter>DrinkingBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TonicEnginePCH.cpp">
@@ -264,6 +270,9 @@
       <Filter>Scenegraph</Filter>
     </ClCompile>
     <ClCompile Include="TonicEngine.cpp">
+      <Filter>DrinkingBar</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseGameThanol.cpp">
       <Filter>DrinkingBar</Filter>
     </ClCompile>
   </ItemGroup>

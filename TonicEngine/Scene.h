@@ -1,5 +1,7 @@
 #pragma once
 #include "SceneManager.h"
+#include <vector>
+#include <memory>
 
 namespace dae
 {
@@ -35,7 +37,7 @@ namespace dae
 		const int m_SceneIndex;
 		std::string m_Name;
 
-		std::vector <std::shared_ptr<GameObject>> m_Objects{};
+		std::vector<std::shared_ptr<GameObject>> m_Objects{};
 
 		static unsigned int m_IdCounter; 
 
@@ -43,23 +45,6 @@ namespace dae
 		void RootFixedUpdate(float deltaT);
 		void RootUpdate(float deltaT);
 		void RootRender();
-	};
-
-	class TestScene : public Scene
-	{
-	public:
-		TestScene(const std::string& name, int idx)
-			: Scene(name, idx)
-		{}
-
-		// Inherited via Scene
-		virtual void Initialize() override;
-		virtual void FixedUpdate(float dt) override;
-		virtual void Update(float dt) override;
-		virtual void Render() const override;
-
-	private:
-		friend class SceneManager;
 	};
 
 }

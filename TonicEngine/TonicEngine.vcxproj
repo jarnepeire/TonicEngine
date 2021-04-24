@@ -231,6 +231,7 @@
     <ClInclude Include="..\3rdParty\imgui-1.81\imstb_truetype.h" />
     <ClInclude Include="AudioLocator.h" />
     <ClInclude Include="AudioSystem.h" />
+    <ClInclude Include="BaseGameThanol.h" />
     <ClInclude Include="CharacterComponent.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
@@ -242,6 +243,7 @@
     <ClInclude Include="HealthDisplay.h" />
     <ClInclude Include="ImageComponent.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="KeyboardMapping.h" />
     <ClInclude Include="LogAudio.h" />
     <ClInclude Include="NullAudio.h" />
     <ClInclude Include="Observer.h" />
@@ -305,6 +307,7 @@
     </ClCompile>
     <ClCompile Include="AudioLocator.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
+    <ClCompile Include="BaseGameThanol.cpp" />
     <ClCompile Include="CharacterComponent.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />

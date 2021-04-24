@@ -41,19 +41,3 @@ void dae::Scene::RootRender()
 		object->Render();
 	}
 }
-
-void dae::TestScene::Initialize()
-{
-}
-
-void dae::TestScene::FixedUpdate(float )
-{
-}
-
-void dae::TestScene::Update(float )
-{
-}
-
-void dae::TestScene::Render() const
-{
-}

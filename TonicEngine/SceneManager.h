@@ -1,5 +1,8 @@
 #pragma once
 #include "Singleton.h"
+#include <string>
+#include <memory>
+#include <vector>
 
 namespace dae
 {
@@ -22,10 +25,11 @@ namespace dae
 		void SetActiveScene(const std::string& sceneTag);
 
 		/* Adds a new scene to the manager and call its root- and initialize function */
-		void AddScene(const std::shared_ptr<Scene>& scene);
+		//void AddScene(const std::shared_ptr<dae::Scene>& scene);
+		void AddGameScene(std::shared_ptr<dae::Scene> scene);
 
 		/* Returns reference to vector of all scenes */
-		std::vector<std::shared_ptr<Scene>>& GetScenes() { return m_Scenes; }
+		std::vector<std::shared_ptr<dae::Scene>>& GetScenes() { return m_Scenes; }
 
 		/* Returns pointer to the scene with the given index
 		Returns nullptr on invalid index */

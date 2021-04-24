@@ -3,16 +3,17 @@
 #include <Xinput.h>
 #include <map>
 #include <vector>
+#include <memory>
 
 #include "Command.h"
 #include "Singleton.h"
-#include <memory>
 
 #pragma warning (disable:4201)
-#include <glm/vec2.hpp>
+#include "glm/glm.hpp"
 
 namespace dae
 {
+	
 	enum class ControllerButton
 	{
 		ButtonA = XINPUT_GAMEPAD_A,

@@ -49,7 +49,13 @@ void dae::SceneManager::SetActiveScene(const std::string& name)
 	m_ActiveSceneIdx = pScene->GetSceneIndex();
 }
 
-void dae::SceneManager::AddScene(const std::shared_ptr<dae::Scene>& scene)
+//void dae::SceneManager::AddScene(const std::shared_ptr<dae::Scene>& scene)
+//{
+//	m_ActiveSceneIdx = (int)m_Scenes.size();
+//	m_Scenes.push_back(scene);
+//}
+
+void dae::SceneManager::AddGameScene(std::shared_ptr<Scene> scene)
 {
 	m_ActiveSceneIdx = (int)m_Scenes.size();
 	m_Scenes.push_back(scene);
