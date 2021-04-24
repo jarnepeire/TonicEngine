@@ -9,11 +9,17 @@
 #include "QBertGame.h"
 #include <memory>
 
+//#include <SDLAudio.h>
+
 int main()
 {
-    QBertGame* pGame = new QBertGame();
+    //SDLAudio* pAudio = new SDLAudio();
+    //delete pAudio;
+
+    //QBertGame* pGame = new QBertGame();
     dae::TonicEngine engine;
-    engine.Run(pGame);
-    delete pGame;
+    //engine.Run(pGame);
+    engine.Run(nullptr);
+    //delete pGame;
     return 0;
 }
