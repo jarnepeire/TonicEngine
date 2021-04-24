@@ -6,16 +6,19 @@ using namespace dae;
 
 unsigned int Scene::m_IdCounter = 0;
 
-Scene::Scene(const std::string& name) : m_Name(name) {}
+Scene::Scene(const std::string& name, int idx) 
+	: m_Name(name) 
+	, m_SceneIndex(idx)
+{}
 
 Scene::~Scene() = default;
 
-void Scene::Add(const std::shared_ptr<SceneObject>& object)
+void Scene::Add(const std::shared_ptr<GameObject>& object)
 {
 	m_Objects.push_back(object);
 }
 
-void Scene::FixedUpdate(float dt)
+void dae::Scene::RootFixedUpdate(float dt)
 {
 	for (auto& object : m_Objects)
 	{
@@ -23,7 +26,7 @@ void Scene::FixedUpdate(float dt)
 	}
 }
 
-void dae::Scene::Update(float dt)
+void dae::Scene::RootUpdate(float dt)
 {
 	for (auto& object : m_Objects)
 	{
@@ -31,7 +34,7 @@ void dae::Scene::Update(float dt)
 	}
 }
 
-void Scene::Render() const
+void dae::Scene::RootRender()
 {
 	for (const auto& object : m_Objects)
 	{
@@ -39,3 +42,18 @@ void Scene::Render() const
 	}
 }
 
+void dae::TestScene::Initialize()
+{
+}
+
+void dae::TestScene::FixedUpdate(float )
+{
+}
+
+void dae::TestScene::Update(float )
+{
+}
+
+void dae::TestScene::Render() const
+{
+}

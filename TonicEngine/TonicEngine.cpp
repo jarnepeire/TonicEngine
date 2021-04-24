@@ -67,9 +67,10 @@ void dae::TonicEngine::Initialize()
 void dae::TonicEngine::LoadGame() const
 {
 	//Scene
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	SceneManager::GetInstance().AddScene(std::make_shared<TestScene>("Demo", 0));
+	auto scene = SceneManager::GetInstance().GetCurrentScene();
 	auto& input = InputManager::GetInstance();
-
+	
 	//Fonts
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 28);
@@ -80,28 +81,28 @@ void dae::TonicEngine::LoadGame() const
 	auto bgObject = std::make_shared<GameObject>();
 	bgObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(bgObject.get(), "background.jpg"));
 	bgObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(bgObject.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
-	scene.Add(bgObject);
+	scene->Add(bgObject);
 
 	//Logo
 	auto logoObject = std::make_shared<GameObject>();
 	logoObject->SetPosition(216, 180);
 	logoObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(logoObject.get(), "logo.png"));
 	logoObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(logoObject.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
-	scene.Add(logoObject);
+	scene->Add(logoObject);
 
 	//Header text
 	auto to = std::make_shared<GameObject>();
 	to->SetPosition(80, 20);
 	to->AddComponent<TextComponent>(std::make_shared<TextComponent>(to.get(), "Programming 4 Assignment", font));
 	to->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(to.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
-	scene.Add(to);
+	scene->Add(to);
 
 	//FPS game object
 	auto fpsCounter = std::make_shared<GameObject>();
 	fpsCounter->SetPosition(30, 15);
 	fpsCounter->AddComponent<FPSComponent>(std::make_shared<FPSComponent>(fpsCounter.get(), fpsFont));
 	fpsCounter->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(fpsCounter.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
-	scene.Add(fpsCounter);
+	scene->Add(fpsCounter);
 
 	// ------- Player 1 ------- //
 	//Display Game Object (owns text components for UI)
@@ -114,7 +115,7 @@ void dae::TonicEngine::LoadGame() const
 	healthTextComp->SetPosition(0, 30); //Servers a translation relative to the parent object
 	auto scoreTextComp = qBertDisplay->AddComponent<TextComponent>(std::make_shared<TextComponent>(qBertDisplay.get(), "Score: 0", qBertSmallFont));
 	scoreTextComp->SetPosition(0, 55); //Servers a translation relative to the parent object
-	scene.Add(qBertDisplay);
+	scene->Add(qBertDisplay);
 	
 	//Observer -> link up the text components to display to (doesn't own two text components in this case)
 	auto qBertHealthDisplay = std::make_shared<HealthDisplay>(healthTextComp);
@@ -129,7 +130,7 @@ void dae::TonicEngine::LoadGame() const
 	
 	auto pChar = qBert->AddComponent<CharacterComponent>(std::make_shared<CharacterComponent>(qBert.get()));
 	pChar->GetSubject()->AddObserver(qBertScoreDisplay);
-	scene.Add(qBert);
+	scene->Add(qBert);
 
 	// ------- Player 2 ------- //
 	//Display Game Object (owns text components for UI)
@@ -142,7 +143,7 @@ void dae::TonicEngine::LoadGame() const
 	p2HealthTextComp->SetPosition(0, 30);
 	auto p2ScoreTextComp = p2UI->AddComponent<TextComponent>(std::make_shared<TextComponent>(p2UI.get(), "Score: 0", qBertSmallFont));
 	p2ScoreTextComp->SetPosition(0, 55);
-	scene.Add(p2UI);
+	scene->Add(p2UI);
 
 	//Observer -> link up the text components to display to (doesn't own two text components in this case)
 	auto p2HealthDisplay = std::make_shared<HealthDisplay>(p2HealthTextComp);
@@ -156,7 +157,7 @@ void dae::TonicEngine::LoadGame() const
 
 	auto pCharP2 = p2->AddComponent<CharacterComponent>(std::make_shared<CharacterComponent>(p2.get()));
 	pCharP2->GetSubject()->AddObserver(p2ScoreDisplay);
-	scene.Add(p2);
+	scene->Add(p2);
 
 	//Input
 	input.AddInputAction(SDL_SCANCODE_A, ControllerButton::ButtonA, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(qBert.get()));
@@ -183,7 +184,9 @@ void dae::TonicEngine::Run()
 	//Tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
 
-	//Create all game objects
+
+	//Create all scenes, game objects, etc.
+	SceneManager::GetInstance().InitializeScenegraph();
 	LoadGame();
 
 	//Audio system

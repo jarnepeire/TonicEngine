@@ -1,13 +1,12 @@
 #pragma once
 #include "Transform.h"
-#include "SceneObject.h"
 #include <vector>
 
 class Component;
 namespace dae
 {
 	class Texture2D;
-	class GameObject final : public SceneObject
+	class GameObject final
 	{
 	public:
 		GameObject() = default;
@@ -18,9 +17,9 @@ namespace dae
 		GameObject& operator=(GameObject && other) = delete;
 
 
-		void FixedUpdate(float dt) override;
-		void Update(float dt) override;
-		void Render() const override;
+		void FixedUpdate(float dt);
+		void Update(float dt);
+		void Render() const;
 		void SetPosition(float x, float y);
 
 		Transform& GetTransform() { return m_Transform; }

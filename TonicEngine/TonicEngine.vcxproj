@@ -252,7 +252,6 @@
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TonicEngine.h" />
     <ClInclude Include="TonicEnginePCH.h" />
-    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />

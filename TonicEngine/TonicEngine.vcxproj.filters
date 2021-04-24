@@ -34,6 +34,12 @@
     <Filter Include="ServiceLocators">
       <UniqueIdentifier>{5627ba74-322c-4a04-b0f2-4c3068fd335e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenegraph">
+      <UniqueIdentifier>{55385fce-c678-4539-82ad-1fa3d8df23aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DrinkingBar">
+      <UniqueIdentifier>{bec27ea7-1f53-4761-bd39-f6dbb0db53db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TonicEnginePCH.h">
@@ -57,19 +63,7 @@
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Font.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TonicEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
@@ -153,6 +147,15 @@
     <ClInclude Include="LogAudio.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Scenegraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scenegraph</Filter>
+    </ClInclude>
+    <ClInclude Include="TonicEngine.h">
+      <Filter>DrinkingBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TonicEnginePCH.cpp">
@@ -173,19 +176,10 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TonicEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
@@ -262,6 +256,15 @@
     </ClCompile>
     <ClCompile Include="LogAudio.cpp">
       <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Scenegraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scenegraph</Filter>
+    </ClCompile>
+    <ClCompile Include="TonicEngine.cpp">
+      <Filter>DrinkingBar</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
