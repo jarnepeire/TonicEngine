@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include <SDL.h>
 
 namespace dae
 {
@@ -19,6 +20,7 @@ public:
 
 	void RenderTexture(const dae::Texture2D& texture, float x, float y) const;
 	void RenderTexture(const dae::Texture2D& texture, float x, float y, float width, float height) const;
+	void RenderAnimation(const dae::Texture2D& texture, SDL_Rect& src, SDL_Rect& dest, SDL_RendererFlip& flip);
 
 private:
 	SDL_Renderer* m_pSDLRenderer;

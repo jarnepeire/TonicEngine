@@ -1,7 +1,6 @@
 #include "TonicEnginePCH.h"
 #include "RenderComponent.h"
 #include "Renderer.h"
-#include <SDL.h>
 #include "SceneManager.h"
 #include "Texture2D.h"
 
@@ -42,4 +41,10 @@ void RenderComponent::RenderTexture(const dae::Texture2D& texture, float x, floa
 	dst.w = static_cast<int>(width);
 	dst.h = static_cast<int>(height);
 	SDL_RenderCopy(m_pSDLRenderer, texture.GetSDLTexture(), nullptr, &dst);
+}
+
+void RenderComponent::RenderAnimation(const dae::Texture2D& texture, SDL_Rect& src, SDL_Rect& dest, SDL_RendererFlip& flip)
+{
+	//Render with src
+	SDL_RenderCopyEx(m_pSDLRenderer, texture.GetSDLTexture(), &src, &dest, NULL, NULL, flip);
 }

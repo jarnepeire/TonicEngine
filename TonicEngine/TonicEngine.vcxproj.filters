@@ -42,9 +42,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TonicEnginePCH.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -162,11 +159,17 @@
     <ClInclude Include="BaseGameThanol.h">
       <Filter>DrinkingBar</Filter>
     </ClInclude>
+    <ClInclude Include="ControllerMapping.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponent.h">
+      <Filter>Component Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TonicEnginePCH.h">
+      <Filter>DrinkingBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TonicEnginePCH.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -273,6 +276,12 @@
       <Filter>DrinkingBar</Filter>
     </ClCompile>
     <ClCompile Include="BaseGameThanol.cpp">
+      <Filter>DrinkingBar</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteComponent.cpp">
+      <Filter>Component Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TonicEnginePCH.cpp">
       <Filter>DrinkingBar</Filter>
     </ClCompile>
   </ItemGroup>

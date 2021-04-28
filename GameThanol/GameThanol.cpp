@@ -7,19 +7,15 @@
 
 #include <TonicEngine.h>
 #include "QBertGame.h"
-#include <memory>
+#include <iostream>
 
-//#include <SDLAudio.h>
-
-int main()
+int main(int, char* [])
 {
-    //SDLAudio* pAudio = new SDLAudio();
-    //delete pAudio;
+    std::cout << "Hello World\n";
 
-    //QBertGame* pGame = new QBertGame();
+    QBertGame* pGame = new QBertGame();
     dae::TonicEngine engine;
-    //engine.Run(pGame);
-    engine.Run(nullptr);
-    //delete pGame;
+    engine.Run(pGame);
+    delete pGame;
     return 0;
 }

@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{027a1c90-cf08-4dc1-b082-d9edda898e13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{f04cfc0e-6107-4899-8c49-fdd79d6b7fea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{b8a613eb-50a3-451b-8ecf-7c151aabb501}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{27006313-8d7d-4a48-a997-c9a7f1b0c86b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameThanol.cpp">
@@ -22,7 +34,19 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QBertScene.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ToSceneCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="HexComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HexGrid.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -30,7 +54,19 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="QBertScene.h">
-      <Filter>Header Files</Filter>
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ToSceneCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="HexComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HexGrid.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

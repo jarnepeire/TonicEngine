@@ -1,16 +1,20 @@
-//#include "QBertGame.h"
-//#include "SceneManager.h"
-//#include <memory>
-//
-//#include "QBertScene.h"
-//
-//void QBertGame::CreateGameScenes()
-//{
-//	//Scene
-//	//dae::SceneManager::GetInstance().AddScene(std::make_shared<QBertScene>("QBert", 0));
-//	//auto scene = SceneManager::GetInstance().GetCurrentScene();
-//
-//
-//	dae::SceneManager::GetInstance().AddGameScene(std::make_shared<QBertScene>("QBert", 0));
-//	dae::SceneManager::GetInstance().SetActiveScene("QBert");
-//}
+#include "QBertGame.h"
+#include "SceneManager.h"
+#include <memory>
+
+#include "QBertScene.h"
+#include "MainMenu.h"
+
+using namespace dae;
+QBertGame::QBertGame(uint32_t windowWidth, uint32_t windowHeight, float cappedFPS) 
+	: BaseGameThanol(windowWidth, windowHeight, cappedFPS)
+{
+}
+
+void QBertGame::CreateGameScenes()
+{
+	//Scene
+	dae::SceneManager::GetInstance().AddGameScene(std::make_shared<MainMenu>("Menu", 0));
+	dae::SceneManager::GetInstance().AddGameScene(std::make_shared<QBertScene>("QBert", 1));
+	dae::SceneManager::GetInstance().SetActiveScene("Menu");
+}

@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <memory>
 
 namespace dae { class GameObject; }
 enum class Event;

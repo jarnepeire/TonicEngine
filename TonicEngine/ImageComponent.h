@@ -16,7 +16,7 @@ public:
 	void Render() override;
 
 	void SetTexture(const std::string& filename);
-
+	dae::Texture2D* GetTexture() const { return m_Texture.get(); }
 private:
 	std::shared_ptr<dae::Texture2D> m_Texture{};
 

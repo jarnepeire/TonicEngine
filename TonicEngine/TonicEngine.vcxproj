@@ -235,6 +235,7 @@
     <ClInclude Include="CharacterComponent.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ControllerMapping.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
@@ -250,6 +251,7 @@
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="ScoreDisplay.h" />
     <ClInclude Include="SDLAudio.h" />
+    <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TonicEngine.h" />
@@ -325,6 +327,7 @@
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="ScoreDisplay.cpp" />
     <ClCompile Include="SDLAudio.cpp" />
+    <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TonicEngine.cpp" />
