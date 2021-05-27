@@ -36,8 +36,6 @@ QBertScene::QBertScene(const std::string& name, int idx)
 
 void QBertScene::Initialize()
 {
-	auto& input = InputManager::GetInstance();
-
 	//Fonts
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 28);
@@ -79,9 +77,9 @@ void QBertScene::Initialize()
 	qBertDisplay->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(qBertDisplay.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
 	qBertDisplay->AddComponent<TextComponent>(std::make_shared<TextComponent>(qBertDisplay.get(), "Player 1 -- Buttons: A/B", qBertBigFont));
 	auto healthTextComp = qBertDisplay->AddComponent<TextComponent>(std::make_shared<TextComponent>(qBertDisplay.get(), "Lives: 5", qBertSmallFont));
-	healthTextComp->SetPosition(0, 30); //Servers a translation relative to the parent object
+	healthTextComp->SetLocalPosition(0, 30); //Servers a translation relative to the parent object
 	auto scoreTextComp = qBertDisplay->AddComponent<TextComponent>(std::make_shared<TextComponent>(qBertDisplay.get(), "Score: 0", qBertSmallFont));
-	scoreTextComp->SetPosition(0, 55); //Servers a translation relative to the parent object
+	scoreTextComp->SetLocalPosition(0, 55); //Servers a translation relative to the parent object
 	Add(qBertDisplay);
 
 	//Observer -> link up the text components to display to (doesn't own two text components in this case)
@@ -107,9 +105,9 @@ void QBertScene::Initialize()
 	p2UI->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(p2UI.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
 	p2UI->AddComponent<TextComponent>(std::make_shared<TextComponent>(p2UI.get(), "Player 2 -- Buttons: X/Y", qBertBigFont));
 	auto p2HealthTextComp = p2UI->AddComponent<TextComponent>(std::make_shared<TextComponent>(p2UI.get(), "Lives: 5", qBertSmallFont));
-	p2HealthTextComp->SetPosition(0, 30);
+	p2HealthTextComp->SetLocalPosition(0, 30);
 	auto p2ScoreTextComp = p2UI->AddComponent<TextComponent>(std::make_shared<TextComponent>(p2UI.get(), "Score: 0", qBertSmallFont));
-	p2ScoreTextComp->SetPosition(0, 55);
+	p2ScoreTextComp->SetLocalPosition(0, 55);
 	Add(p2UI);
 
 	//Observer -> link up the text components to display to (doesn't own two text components in this case)
@@ -127,11 +125,11 @@ void QBertScene::Initialize()
 	Add(p2);
 
 	//Input
-	input.AddInputAction((int)KeyboardButton::A, ControllerButton::ButtonA, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(qBert.get()));
-	input.AddInputAction((int)KeyboardButton::B, ControllerButton::ButtonB, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(qBert.get()));
+	m_Input.AddInputAction((int)KeyboardButton::A, ControllerButton::ButtonA, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(qBert.get()));
+	m_Input.AddInputAction((int)KeyboardButton::B, ControllerButton::ButtonB, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(qBert.get()));
 
-	input.AddInputAction((int)KeyboardButton::X, ControllerButton::ButtonX, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(p2.get()));
-	input.AddInputAction((int)KeyboardButton::Y, ControllerButton::ButtonY, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(p2.get()));
+	m_Input.AddInputAction((int)KeyboardButton::X, ControllerButton::ButtonX, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(p2.get()));
+	m_Input.AddInputAction((int)KeyboardButton::Y, ControllerButton::ButtonY, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(p2.get()));
 }
 
 void QBertScene::FixedUpdate(float dt)

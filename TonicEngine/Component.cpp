@@ -8,7 +8,7 @@ Component::Component(dae::GameObject* parent)
 {
 }
 
-void Component::SetPosition(const float x, const float y)
+void Component::SetLocalPosition(const float x, const float y)
 {
 	m_Transform.SetPosition(x, y, 0.0f);
 }

@@ -8,6 +8,8 @@ HexGrid::HexGrid(dae::GameObject* parent, const std::string& hexImagePath, int g
 	, m_GridSize(gridSize)
 	, m_Grid()
 	, m_Top()
+	, m_HexWidth(hexWidth)
+	, m_HexHeight(hexHeight)
 {
 	int offsetPerRow = int(hexWidth / 2.f);
 	int offsetPerCol = int(hexHeight / 4.f);
@@ -57,14 +59,27 @@ void HexGrid::Render()
 	}
 }
 
-const glm::vec2& HexGrid::GetHexPosition(const HexCoordinate& hc) const
+bool HexGrid::GetHexPosition(const HexCoordinate& hc, glm::vec2& hexPos) const
 {
 	for (auto& hex : m_Grid)
 	{
 		if (hex->GetHexCoordinate() == hc)
 		{
-			return hex->GetHexPosition();
+			hexPos = hex->GetHexPosition();
+			return true;
 		}
 	}
-	return glm::vec2(0.f, 0.f);
+	return false;
 }
+
+//glm::vec2 HexGrid::GetHexPosition(const HexCoordinate& hc) const
+//{
+//	for (auto& hex : m_Grid)
+//	{
+//		if (hex->GetHexCoordinate() == hc)
+//		{
+//			return hex->GetHexPosition();
+//		}
+//	}
+//	return glm::vec2(InvalidHexPosValue, InvalidHexPosValue);
+//}

@@ -12,7 +12,7 @@ ScoreDisplay::ScoreDisplay(const std::shared_ptr<TextComponent>& pTextComponent)
 ScoreDisplay::ScoreDisplay(const std::shared_ptr<TextComponent>& pTextComponent, float x, float y)
 	: m_pScoreText(pTextComponent)
 {
-	m_pScoreText->SetPosition(x, y);
+	m_pScoreText->SetLocalPosition(x, y);
 }
 
 void ScoreDisplay::Notify(dae::GameObject* object, Event e)

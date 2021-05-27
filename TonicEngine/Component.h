@@ -16,7 +16,7 @@ public:
 	virtual void FixedUpdate(float dt) = 0;
 	virtual void Update(float dt) = 0;
 	virtual void Render() = 0;
-	void SetPosition(const float x, const float y);
+	void SetLocalPosition(const float x, const float y);
 	std::unique_ptr<Subject>& GetSubject() { return m_pSubject; }
 
 protected:

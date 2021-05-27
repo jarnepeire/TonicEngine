@@ -12,7 +12,7 @@ HealthDisplay::HealthDisplay(const std::shared_ptr<TextComponent>& pTextComponen
 HealthDisplay::HealthDisplay(const std::shared_ptr<TextComponent>& pTextComponent, float x, float y)
 	: m_pHealthText(pTextComponent)
 {
-	m_pHealthText->SetPosition(x, y);
+	m_pHealthText->SetLocalPosition(x, y);
 }
 
 void HealthDisplay::Notify(dae::GameObject* object, Event e)

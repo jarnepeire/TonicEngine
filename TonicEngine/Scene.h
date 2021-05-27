@@ -1,5 +1,7 @@
 #pragma once
 #include "SceneManager.h"
+#include "InputManager.h"
+
 #include <vector>
 #include <memory>
 
@@ -24,10 +26,12 @@ namespace dae
 
 		const std::string& GetName() const { return m_Name; }
 		const int GetSceneIndex() const { return m_SceneIndex; }
+
+		InputManager& GetInput() { return m_Input; }
 	protected:
 		explicit Scene(const std::string& name, int idx);
 
-
+		InputManager m_Input;
 
 	private: 
 		//friend Scene& SceneManager::CreateScene(const std::string& name);

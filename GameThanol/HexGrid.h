@@ -13,13 +13,20 @@ public:
 	virtual void Render() override;
 
 	const std::shared_ptr<HexComponent>& GetTop() const { return m_Top; }
-	const glm::vec2& GetHexPosition(const HexCoordinate& hc) const;
+	bool GetHexPosition(const HexCoordinate& hc, glm::vec2& hexPos) const;
+	int GetHexWidth() const { return m_HexWidth; }
+	int GetHexHeight() const { return m_HexHeight; }
 
+	
 private:
 	std::shared_ptr<ImageComponent> m_ImageComponent;
 	int m_GridSize;
 	std::vector<std::shared_ptr<HexComponent>> m_Grid;
 	std::shared_ptr<HexComponent> m_Top;
+
+	int m_HexWidth;
+	int m_HexHeight;
+
 	
 };
 

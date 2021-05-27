@@ -33,6 +33,8 @@ public:
 	void SetSpriteAnimationState(ESpriteAnimation anim) { m_CurrentAnimation = anim; }
 	void SetIsLeft(bool isLeft);
 
+	const int GetFrameWidth() const { return m_FrameWidth; }
+	const int GetFrameHeight() const { return m_FrameHeight; }
 private:
 	std::shared_ptr<dae::Texture2D> m_Texture{};
 	SDL_Rect m_Dest;

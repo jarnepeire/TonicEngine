@@ -9,6 +9,7 @@ unsigned int Scene::m_IdCounter = 0;
 Scene::Scene(const std::string& name, int idx) 
 	: m_Name(name) 
 	, m_SceneIndex(idx)
+	, m_Input()
 {}
 
 Scene::~Scene() = default;

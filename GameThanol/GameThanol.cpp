@@ -11,8 +11,6 @@
 
 int main(int, char* [])
 {
-    std::cout << "Hello World\n";
-
     QBertGame* pGame = new QBertGame();
     dae::TonicEngine engine;
     engine.Run(pGame);

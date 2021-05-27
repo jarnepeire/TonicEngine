@@ -178,6 +178,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="GameThanol.cpp" />
     <ClCompile Include="HexComponent.cpp" />
     <ClCompile Include="HexGrid.cpp" />
+    <ClCompile Include="HexJumpComponent.cpp" />
+    <ClCompile Include="JumpToHexCommand.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="QBertGame.cpp" />
     <ClCompile Include="QBertScene.cpp" />
@@ -186,6 +188,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
   <ItemGroup>
     <ClInclude Include="HexComponent.h" />
     <ClInclude Include="HexGrid.h" />
+    <ClInclude Include="HexJumpComponent.h" />
+    <ClInclude Include="JumpToHexCommand.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="QBertGame.h" />
     <ClInclude Include="QBertScene.h" />

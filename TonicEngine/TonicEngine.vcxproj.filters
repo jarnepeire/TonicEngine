@@ -168,6 +168,15 @@
     <ClInclude Include="TonicEnginePCH.h">
       <Filter>DrinkingBar</Filter>
     </ClInclude>
+    <ClInclude Include="InputLocator.h">
+      <Filter>ServiceLocators</Filter>
+    </ClInclude>
+    <ClInclude Include="RespawnComponent.h">
+      <Filter>Component Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MathHelper.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -283,6 +292,12 @@
     </ClCompile>
     <ClCompile Include="TonicEnginePCH.cpp">
       <Filter>DrinkingBar</Filter>
+    </ClCompile>
+    <ClCompile Include="InputLocator.cpp">
+      <Filter>ServiceLocators</Filter>
+    </ClCompile>
+    <ClCompile Include="RespawnComponent.cpp">
+      <Filter>Component Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

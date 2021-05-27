@@ -1,7 +1,9 @@
 #include "TonicEnginePCH.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "InputLocator.h"
 #include <algorithm>
+
 
 void dae::SceneManager::InitializeScenegraph()
 {
@@ -37,6 +39,10 @@ void dae::SceneManager::SetActiveScene(int index)
 		m_ActiveSceneIdx = (int)m_Scenes.size() - 1;
 	else
 		m_ActiveSceneIdx = 0;
+
+	//Swap out input for new scene's input
+	InputManager* pInput = &m_Scenes[m_ActiveSceneIdx]->GetInput();
+	InputLocator::RegisterInputManager(pInput);
 }
 
 void dae::SceneManager::SetActiveScene(const std::string& name)
@@ -47,6 +53,10 @@ void dae::SceneManager::SetActiveScene(const std::string& name)
 
 	std::shared_ptr<Scene> pScene = *it;
 	m_ActiveSceneIdx = pScene->GetSceneIndex();
+
+	//Swap out input for new scene's input
+	InputManager* pInput = &m_Scenes[m_ActiveSceneIdx]->GetInput();
+	InputLocator::RegisterInputManager(pInput);
 }
 
 //void dae::SceneManager::AddScene(const std::shared_ptr<dae::Scene>& scene)

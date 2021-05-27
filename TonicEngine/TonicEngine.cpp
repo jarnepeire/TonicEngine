@@ -10,6 +10,8 @@
 #include "GameObject.h"
 #include "Scene.h"
 
+#include "InputLocator.h"
+
 //Sound
 #include "AudioLocator.h"
 #include "SDLAudio.h"
@@ -107,7 +109,7 @@ void dae::TonicEngine::Run(dae::BaseGameThanol* pGame)
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
-		auto& input = InputManager::GetInstance();
+		//auto& input = InputManager::GetInstance();
 
 		auto previous = high_resolution_clock::now();
 		float lag{};
@@ -121,7 +123,8 @@ void dae::TonicEngine::Run(dae::BaseGameThanol* pGame)
 			previous = currentTime;
 			lag += elapsed;
 
-			doContinue = input.ProcessInput();
+			doContinue = InputLocator::GetInputManager().ProcessInput();
+			//doContinue = input.ProcessInput();
 
 			//Fixed Update
 			while (lag >= ms_per_update)
