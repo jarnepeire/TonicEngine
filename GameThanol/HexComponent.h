@@ -34,20 +34,26 @@ class HexComponent : public Component
 {
 public:
 
-	HexComponent(dae::GameObject* parent, std::shared_ptr<ImageComponent> imageComp, int row, int col, int hexWidth, int hexHeight, const glm::vec2& pos);
+	HexComponent(dae::GameObject* parent, std::shared_ptr<ImageComponent> imageComp, std::shared_ptr<ImageComponent> imageCompVisitted, int row, int col, int hexWidth, int hexHeight, const glm::vec2& pos);
 	virtual ~HexComponent() = default;
 	
 	void FixedUpdate(float dt) override;
 	void Update(float dt) override;
 	void Render() override;
 
+	bool IsVisitted() const { return m_IsVisited; }
+	void ResetVisit() { m_IsVisited = false; }
+	void Visit() { m_IsVisited = true; }
+
 	const HexCoordinate& GetHexCoordinate() const { return m_HexCoordinate; }
 	const glm::vec2& GetHexPosition() const { return m_Position; }
 private:
 	std::shared_ptr<ImageComponent> m_ImageComponent;
+	std::shared_ptr<ImageComponent> m_ImageComponentVisitted;
 	const int m_HexWidth, m_HexHeight;
 	glm::vec2 m_Position;
 	HexCoordinate m_HexCoordinate;
+	bool m_IsVisited;
 
 };
 

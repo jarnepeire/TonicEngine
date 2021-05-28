@@ -25,6 +25,9 @@
     <Filter Include="Components">
       <UniqueIdentifier>{27006313-8d7d-4a48-a997-c9a7f1b0c86b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Observers">
+      <UniqueIdentifier>{8a982b9a-34a0-4e60-a4ac-a62d29c210b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameThanol.cpp">
@@ -54,6 +57,12 @@
     <ClCompile Include="HexJumpComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="GameOverMenu.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="EndGameObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QBertGame.h">
@@ -79,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="HexJumpComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverMenu.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="EndGameObserver.h">
+      <Filter>Observers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

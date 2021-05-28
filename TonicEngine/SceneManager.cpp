@@ -2,6 +2,8 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "InputLocator.h"
+#include "AudioLocator.h"
+#include "AudioSystem.h"
 #include <algorithm>
 
 
@@ -43,6 +45,10 @@ void dae::SceneManager::SetActiveScene(int index)
 	//Swap out input for new scene's input
 	InputManager* pInput = &m_Scenes[m_ActiveSceneIdx]->GetInput();
 	InputLocator::RegisterInputManager(pInput);
+
+	//Swap out audio system for new scene's input
+	AudioSystem* pAudioSystem = m_Scenes[m_ActiveSceneIdx]->GetAudioSystem().get();
+	AudioLocator::RegisterAudioSystem(pAudioSystem);
 }
 
 void dae::SceneManager::SetActiveScene(const std::string& name)
@@ -57,6 +63,10 @@ void dae::SceneManager::SetActiveScene(const std::string& name)
 	//Swap out input for new scene's input
 	InputManager* pInput = &m_Scenes[m_ActiveSceneIdx]->GetInput();
 	InputLocator::RegisterInputManager(pInput);
+
+	//Swap out audio system for new scene's input
+	AudioSystem* pAudioSystem = m_Scenes[m_ActiveSceneIdx]->GetAudioSystem().get();
+	AudioLocator::RegisterAudioSystem(pAudioSystem);
 }
 
 //void dae::SceneManager::AddScene(const std::shared_ptr<dae::Scene>& scene)

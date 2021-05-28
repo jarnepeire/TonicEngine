@@ -1,17 +1,33 @@
 #include "MainMenu.h"
 #include <InputManager.h>
-#include "ToSceneCommand.h"
-#include "GameObject.h"
-#include "SpriteComponent.h"
-#include "RenderComponent.h"
+#include <ResourceManager.h>
+
+#include <GameObject.h>
+#include <Scene.h>
 #include <Renderer.h>
+#include <KeyboardMapping.h>
+
+//Sound
+#include "AudioLocator.h"
+#include "SDLAudio.h"
+#include "LogAudio.h"
+
+//Commands
+#include "Command.h"
+#include "ToSceneCommand.h"
+
+//Observers
+#include <HealthDisplay.h>
+#include <ScoreDisplay.h>
+
+//Components
+#include <FPSComponent.h>
+#include <TextComponent.h>
+#include <RenderComponent.h>
 #include <ImageComponent.h>
-#include "HexComponent.h"
-#include "HexJumpComponent.h"
-#include "HexGrid.h"
-#include "JumpToHexCommand.h"
-#include "RespawnComponent.h"
-#include "HealthComponent.h"
+#include <HealthComponent.h>
+#include <CharacterComponent.h>
+#include <SpriteComponent.h>
 
 using namespace dae;
 MainMenu::MainMenu(const std::string& name, int idx)
@@ -21,32 +37,112 @@ MainMenu::MainMenu(const std::string& name, int idx)
 
 void MainMenu::Initialize()
 {
+	//Fonts
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 28);
+	auto qBertBigFont = ResourceManager::GetInstance().LoadFont("CooperBlack.otf", 28);
+	auto qBertSmallFont = ResourceManager::GetInstance().LoadFont("CooperBlack.otf", 22);
 
+	//Background
+	//auto bgObject = std::make_shared<GameObject>();
+	//bgObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(bgObject.get(), "background.jpg"));
+	//bgObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(bgObject.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	//Add(bgObject);
 
-	auto hexGrid = std::make_shared<GameObject>();
-	hexGrid->SetPosition(125, 325);
-	auto hexGridComp = hexGrid->AddComponent<HexGrid>(std::make_shared<HexGrid>(hexGrid.get(), "QBert/Block.png", 6, 64, 64));
-	hexGrid->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(hexGrid.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
-	Add(hexGrid);
+	//Logo
+	//auto logoObject = std::make_shared<GameObject>();
+	//logoObject->SetPosition(216, 180);
+	//logoObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(logoObject.get(), "logo.png"));
+	//logoObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(logoObject.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	//Add(logoObject);
 
+	//Header text
+	auto to = std::make_shared<GameObject>();
+	to->SetPosition(80, 20);
+	to->AddComponent<TextComponent>(std::make_shared<TextComponent>(to.get(), "Programming 4 Assignment", font));
+	to->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(to.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	Add(to);
 
-	auto topPos = hexGridComp->GetTop()->GetHexPosition();
-	auto spriteObject = std::make_shared<GameObject>();
-	auto pSpriteComp = spriteObject->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(spriteObject.get(), "QBert/QBert_Spritesheet.png", 37, 36, 8, 125, 0.75f));
-	pSpriteComp->SetLocalPosition(0, -36);
-	spriteObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(spriteObject.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
-	auto pHealthComp = spriteObject->AddComponent<HealthComponent>(std::make_shared<HealthComponent>(spriteObject.get(), 5));
-	auto pRespawnComp = spriteObject->AddComponent<RespawnComponent>(std::make_shared<RespawnComponent>(spriteObject.get(), topPos, 3.0f));
-	pHealthComp->SetRespawnComponent(pRespawnComp);
-	spriteObject->AddComponent<HexJumpComponent>(std::make_shared<HexJumpComponent>(spriteObject.get(), hexGridComp.get(), 5, 0, 0.75f));
-	Add(spriteObject);
+	//FPS game object
+	auto fpsCounter = std::make_shared<GameObject>();
+	fpsCounter->SetPosition(30, 15);
+	fpsCounter->AddComponent<FPSComponent>(std::make_shared<FPSComponent>(fpsCounter.get(), fpsFont));
+	fpsCounter->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(fpsCounter.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	Add(fpsCounter);
+
+	// ------- Player 1 ------- //
+	//Display Game Object (owns text components for UI)
+	auto qBertDisplay = std::make_shared<GameObject>();;
+	qBertDisplay->SetPosition(30, 100);
+
+	qBertDisplay->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(qBertDisplay.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	qBertDisplay->AddComponent<TextComponent>(std::make_shared<TextComponent>(qBertDisplay.get(), "Player 1 -- Buttons: A/B", qBertBigFont));
+	auto healthTextComp = qBertDisplay->AddComponent<TextComponent>(std::make_shared<TextComponent>(qBertDisplay.get(), "Lives: 5", qBertSmallFont));
+	healthTextComp->SetLocalPosition(0, 30); //Servers a translation relative to the parent object
+	auto scoreTextComp = qBertDisplay->AddComponent<TextComponent>(std::make_shared<TextComponent>(qBertDisplay.get(), "Score: 0", qBertSmallFont));
+	scoreTextComp->SetLocalPosition(0, 55); //Servers a translation relative to the parent object
+	Add(qBertDisplay);
+
+	//Observer -> link up the text components to display to (doesn't own two text components in this case)
+	auto qBertHealthDisplay = std::make_shared<HealthDisplay>(healthTextComp);
+	auto qBertScoreDisplay = std::make_shared<ScoreDisplay>(scoreTextComp);
+
+	//Q-Bert itself, add components + add observer to components
+	auto qBert = std::make_shared<GameObject>();
+
+	int nbLives = 5;
+	auto pHealth = qBert->AddComponent<HealthComponent>(std::make_shared<HealthComponent>(qBert.get(), nbLives));
+	pHealth->GetSubject()->AddObserver(qBertHealthDisplay);
+
+	auto pChar = qBert->AddComponent<CharacterComponent>(std::make_shared<CharacterComponent>(qBert.get()));
+	pChar->GetSubject()->AddObserver(qBertScoreDisplay);
+	Add(qBert);
+
+	// ------- Player 2 ------- //
+	//Display Game Object (owns text components for UI)
+	auto p2UI = std::make_shared<GameObject>();;
+	p2UI->SetPosition(30, 250);
+
+	p2UI->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(p2UI.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	p2UI->AddComponent<TextComponent>(std::make_shared<TextComponent>(p2UI.get(), "Player 2 -- Buttons: X/Y", qBertBigFont));
+	auto p2HealthTextComp = p2UI->AddComponent<TextComponent>(std::make_shared<TextComponent>(p2UI.get(), "Lives: 5", qBertSmallFont));
+	p2HealthTextComp->SetLocalPosition(0, 30);
+	auto p2ScoreTextComp = p2UI->AddComponent<TextComponent>(std::make_shared<TextComponent>(p2UI.get(), "Score: 0", qBertSmallFont));
+	p2ScoreTextComp->SetLocalPosition(0, 55);
+	Add(p2UI);
+
+	//Observer -> link up the text components to display to (doesn't own two text components in this case)
+	auto p2HealthDisplay = std::make_shared<HealthDisplay>(p2HealthTextComp);
+	auto p2ScoreDisplay = std::make_shared<ScoreDisplay>(p2ScoreTextComp);
+
+	//Player itself, add components + add observer to components
+	auto p2 = std::make_shared<GameObject>();
+
+	auto pHealthP2 = p2->AddComponent<HealthComponent>(std::make_shared<HealthComponent>(p2.get(), nbLives));
+	pHealthP2->GetSubject()->AddObserver(p2HealthDisplay);
+
+	auto pCharP2 = p2->AddComponent<CharacterComponent>(std::make_shared<CharacterComponent>(p2.get()));
+	pCharP2->GetSubject()->AddObserver(p2ScoreDisplay);
+	Add(p2);
+
+	//Audio system
+	SDLAudio* pSDLAudio = new SDLAudio();
+	unsigned int scoreSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_gain_score.wav");
+	unsigned int diedSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_death.wav");
+
+	m_pAudioSytem = std::make_shared<LogAudio>(pSDLAudio);
+	AudioLocator::RegisterAudioSystem(m_pAudioSytem.get());
 
 	//Input
 	m_Input.AddInputAction((int)KeyboardButton::F2, ControllerButton::NULL_VALUE, ControllerButtonType::NULL_VALUE, TriggerState::Pressed, std::make_shared<ToSceneCommand>("QBert"));
-	m_Input.AddInputAction((int)KeyboardButton::UP_ARROW, ControllerButton::ButtonY, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<JumpToHexTopRightCommand>(spriteObject.get()));
-	m_Input.AddInputAction((int)KeyboardButton::DOWN_ARROW, ControllerButton::ButtonA, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<JumpToHexBottomLeftCommand>(spriteObject.get()));
-	m_Input.AddInputAction((int)KeyboardButton::LEFT_ARROW, ControllerButton::ButtonX, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<JumpToHexTopLeftCommand>(spriteObject.get()));
-	m_Input.AddInputAction((int)KeyboardButton::RIGHT_ARROW, ControllerButton::ButtonB, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<JumpToHexBottomRightCommand>(spriteObject.get()));
+
+	m_Input.AddInputAction((int)KeyboardButton::A, ControllerButton::ButtonA, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(qBert.get(), scoreSoundId));
+	m_Input.AddInputAction((int)KeyboardButton::B, ControllerButton::ButtonB, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(qBert.get(), diedSoundId));
+
+	m_Input.AddInputAction((int)KeyboardButton::X, ControllerButton::ButtonX, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(p2.get(), scoreSoundId));
+	m_Input.AddInputAction((int)KeyboardButton::Y, ControllerButton::ButtonY, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(p2.get(), diedSoundId));
+
+
 
 }
 

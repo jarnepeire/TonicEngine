@@ -23,17 +23,29 @@ protected:
 class DieCommand : public Command
 {
 public:
-	DieCommand(dae::GameObject* object) : Command(object) {}
+	DieCommand(dae::GameObject* object, unsigned int soundId) 
+		: Command(object) 
+		, m_SoundID(soundId)
+	{}
 	virtual ~DieCommand() = default;
 	void Execute() override;
+
+private:
+	unsigned int m_SoundID;
 };
 
 //Temporary command to fit the needs of this assignment
 class ScoreCommand : public Command
 {
 public:
-	ScoreCommand(dae::GameObject* object) : Command(object) {}
+	ScoreCommand(dae::GameObject* object, unsigned int soundId)
+		: Command(object) 
+		, m_SoundID(soundId)
+	{}
 	virtual ~ScoreCommand() = default;
 	void Execute() override;
+
+private:
+	unsigned int m_SoundID;
 };
 

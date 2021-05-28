@@ -16,9 +16,11 @@ public:
 	int GetNbLives() const { return m_NbLives; }
 
 	void SetRespawnComponent(std::shared_ptr<RespawnComponent> respawnComponent);
-
+	bool HasDied() const { return m_HasDied; }
 private:
 	std::shared_ptr<RespawnComponent> m_RespawnComponent;
 	int m_NbLives;
+	int m_NbLivesOriginal;
+	bool m_HasDied;
 };
 

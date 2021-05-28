@@ -11,7 +11,7 @@ void DieCommand::Execute()
 	if (pHealth)
 	{
 		pHealth->LoseLife();
-		AudioLocator::GetAudioSystem().Play(SoundID::PlayerDied, 0.2f);
+		AudioLocator::GetAudioSystem().Play(m_SoundID, 0.2f);
 	}
 }
 
@@ -24,10 +24,10 @@ void ScoreCommand::Execute()
 		pCharacter->GainScore(25);
 
 		std::cout << "Requesting 4 times the Score sound, to display the fix for the same layered sound\n";
-		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.1f);
-		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.1f);
-		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.1f);
-		AudioLocator::GetAudioSystem().Play(SoundID::PlayerScored, 0.1f);
+		AudioLocator::GetAudioSystem().Play(m_SoundID, 0.1f);
+		AudioLocator::GetAudioSystem().Play(m_SoundID, 0.1f);
+		AudioLocator::GetAudioSystem().Play(m_SoundID, 0.1f);
+		AudioLocator::GetAudioSystem().Play(m_SoundID, 0.1f);
 		
 	}
 }

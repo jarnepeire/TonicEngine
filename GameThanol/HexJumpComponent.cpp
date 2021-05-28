@@ -63,6 +63,11 @@ void HexJumpComponent::Update(float dt)
 				if (pHealth)
 					pHealth->LoseLife();
 			}
+			else
+			{
+				//Mark visited hex
+				m_pHexGrid->VisitHex(m_JumpToCoordinate);
+			}
 		}
 		else
 		{
@@ -119,7 +124,7 @@ void HexJumpComponent::JumpTo(int rowTranslation, int colTranslation)
 		float spriteHeight = (float)m_pGameObject->GetComponent<SpriteComponent>()->GetFrameHeight();
 		m_JumpToPos.y = windowHeight + spriteHeight; 
 	}
-
+	
 	//If hex was valid, create offsetted third position as an "inbetween" position to form an arc that will define its movement
 	int horizontal = (m_InitPos.x > m_JumpToPos.x) ? -1 : 1;
 	int vertical = (m_InitPos.y > m_JumpToPos.y) ? -1 : 1;

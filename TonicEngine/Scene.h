@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 
+class AudioSystem;
 namespace dae
 {
 	class GameObject;
@@ -28,11 +29,13 @@ namespace dae
 		const int GetSceneIndex() const { return m_SceneIndex; }
 
 		InputManager& GetInput() { return m_Input; }
+		std::shared_ptr<AudioSystem> GetAudioSystem() { return m_pAudioSytem; }
+
 	protected:
 		explicit Scene(const std::string& name, int idx);
 
 		InputManager m_Input;
-
+		std::shared_ptr<AudioSystem> m_pAudioSytem;
 	private: 
 		//friend Scene& SceneManager::CreateScene(const std::string& name);
 		friend class SceneManager;

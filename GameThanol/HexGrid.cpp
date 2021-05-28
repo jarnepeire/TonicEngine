@@ -2,9 +2,10 @@
 #include "GameObject.h"
 #include <ImageComponent.h>
 
-HexGrid::HexGrid(dae::GameObject* parent, const std::string& hexImagePath, int gridSize, int hexWidth, int hexHeight)
+HexGrid::HexGrid(dae::GameObject* parent, const std::string& hexImagePath, const std::string& hexImageVisittedPath, int gridSize, int hexWidth, int hexHeight)
 	: Component(parent)
 	, m_ImageComponent(std::make_shared<ImageComponent>(parent, hexImagePath))
+	, m_ImageComponentVisitted(std::make_shared<ImageComponent>(parent, hexImageVisittedPath))
 	, m_GridSize(gridSize)
 	, m_Grid()
 	, m_Top()
@@ -27,7 +28,7 @@ HexGrid::HexGrid(dae::GameObject* parent, const std::string& hexImagePath, int g
 			hexPos.x = pos.x + (col * hexWidth) + (row * offsetPerRow);
 			hexPos.y = pos.y - (row * hexHeight) + (row * offsetPerCol);
 
-			std::shared_ptr<HexComponent> hex{ std::make_shared<HexComponent>(parent, m_ImageComponent, row, col, hexWidth, hexHeight, hexPos)};
+			std::shared_ptr<HexComponent> hex{ std::make_shared<HexComponent>(parent, m_ImageComponent, m_ImageComponentVisitted, row, col, hexWidth, hexHeight, hexPos)};
 			m_Grid.push_back(hex);
 		}
 	}
@@ -70,6 +71,17 @@ bool HexGrid::GetHexPosition(const HexCoordinate& hc, glm::vec2& hexPos) const
 		}
 	}
 	return false;
+}
+
+void HexGrid::VisitHex(const HexCoordinate& hc)
+{
+	for (auto& hex : m_Grid)
+	{
+		if (hex->GetHexCoordinate() == hc)
+		{
+			hex->Visit();
+		}
+	}
 }
 
 //glm::vec2 HexGrid::GetHexPosition(const HexCoordinate& hc) const

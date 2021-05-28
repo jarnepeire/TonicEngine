@@ -10,6 +10,7 @@ Scene::Scene(const std::string& name, int idx)
 	: m_Name(name) 
 	, m_SceneIndex(idx)
 	, m_Input()
+	, m_pAudioSytem()
 {}
 
 Scene::~Scene() = default;

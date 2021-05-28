@@ -97,14 +97,6 @@ void dae::TonicEngine::Run(dae::BaseGameThanol* pGame)
 	SceneManager::GetInstance().InitializeScenegraph();
 	LoadGame();
 
-	//Audio system
-	SDLAudio* pSDLAudio = new SDLAudio();
-	pSDLAudio->AddSound(SoundID::PlayerScored, "../Data/Sounds/sfx_gain_score.wav");
-	pSDLAudio->AddSound(SoundID::PlayerDied,"../Data/Sounds/sfx_death.wav");
-
-	AudioSystem* pAudioSystem = new LogAudio(pSDLAudio);
-	AudioLocator::RegisterAudioSystem(pAudioSystem);
-
 	//Game Loop: http://gameprogrammingpatterns.com/game-loop.html
 	{
 		auto& renderer = Renderer::GetInstance();
@@ -143,8 +135,6 @@ void dae::TonicEngine::Run(dae::BaseGameThanol* pGame)
 				this_thread::sleep_for(sleepTime);
 		}
 	}
-
-	delete pAudioSystem;
 	Cleanup();
 	
 }

@@ -10,7 +10,9 @@ using namespace dae;
 HealthComponent::HealthComponent(dae::GameObject* parent, int nbLives)
 	: Component(parent)
 	, m_NbLives(nbLives)
+	, m_NbLivesOriginal(nbLives)
 	, m_RespawnComponent()
+	, m_HasDied()
 {
 }
 
@@ -33,12 +35,15 @@ void HealthComponent::LoseLife()
 	--m_NbLives;
 	if (m_NbLives > 0)
 	{
-		m_RespawnComponent->Respawn();
+		if (m_RespawnComponent)
+			m_RespawnComponent->Respawn();
 		m_pSubject->Notify(m_pGameObject, Event::EVENT_PLAYER_LOST_LIFE);
 	}
 	else
 	{
-		//Notify death..
+		//Notify death
+		m_HasDied = true;
+		m_pSubject->Notify(m_pGameObject, Event::EVENT_PLAYER_DIED);
 	}
 
 }
