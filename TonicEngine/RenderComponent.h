@@ -18,8 +18,8 @@ public:
 	void Update(float dt) override;
 	void Render() override;
 
-	void RenderTexture(const dae::Texture2D& texture, float x, float y) const;
-	void RenderTexture(const dae::Texture2D& texture, float x, float y, float width, float height) const;
+	void RenderTexture(const dae::Texture2D& texture, float x, float y, float scale = 1.f) const;
+	void RenderTexture(const dae::Texture2D& texture, float x, float y, float width, float height, float scale = 1.f) const;
 	void RenderAnimation(const dae::Texture2D& texture, SDL_Rect& src, SDL_Rect& dest, SDL_RendererFlip& flip);
 
 private:

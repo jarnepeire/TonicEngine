@@ -19,6 +19,8 @@ public:
 	void SetLocalPosition(const float x, const float y);
 	std::unique_ptr<Subject>& GetSubject() { return m_pSubject; }
 
+	const glm::vec3& GetLocalPosition() const { return m_Transform.GetPosition(); }
+	glm::vec3 GetWorldPosition() const;
 protected:
 	dae::GameObject* m_pGameObject = nullptr;
 	dae::Transform m_Transform;

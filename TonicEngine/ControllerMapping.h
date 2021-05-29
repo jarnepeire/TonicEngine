@@ -1,4 +1,6 @@
 #pragma once
+#include <SDL_mouse.h>
+
 enum class ControllerButton
 {
 	NULL_VALUE = -666,
@@ -37,4 +39,12 @@ enum class ControllerButtonType
 	wButton,
 	Trigger,
 	Thumbstick
+};
+
+enum class MouseButton
+{
+	NULL_VALUE = 0,
+	LMB = SDL_BUTTON(1),
+	RMB = SDL_BUTTON(3),
+	LRMB = (SDL_BUTTON(1) + SDL_BUTTON(3))
 };

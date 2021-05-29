@@ -8,9 +8,8 @@ bool dae::InputManager::ProcessInput()
 	m_PrevControllerState = m_CurrControllerState;
 
 	//Getting SDL events
-	SDL_Event e;
-	SDL_PollEvent(&e);
-	if (e.type == SDL_QUIT) 
+	SDL_PollEvent(&m_Event);
+	if (m_Event.type == SDL_QUIT)
 		return false;
 
 	//Reading the state of a controller: https://docs.microsoft.com/en-us/windows/win32/api/xinput/ns-xinput-xinput_state
@@ -25,22 +24,8 @@ bool dae::InputManager::ProcessInput()
 		auto& command = it.second;
 
 		//Execute command pressed by keyboard
-		bool isHeld = (e.key.repeat != 0);
-		if (!isHeld && e.type == SDL_KEYDOWN && input.TriggerState == TriggerState::Pressed)
-		{
-			if ((int)e.key.keysym.scancode == input.KeyboardKey)
-				command->Execute();
-		}
-		else if (!isHeld && e.type == SDL_KEYUP && input.TriggerState == TriggerState::Released)
-		{
-			if ((int)e.key.keysym.scancode == input.KeyboardKey)
-				command->Execute();
-		}
-		else if ((int)e.key.keysym.scancode == input.KeyboardKey && isHeld && input.TriggerState == TriggerState::Hold)
-		{
+		if (IsInputTriggered(input.KeyboardKey, input.TriggerState))
 			command->Execute();
-		}
-
 
 		if (isControllerActive == ERROR_SUCCESS)
 		{
@@ -50,6 +35,18 @@ bool dae::InputManager::ProcessInput()
 		}
 	}
 	
+	//Updating mouse position
+	m_PrevMousePos = m_CurrMousePos;
+	m_PrevMouseButtonState = m_MouseButtonState;
+
+	int mouseX{}, mouseY{};
+	m_MouseButtonState = SDL_GetMouseState(&mouseX, &mouseY);
+	m_CurrMousePos.x = (float)mouseX;
+	m_CurrMousePos.y = (float)mouseY;
+
+	m_RelativeMouseMove.x = m_CurrMousePos.x - m_PrevMousePos.x;
+	m_RelativeMouseMove.y = m_CurrMousePos.y - m_PrevMousePos.y;
+
 	//If all went well -> return true
 	return true;
 }
@@ -76,6 +73,27 @@ bool dae::InputManager::IsInputTriggered(ControllerButton button, ControllerButt
 		break;
 	}
 	
+}
+
+bool dae::InputManager::IsInputTriggered(int keyboardKey, TriggerState triggerState)
+{
+	//Execute command pressed by keyboard
+	bool isHeld = (m_Event.key.repeat != 0);
+	if (!isHeld && m_Event.type == SDL_KEYDOWN && triggerState == TriggerState::Pressed)
+	{
+		if ((int)m_Event.key.keysym.scancode == keyboardKey)
+			return true;
+	}
+	else if (!isHeld && m_Event.type == SDL_KEYUP && triggerState == TriggerState::Released)
+	{
+		if ((int)m_Event.key.keysym.scancode == keyboardKey)
+			return true;
+	}
+	else if ((int)m_Event.key.keysym.scancode == keyboardKey && isHeld && triggerState == TriggerState::Hold)
+	{
+		return true;
+	}
+	return false;
 }
 
 bool dae::InputManager::IsPressed(ControllerButton button) const
@@ -149,6 +167,28 @@ void dae::InputManager::AddInputAction(int keyboardKey, ControllerButton button,
 	setting.TriggerState = triggerState;
 
 	m_InputActions.insert(std::pair<InputSetting, std::shared_ptr<Command>>(setting, command));
+}
+
+bool dae::InputManager::IsMouseButtonDown(MouseButton btn, TriggerState triggerState) const
+{
+	if (triggerState == TriggerState::Hold)
+	{
+		return (m_MouseButtonState == Uint32(btn) && m_PrevMouseButtonState == Uint32(btn));
+	}
+	else if (triggerState == TriggerState::Pressed)
+	{
+		return (m_MouseButtonState == Uint32(btn) && m_PrevMouseButtonState != Uint32(btn));
+	}
+	else if (triggerState == TriggerState::Released)
+	{
+		return (m_MouseButtonState != Uint32(btn) && m_PrevMouseButtonState == Uint32(btn));
+	}
+	return false;
+}
+
+const glm::vec2& dae::InputManager::GetMousePos(bool getOldPos) const
+{
+	return (getOldPos) ? m_PrevMousePos : m_CurrMousePos;
 }
 
 glm::vec2 dae::InputManager::GetThumbstickDirectionNormalized(ControllerButton b)

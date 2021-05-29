@@ -24,22 +24,24 @@ void RenderComponent::Render()
 {
 }
 
-void RenderComponent::RenderTexture(const dae::Texture2D& texture, float x, float y) const
+void RenderComponent::RenderTexture(const dae::Texture2D& texture, float x, float y, float scale) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
+	dst.w = static_cast<int>(dst.w * scale);
+	dst.h = static_cast<int>(dst.h * scale);
 	SDL_RenderCopy(m_pSDLRenderer, texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void RenderComponent::RenderTexture(const dae::Texture2D& texture, float x, float y, float width, float height) const
+void RenderComponent::RenderTexture(const dae::Texture2D& texture, float x, float y, float width, float height, float scale) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
-	dst.w = static_cast<int>(width);
-	dst.h = static_cast<int>(height);
+	dst.w = static_cast<int>(width * scale);
+	dst.h = static_cast<int>(height * scale);
 	SDL_RenderCopy(m_pSDLRenderer, texture.GetSDLTexture(), nullptr, &dst);
 }
 

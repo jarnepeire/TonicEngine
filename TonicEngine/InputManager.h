@@ -99,6 +99,7 @@
 
 #pragma warning (disable:4201)
 #include "glm/glm.hpp"
+#include <SDL_events.h>
 
 namespace dae
 {
@@ -148,12 +149,21 @@ namespace dae
 
 		bool ProcessInput();
 		bool IsInputTriggered(ControllerButton button, ControllerButtonType type, TriggerState triggerState);
+		bool IsInputTriggered(int keyboardKey, TriggerState triggerState);
 		void AddInputAction(int keyboardKey, ControllerButton button, ControllerButtonType type, TriggerState triggerState, std::shared_ptr<Command> command);
 
+		bool IsMouseButtonDown(MouseButton btn, TriggerState triggerState) const;
+		const glm::vec2& GetRelativeMouseMove() const { return m_RelativeMouseMove; }
+		const glm::vec2& GetMousePos(bool getOldPos = false) const;
 		glm::vec2 GetThumbstickDirectionNormalized(ControllerButton button);
 		float GetTriggerForce(ControllerButton button);
 
 	private:
+		SDL_Event m_Event;
+		Uint32 m_PrevMouseButtonState;
+		Uint32 m_MouseButtonState;
+		glm::vec2 m_CurrMousePos, m_PrevMousePos, m_RelativeMouseMove;
+
 		XINPUT_STATE m_PrevControllerState;
 		XINPUT_STATE m_CurrControllerState;
 		std::map<dae::InputSetting, std::shared_ptr<Command>> m_InputActions;

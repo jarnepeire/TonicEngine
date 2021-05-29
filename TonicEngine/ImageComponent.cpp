@@ -4,12 +4,21 @@
 #include "Renderer.h"
 #include "RenderComponent.h"
 #include "GameObject.h"
+#include "Texture2D.h"
 
 using namespace dae;
-ImageComponent::ImageComponent(dae::GameObject* parent, const std::string& filename)
+ImageComponent::ImageComponent(dae::GameObject* parent, const std::string& filename, float scale)
 	: Component(parent)
 	, m_Texture(ResourceManager::GetInstance().LoadTexture(filename))
+	, m_Scale(scale)
+	, m_ImageWidth()
+	, m_ImageHeight()
+	, m_CanRender(true)
 {
+	int w{}, h{};
+	SDL_QueryTexture(m_Texture->GetSDLTexture(), nullptr, nullptr, &w, &h);
+	m_ImageWidth = w * scale;
+	m_ImageHeight = h * scale;
 }
 
 void ImageComponent::FixedUpdate(float dt)
@@ -24,11 +33,11 @@ void ImageComponent::Update(float dt)
 
 void ImageComponent::Render()
 {
-	if (m_Texture != nullptr)
+	if (m_CanRender && m_Texture != nullptr)
 	{
 		auto pRender = m_pGameObject->GetComponent<RenderComponent>();
 		const auto pos = m_Transform.GetPosition() + m_pGameObject->GetTransform().GetPosition();
-		pRender->RenderTexture(*m_Texture, pos.x, pos.y);
+		pRender->RenderTexture(*m_Texture, pos.x, pos.y, m_Scale);
 	}
 }
 

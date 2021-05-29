@@ -28,6 +28,9 @@
     <Filter Include="Observers">
       <UniqueIdentifier>{8a982b9a-34a0-4e60-a4ac-a62d29c210b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{f594eba1-e0bb-4773-a9ba-a05340d79f1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameThanol.cpp">
@@ -63,6 +66,9 @@
     <ClCompile Include="EndGameObserver.cpp">
       <Filter>Observers</Filter>
     </ClCompile>
+    <ClCompile Include="MenuButton.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QBertGame.h">
@@ -94,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="EndGameObserver.h">
       <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuButton.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,6 +6,10 @@
 #include <Scene.h>
 #include <Renderer.h>
 #include <KeyboardMapping.h>
+#include <iostream>
+
+//UI
+#include "MenuButton.h"
 
 //Sound
 #include "AudioLocator.h"
@@ -32,11 +36,199 @@
 using namespace dae;
 MainMenu::MainMenu(const std::string& name, int idx)
 	: Scene(name, idx)
+	, m_pOnePlayerButton()
+	, m_ClickSoundID()
 {
 }
 
 void MainMenu::Initialize()
 {
+	
+	auto qBertSmallFont = ResourceManager::GetInstance().LoadFont("CooperBlack.otf", 16);
+
+	//Background
+	auto bgObject = std::make_shared<GameObject>();
+	bgObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(bgObject.get(), "QBert/MenuBackground.png"));
+	bgObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(bgObject.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	Add(bgObject);
+
+	//Qbert Logo
+	auto logoObject = std::make_shared<GameObject>();
+	logoObject->SetPosition(45, 30);
+	logoObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(logoObject.get(), "QBert/QBertLogo.png", 0.25f));
+	logoObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(logoObject.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	Add(logoObject);
+
+	//Explanation texts
+	//Text 1
+	{
+		auto textObj = std::make_shared<GameObject>();
+		textObj->SetPosition(120, 85);
+
+		textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "Jump on squares to ", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		auto pTextComp1 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "change them to", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		pTextComp1->SetLocalPosition(0, 15);
+
+		auto pTextComp2 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "the target color", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		pTextComp2->SetLocalPosition(0, 30);
+
+		textObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(textObj.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+		Add(textObj);
+	}
+
+	//Text 2
+	{
+		auto textObj = std::make_shared<GameObject>();
+		textObj->SetPosition(140, 150);
+
+		textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "Stay on playfield!", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+
+		auto pTextComp1 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "jumping off results", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		pTextComp1->SetLocalPosition(0, 15);
+
+		auto pTextComp2 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "in a fatal plummet", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		pTextComp2->SetLocalPosition(0, 30);
+
+		auto pTextComp3 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "unless a disk is there", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		pTextComp3->SetLocalPosition(0, 45);
+
+		textObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(textObj.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+		Add(textObj);
+	}
+
+	//Text 3
+	{
+		auto textObj = std::make_shared<GameObject>();
+		textObj->SetPosition(160, 230);
+
+		textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "Avoid all objects", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+
+		auto pTextComp1 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "and creatures that", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		pTextComp1->SetLocalPosition(0, 15);
+
+		auto pTextComp2 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "are not green", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		pTextComp2->SetLocalPosition(0, 30);
+
+		textObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(textObj.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+		Add(textObj);
+	}
+
+	//Text 4
+	{
+		auto textObj = std::make_shared<GameObject>();
+		textObj->SetPosition(180, 300);
+
+		textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "Use spinning disks", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+
+		auto pTextComp1 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "to lure snake to", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		pTextComp1->SetLocalPosition(0, 15);
+
+		auto pTextComp2 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "his death", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		pTextComp2->SetLocalPosition(0, 30);
+
+		textObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(textObj.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+		Add(textObj);
+	}
+
+	//One player button
+	{
+		auto playObj = std::make_shared<GameObject>();
+		playObj->SetPosition(50, 400);
+
+		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/OnePlayerButton.png", 1.f));
+		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/OnePlayerButtonHover.png", 1.f));
+		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(playObj.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+		Add(playObj);
+
+		m_pOnePlayerButton = std::make_shared<MenuButton>(pButtonImage, pButtonHoverImage);
+	}
+
+
+	//Two player button
+	{
+		auto playObj = std::make_shared<GameObject>();
+		playObj->SetPosition(200, 400);
+
+		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/TwoPlayerButton.png", 1.f));
+		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/TwoPlayerButtonHover.png", 1.f));
+		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(playObj.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+		Add(playObj);
+
+		m_pTwoPlayerButton = std::make_shared<MenuButton>(pButtonImage, pButtonHoverImage);
+	}
+
+	//Versus button
+	{
+		auto playObj = std::make_shared<GameObject>();
+		playObj->SetPosition(350, 400);
+
+		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/VersusButton.png", 1.f));
+		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/VersusButtonHover.png", 1.f));
+		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(playObj.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+		Add(playObj);
+
+		m_pVersusButton = std::make_shared<MenuButton>(pButtonImage, pButtonHoverImage);
+	}
+
+	//Sound
+	SDLAudio* pSDLAudio = new SDLAudio();
+	m_ClickSoundID = pSDLAudio->AddSound("../Data/Sounds/sfx_ClickSound.wav");
+
+	m_pAudioSytem = std::make_shared<LogAudio>(pSDLAudio);
+	AudioLocator::RegisterAudioSystem(m_pAudioSytem.get());
+
+	//Input
+	m_Input.AddInputAction((int)KeyboardButton::F2, ControllerButton::NULL_VALUE, ControllerButtonType::NULL_VALUE, TriggerState::Pressed, std::make_shared<ToSceneCommand>("QBert"));
+
+	//m_Input.AddInputAction((int)KeyboardButton::A, ControllerButton::ButtonA, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(qBert.get(), scoreSoundId));
+	//m_Input.AddInputAction((int)KeyboardButton::B, ControllerButton::ButtonB, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(qBert.get(), diedSoundId));
+	//
+	//m_Input.AddInputAction((int)KeyboardButton::X, ControllerButton::ButtonX, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(p2.get(), scoreSoundId));
+	//m_Input.AddInputAction((int)KeyboardButton::Y, ControllerButton::ButtonY, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(p2.get(), diedSoundId));
+	
+
+
+
+}
+
+void MainMenu::FixedUpdate(float dt)
+{
+}
+
+void MainMenu::Update(float dt)
+{
+	m_pOnePlayerButton->Update(dt);
+	if (m_pOnePlayerButton->IsPressed())
+	{
+		//Go to level
+		m_pAudioSytem->Play(m_ClickSoundID, 0.5f);
+		SceneManager::GetInstance().SetActiveScene("QBert");
+	}
+
+	m_pTwoPlayerButton->Update(dt);
+	if (m_pTwoPlayerButton->IsPressed())
+	{
+		//Go to level
+		//...
+		m_pAudioSytem->Play(m_ClickSoundID, 0.5f);
+		std::cout << "Proceeding to level 1 TWO PLAYER...\n";
+	}
+
+	m_pVersusButton->Update(dt);
+	if (m_pVersusButton->IsPressed())
+	{
+		//Go to level
+		//...
+		m_pAudioSytem->Play(m_ClickSoundID, 0.5f);
+		std::cout << "Proceeding to level 1 VERSUS...\n";
+	}
+}
+
+void MainMenu::Render() const
+{
+}
+
+/*
 	//Fonts
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 28);
@@ -143,17 +335,4 @@ void MainMenu::Initialize()
 	m_Input.AddInputAction((int)KeyboardButton::Y, ControllerButton::ButtonY, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(p2.get(), diedSoundId));
 
 
-
-}
-
-void MainMenu::FixedUpdate(float dt)
-{
-}
-
-void MainMenu::Update(float dt)
-{
-}
-
-void MainMenu::Render() const
-{
-}
+*/

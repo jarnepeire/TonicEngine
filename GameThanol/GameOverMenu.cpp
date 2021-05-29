@@ -4,10 +4,17 @@
 #include <TextComponent.h>
 #include <Renderer.h>
 #include <ResourceManager.h>
+#include "MenuButton.h"
+#include "ImageComponent.h"
+#include <SDLAudio.h>
+#include <LogAudio.h>
+#include <AudioLocator.h>
+#include <iostream>
 
 using namespace dae;
 GameOverMenu::GameOverMenu(const std::string& name, int idx)
 	: dae::Scene(name, idx)
+	, m_pToMainMenuButton()
 {
 }
 
@@ -21,6 +28,26 @@ void GameOverMenu::Initialize()
 	pEndText->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pEndText.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
 	pEndText->AddComponent<TextComponent>(std::make_shared<TextComponent>(pEndText.get(), "Game Over!", font));
 	Add(pEndText);
+
+	//Back to main menu button
+	{
+		auto playObj = std::make_shared<GameObject>();
+		playObj->SetPosition(250, 400);
+
+		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/ToMenuButton.png", 1.f));
+		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/ToMenuButtonHover.png", 1.f));
+		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(playObj.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+		Add(playObj);
+
+		m_pToMainMenuButton = std::make_shared<MenuButton>(pButtonImage, pButtonHoverImage);
+	}
+
+	//Sound
+	SDLAudio* pSDLAudio = new SDLAudio();
+	m_ClickSoundID = pSDLAudio->AddSound("../Data/Sounds/sfx_ClickSound.wav");
+
+	m_pAudioSytem = std::make_shared<LogAudio>(pSDLAudio);
+	AudioLocator::RegisterAudioSystem(m_pAudioSytem.get());
 }
 
 void GameOverMenu::FixedUpdate(float dt)
@@ -29,6 +56,13 @@ void GameOverMenu::FixedUpdate(float dt)
 
 void GameOverMenu::Update(float dt)
 {
+	m_pToMainMenuButton->Update(dt);
+	if (m_pToMainMenuButton->IsPressed())
+	{
+		//Go to main menu
+		m_pAudioSytem->Play(m_ClickSoundID, 0.5f);
+		SceneManager::GetInstance().SetActiveScene("Menu");
+	}
 }
 
 void GameOverMenu::Render() const
