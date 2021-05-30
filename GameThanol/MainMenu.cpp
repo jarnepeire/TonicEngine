@@ -32,6 +32,7 @@
 #include <HealthComponent.h>
 #include <CharacterComponent.h>
 #include <SpriteComponent.h>
+#include "QBertScene.h"
 
 using namespace dae;
 MainMenu::MainMenu(const std::string& name, int idx)
@@ -200,9 +201,16 @@ void MainMenu::Update(float dt)
 	m_pOnePlayerButton->Update(dt);
 	if (m_pOnePlayerButton->IsPressed())
 	{
-		//Go to level
+		//Go to level and make sure it's reset
 		m_pAudioSytem->Play(m_ClickSoundID, 0.5f);
-		SceneManager::GetInstance().SetActiveScene("QBert");
+		auto pScene = SceneManager::GetInstance().GetScene("QBert");
+		auto pQBertScene = dynamic_cast<QBertScene*>(pScene);
+		if (pQBertScene)
+		{
+			pQBertScene->ResetLevel();
+			SceneManager::GetInstance().SetActiveScene("QBert");
+		}
+	
 	}
 
 	m_pTwoPlayerButton->Update(dt);

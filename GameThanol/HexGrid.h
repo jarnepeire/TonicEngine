@@ -18,6 +18,7 @@ public:
 	int GetHexWidth() const { return m_HexWidth; }
 	int GetHexHeight() const { return m_HexHeight; }
 
+	bool IsHexVisited(const HexCoordinate& hc);
 	
 private:
 	std::shared_ptr<ImageComponent> m_ImageComponent;

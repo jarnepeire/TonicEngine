@@ -14,6 +14,8 @@ public:
 
 	void GainScore(int score);
 	int GetScore() const { return m_Score; }
+
+	void ResetScore();
 private:
 	int m_Score;
 

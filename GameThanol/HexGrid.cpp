@@ -84,6 +84,18 @@ void HexGrid::VisitHex(const HexCoordinate& hc)
 	}
 }
 
+bool HexGrid::IsHexVisited(const HexCoordinate& hc)
+{
+	for (auto& hex : m_Grid)
+	{
+		if (hex->GetHexCoordinate() == hc)
+		{
+			return hex->IsVisitted();
+		}
+	}
+	return false;
+}
+
 //glm::vec2 HexGrid::GetHexPosition(const HexCoordinate& hc) const
 //{
 //	for (auto& hex : m_Grid)

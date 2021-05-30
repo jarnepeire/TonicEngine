@@ -9,6 +9,8 @@
 #include "QBertGame.h"
 #include "SpriteComponent.h"
 #include "RespawnComponent.h"
+#include "CharacterComponent.h"
+#include "Event.h"
 
 using namespace dae;
 HexJumpComponent::HexJumpComponent(dae::GameObject* parent, HexGrid* pHexGrid, int startRow, int startCol, float timeToJump)
@@ -66,7 +68,11 @@ void HexJumpComponent::Update(float dt)
 			else
 			{
 				//Mark visited hex
-				m_pHexGrid->VisitHex(m_JumpToCoordinate);
+				if (!m_pHexGrid->IsHexVisited(m_JumpToCoordinate))
+				{
+					m_pHexGrid->VisitHex(m_JumpToCoordinate);
+					m_pGameObject->GetComponent<CharacterComponent>()->GainScore(25);
+				}
 			}
 		}
 		else
@@ -163,4 +169,13 @@ void HexJumpComponent::JumpTo(int rowTranslation, int colTranslation)
 	m_A = d3 / a3;
 	m_B = (d1 - a1 * m_A) / b1;
 	m_C = m_InitPos.y - m_A * (m_InitPos.x * m_InitPos.x) - m_B * m_InitPos.x;
+}
+
+void HexJumpComponent::ResetToTop()
+{
+	m_CurrentCoordinate = m_pHexGrid->GetTop()->GetHexCoordinate();
+	
+	glm::vec2 hexPos{};
+	m_pHexGrid->GetHexPosition(m_CurrentCoordinate, hexPos);
+	m_pGameObject->SetPosition(hexPos.x, hexPos.y);
 }

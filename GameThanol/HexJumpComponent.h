@@ -18,6 +18,8 @@ public:
 	void JumpTo(int rowTranslation, int colTranslation);
 	bool IsJumping() const { return m_IsJumping; }
 
+	void ResetToTop();
+
 private:
 	HexGrid* m_pHexGrid;
 	HexCoordinate m_CurrentCoordinate;

@@ -30,6 +30,12 @@ void HealthComponent::Render()
 {
 }
 
+void HealthComponent::ResetLives()
+{
+	m_NbLives = m_NbLivesOriginal;
+	m_pSubject->Notify(m_pGameObject, Event::EVENT_LEVEL_RESET);
+}
+
 void HealthComponent::LoseLife()
 {
 	--m_NbLives;

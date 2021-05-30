@@ -17,7 +17,7 @@ ScoreDisplay::ScoreDisplay(const std::shared_ptr<TextComponent>& pTextComponent,
 
 void ScoreDisplay::Notify(dae::GameObject* object, Event e)
 {
-	if (e == Event::EVENT_PLAYER_SCORED)
+	if (e == Event::EVENT_PLAYER_SCORED || e == Event::EVENT_LEVEL_RESET)
 	{
 		auto character = object->GetComponent<CharacterComponent>();
 		if (character != nullptr)
