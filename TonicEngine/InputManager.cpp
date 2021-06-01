@@ -8,8 +8,9 @@ bool dae::InputManager::ProcessInput()
 	m_PrevControllerState = m_CurrControllerState;
 
 	//Getting SDL events
-	SDL_PollEvent(&m_Event);
-	if (m_Event.type == SDL_QUIT)
+	SDL_Event e{};
+	SDL_PollEvent(&e);
+	if (e.type == SDL_QUIT)
 		return false;
 
 	//Reading the state of a controller: https://docs.microsoft.com/en-us/windows/win32/api/xinput/ns-xinput-xinput_state
@@ -24,7 +25,7 @@ bool dae::InputManager::ProcessInput()
 		auto& command = it.second;
 
 		//Execute command pressed by keyboard
-		if (IsInputTriggered(input.KeyboardKey, input.TriggerState))
+		if (IsInputTriggered(input.KeyboardKey, input.TriggerState, e))
 			command->Execute();
 
 		if (isControllerActive == ERROR_SUCCESS)
@@ -77,19 +78,46 @@ bool dae::InputManager::IsInputTriggered(ControllerButton button, ControllerButt
 
 bool dae::InputManager::IsInputTriggered(int keyboardKey, TriggerState triggerState)
 {
+	//Getting SDL events
+	SDL_Event e{};
+	SDL_PollEvent(&e);
+	if (e.type == SDL_QUIT)
+		return false;
+
 	//Execute command pressed by keyboard
-	bool isHeld = (m_Event.key.repeat != 0);
-	if (!isHeld && m_Event.type == SDL_KEYDOWN && triggerState == TriggerState::Pressed)
+	bool isHeld = (e.key.repeat != 0);
+	if (!isHeld && e.type == SDL_KEYDOWN && triggerState == TriggerState::Pressed)
 	{
-		if ((int)m_Event.key.keysym.scancode == keyboardKey)
+		if ((int)e.key.keysym.scancode == keyboardKey)
 			return true;
 	}
-	else if (!isHeld && m_Event.type == SDL_KEYUP && triggerState == TriggerState::Released)
+	else if (!isHeld && e.type == SDL_KEYUP && triggerState == TriggerState::Released)
 	{
-		if ((int)m_Event.key.keysym.scancode == keyboardKey)
+		if ((int)e.key.keysym.scancode == keyboardKey)
 			return true;
 	}
-	else if ((int)m_Event.key.keysym.scancode == keyboardKey && isHeld && triggerState == TriggerState::Hold)
+	else if ((int)e.key.keysym.scancode == keyboardKey && isHeld && triggerState == TriggerState::Hold)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool dae::InputManager::IsInputTriggered(int keyboardKey, TriggerState triggerState, SDL_Event& e)
+{
+	//Execute command pressed by keyboard
+	bool isHeld = (e.key.repeat != 0);
+	if (!isHeld && e.type == SDL_KEYDOWN && triggerState == TriggerState::Pressed)
+	{
+		if ((int)e.key.keysym.scancode == keyboardKey)
+			return true;
+	}
+	else if (!isHeld && e.type == SDL_KEYUP && triggerState == TriggerState::Released)
+	{
+		if ((int)e.key.keysym.scancode == keyboardKey)
+			return true;
+	}
+	else if ((int)e.key.keysym.scancode == keyboardKey && isHeld && triggerState == TriggerState::Hold)
 	{
 		return true;
 	}

@@ -67,12 +67,15 @@ void HexJumpComponent::Update(float dt)
 			}
 			else
 			{
-				//Mark visited hex
+				//Gain score if it wasn't visited yet
 				if (!m_pHexGrid->IsHexVisited(m_JumpToCoordinate))
 				{
-					m_pHexGrid->VisitHex(m_JumpToCoordinate);
 					m_pGameObject->GetComponent<CharacterComponent>()->GainScore(25);
 				}
+
+				//Mark visit 
+				m_pHexGrid->VisitHex(m_JumpToCoordinate);
+				m_pSubject->Notify(m_pGameObject, Event::EVENT_PLAYER_LANDED);
 			}
 		}
 		else
@@ -99,15 +102,7 @@ void HexJumpComponent::Render()
 
 void HexJumpComponent::JumpTo(int rowTranslation, int colTranslation)
 {
-	//If we're still respawning, we can't do anything
-	if (m_pGameObject->GetComponent<RespawnComponent>()->IsRespawning())
-		return;
-
-	//Can only jump to the next hex if we're standing still on a hex
-	if (m_IsJumping)
-		return;
-
-	//Continue setup for jump
+	//Setup for jump
 	m_CanJump = true;
 	m_InitPos = m_pGameObject->GetTransform().GetPosition();
 	m_JumpToCoordinate = HexCoordinate(m_CurrentCoordinate.Row + rowTranslation, m_CurrentCoordinate.Col + colTranslation);
@@ -169,6 +164,9 @@ void HexJumpComponent::JumpTo(int rowTranslation, int colTranslation)
 	m_A = d3 / a3;
 	m_B = (d1 - a1 * m_A) / b1;
 	m_C = m_InitPos.y - m_A * (m_InitPos.x * m_InitPos.x) - m_B * m_InitPos.x;
+
+	//Notify that QBert has jumped
+	m_pSubject->Notify(m_pGameObject, Event::EVENT_PLAYER_JUMPED);
 }
 
 void HexJumpComponent::ResetToTop()

@@ -34,26 +34,30 @@ class HexComponent : public Component
 {
 public:
 
-	HexComponent(dae::GameObject* parent, std::shared_ptr<ImageComponent> imageComp, std::shared_ptr<ImageComponent> imageCompVisitted, int row, int col, int hexWidth, int hexHeight, const glm::vec2& pos);
+	HexComponent(dae::GameObject* parent, std::vector<std::shared_ptr<ImageComponent>> imageComps, int nbVisitsNeeded, int row, int col, int hexWidth, int hexHeight, const glm::vec2& pos);
 	virtual ~HexComponent() = default;
 	
 	void FixedUpdate(float dt) override;
 	void Update(float dt) override;
 	void Render() override;
 
-	bool IsVisitted() const { return m_IsVisited; }
-	void ResetVisit() { m_IsVisited = false; }
-	void Visit() { m_IsVisited = true; }
+	bool IsVisitted() const { return (m_Visits == m_NbVisitsNeeded); }
+	void ResetVisit() { m_Visits = 0; }
+	void Visit();
 
 	const HexCoordinate& GetHexCoordinate() const { return m_HexCoordinate; }
 	const glm::vec2& GetHexPosition() const { return m_Position; }
+
+	void SetIsAlternating(bool b) { m_IsAlternating = b; }
+
 private:
-	std::shared_ptr<ImageComponent> m_ImageComponent;
-	std::shared_ptr<ImageComponent> m_ImageComponentVisitted;
+	std::vector<std::shared_ptr<ImageComponent>> m_ImageComponents;
 	const int m_HexWidth, m_HexHeight;
 	glm::vec2 m_Position;
 	HexCoordinate m_HexCoordinate;
-	bool m_IsVisited;
+	int m_Visits;
+	int m_NbVisitsNeeded;
+	bool m_IsAlternating;
 
 };
 

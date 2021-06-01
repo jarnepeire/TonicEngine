@@ -159,7 +159,6 @@ namespace dae
 		float GetTriggerForce(ControllerButton button);
 
 	private:
-		SDL_Event m_Event;
 		Uint32 m_PrevMouseButtonState;
 		Uint32 m_MouseButtonState;
 		glm::vec2 m_CurrMousePos, m_PrevMousePos, m_RelativeMouseMove;
@@ -167,15 +166,16 @@ namespace dae
 		XINPUT_STATE m_PrevControllerState;
 		XINPUT_STATE m_CurrControllerState;
 		std::map<dae::InputSetting, std::shared_ptr<Command>> m_InputActions;
-		//std::unordered_map<dae::InputSetting, std::shared_ptr<Command>> m_InputActions;
 
 		/* Private functions */
+		bool IsInputTriggered(int keyboardKey, TriggerState triggerState, SDL_Event& e);
 		bool IsPressed(ControllerButton button) const;
 		bool WasPressed(ControllerButton button) const;
 
 		dae::TriggerState GetCurrentTriggerState(ControllerButton button);
 		bool DidThumbstickMove(ControllerButton button);
 		bool IsTriggerPressed(ControllerButton button);
+
 	};
 
 }

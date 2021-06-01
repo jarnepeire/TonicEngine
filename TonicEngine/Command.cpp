@@ -17,6 +17,7 @@ void DieCommand::Execute()
 
 void ScoreCommand::Execute()
 {
+
 	auto pCharacter = m_pObject->GetComponent<CharacterComponent>();
 	if (pCharacter)
 	{

@@ -15,6 +15,7 @@ using namespace dae;
 GameOverMenu::GameOverMenu(const std::string& name, int idx)
 	: dae::Scene(name, idx)
 	, m_pToMainMenuButton()
+	, m_ClickSoundID()
 {
 }
 

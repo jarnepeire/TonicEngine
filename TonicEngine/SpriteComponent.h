@@ -31,6 +31,10 @@ public:
 
 	ESpriteAnimation& GetSpriteAnimationState() { return m_CurrentAnimation; }
 	void SetSpriteAnimationState(ESpriteAnimation anim) { m_CurrentAnimation = anim; }
+
+	int GetCurrentAnimationRow() { return m_CurrentAnimationRow; }
+	void SetAnimationRow(int animRow) { m_CurrentAnimationRow = animRow; }
+
 	void SetIsLeft(bool isLeft);
 
 	const int GetFrameWidth() const { return m_FrameWidth; }
@@ -47,5 +51,6 @@ private:
 	const int m_NbColumns;
 	const int m_AnimationSpeedInMS;
 	ESpriteAnimation m_CurrentAnimation;
+	int m_CurrentAnimationRow;
 };
 

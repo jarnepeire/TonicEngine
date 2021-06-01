@@ -1,17 +1,10 @@
 #pragma once
 #include <Scene.h>
-#include <string>
-
-namespace dae
-{
-	class GameObject;
-}
-
-class QBertScene : public dae::Scene
+class LevelTwo : public dae::Scene
 {
 public:
-	QBertScene(const std::string& name, int idx);
-	~QBertScene() = default;
+	LevelTwo(const std::string& name, int idx);
+	~LevelTwo() = default;
 
 	virtual void Initialize() override;
 	virtual void FixedUpdate(float dt) override;

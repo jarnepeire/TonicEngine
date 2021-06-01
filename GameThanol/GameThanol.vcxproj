@@ -182,8 +182,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="HexGrid.cpp" />
     <ClCompile Include="HexJumpComponent.cpp" />
     <ClCompile Include="JumpToHexCommand.cpp" />
+    <ClCompile Include="LevelTwo.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MenuButton.cpp" />
+    <ClCompile Include="NextLevelObserver.cpp" />
+    <ClCompile Include="QBertAnimationObserver.cpp" />
     <ClCompile Include="QBertGame.cpp" />
     <ClCompile Include="QBertScene.cpp" />
     <ClCompile Include="ToSceneCommand.cpp" />
@@ -195,8 +198,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="HexGrid.h" />
     <ClInclude Include="HexJumpComponent.h" />
     <ClInclude Include="JumpToHexCommand.h" />
+    <ClInclude Include="LevelTwo.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MenuButton.h" />
+    <ClInclude Include="NextLevelObserver.h" />
+    <ClInclude Include="QBertAnimationObserver.h" />
     <ClInclude Include="QBertGame.h" />
     <ClInclude Include="QBertScene.h" />
     <ClInclude Include="ToSceneCommand.h" />

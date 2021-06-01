@@ -17,6 +17,7 @@ SpriteComponent::SpriteComponent(dae::GameObject* parent, const std::string& fil
 	, m_NbColumns(nbColumns)
 	, m_AnimationSpeedInMS(animationSpeedInMS)
 	, m_CurrentAnimation(ESpriteAnimation::idle)
+	, m_CurrentAnimationRow()
 {
 	auto pos = m_Transform.GetPosition();
 	//Initialize src
@@ -48,8 +49,10 @@ void SpriteComponent::Update(float)
 	m_Dest.y = static_cast<int>(pos.y);
 
 	//Set the current row according to animation
-	int currentRow = static_cast<std::underlying_type<ESpriteAnimation>::type>(m_CurrentAnimation);
-	m_Src.y = 0 + (currentRow * m_FrameHeight);
+	//int currentRow = static_cast<std::underlying_type<ESpriteAnimation>::type>(m_CurrentAnimation);
+	//m_Src.y = 0 + (currentRow * m_FrameHeight);
+
+	m_Src.y = 0 + (m_CurrentAnimationRow * m_FrameHeight);
 
 	//Run over the different frames in a row
 	m_Src.x = m_Src.w * static_cast<int>((SDL_GetTicks() / m_AnimationSpeedInMS) % m_NbColumns);

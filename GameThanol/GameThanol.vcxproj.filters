@@ -69,6 +69,15 @@
     <ClCompile Include="MenuButton.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="QBertAnimationObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="NextLevelObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelTwo.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QBertGame.h">
@@ -103,6 +112,15 @@
     </ClInclude>
     <ClInclude Include="MenuButton.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="QBertAnimationObserver.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="NextLevelObserver.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelTwo.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

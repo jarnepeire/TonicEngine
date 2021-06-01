@@ -1,11 +1,15 @@
 #pragma once
 #include "HexComponent.h"
 #include <glm/vec2.hpp>
+#include <vector>
 
 class HexGrid : public Component
 {
 public:
-	HexGrid(dae::GameObject* parent, const std::string& hexImagePath, const std::string& hexImageVisittedPath, int gridSize, int hexWidth, int hexHeight);
+
+
+	HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHeight, const std::vector<std::string>& hexImagePaths, bool isAlternating = true);
+	HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, const std::vector<std::string>& hexImagePaths, bool isAlternating = false);
 	virtual ~HexGrid() = default;
 
 	virtual void FixedUpdate(float dt) override;
@@ -20,9 +24,11 @@ public:
 
 	bool IsHexVisited(const HexCoordinate& hc);
 	
+	void ResetGrid();
+	bool IsGridCompleted() const;
+
 private:
-	std::shared_ptr<ImageComponent> m_ImageComponent;
-	std::shared_ptr<ImageComponent> m_ImageComponentVisitted;
+	std::vector<std::shared_ptr<ImageComponent>> m_ImageComponents;
 	int m_GridSize;
 	std::vector<std::shared_ptr<HexComponent>> m_Grid;
 	std::shared_ptr<HexComponent> m_Top;
@@ -30,6 +36,6 @@ private:
 	int m_HexWidth;
 	int m_HexHeight;
 
-	
+	void InitializeGrid(int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, bool isAlternating);
 };
 

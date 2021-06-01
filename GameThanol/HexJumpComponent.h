@@ -20,6 +20,8 @@ public:
 
 	void ResetToTop();
 
+	const HexCoordinate& GetCurrentCoordinate() const { return m_CurrentCoordinate; }
+	const HexCoordinate& GetJumpToCoordinate() const { return m_JumpToCoordinate; }
 private:
 	HexGrid* m_pHexGrid;
 	HexCoordinate m_CurrentCoordinate;
@@ -38,7 +40,6 @@ private:
 	float m_A;
 	float m_B;
 	float m_C;
-
 	
 };
 

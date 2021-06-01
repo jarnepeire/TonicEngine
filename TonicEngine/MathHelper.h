@@ -12,3 +12,13 @@ inline glm::vec2 Vec2ParabolaLerp(glm::vec2& startPos, glm::vec2& endPos, float 
     float y = a * (x * x) + b * x + c;
     return glm::vec2(x, y);
 }
+
+template <typename T>
+inline void Clamp(T& value, T min, T max)
+{
+    if (value < min)
+        value = min;
+
+	if (value > max)
+		value = max;
+}
