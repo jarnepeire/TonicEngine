@@ -13,15 +13,16 @@ public:
 	QBertScene(const std::string& name, int idx);
 	~QBertScene() = default;
 
-	virtual void Initialize() override;
-	virtual void FixedUpdate(float dt) override;
-	virtual void Update(float dt) override;
-	virtual void Render() const override;
+	virtual void Initialize() override {}
+	virtual void FixedUpdate(float dt) override {}
+	virtual void Update(float dt) override {}
+	virtual void Render() const override {}
 
-	void ResetLevel();
+	virtual void ResetLevel() = 0;
+	void SetStartScore(int score);
+	void SetStartLives(int nbLives);
 
-private:
+protected:
 	std::shared_ptr<dae::GameObject> m_pQBert;
-	std::shared_ptr<dae::GameObject> m_pHexGridObject;
 };
 

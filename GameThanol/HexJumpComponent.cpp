@@ -11,6 +11,7 @@
 #include "RespawnComponent.h"
 #include "CharacterComponent.h"
 #include "Event.h"
+#include "DiskComponent.h"
 
 using namespace dae;
 HexJumpComponent::HexJumpComponent(dae::GameObject* parent, HexGrid* pHexGrid, int startRow, int startCol, float timeToJump)
@@ -27,6 +28,8 @@ HexJumpComponent::HexJumpComponent(dae::GameObject* parent, HexGrid* pHexGrid, i
 	, m_A()
 	, m_B()
 	, m_C()
+	, m_IsBeingCarried(false)
+	, m_IsSavedByDisk(false)
 {
 	glm::vec2 hexPos{};
 	m_pHexGrid->GetHexPosition(m_CurrentCoordinate, hexPos);
@@ -48,11 +51,27 @@ void HexJumpComponent::Update(float dt)
 			m_JumpingTimer = 0.f;
 			m_CanJump = false;
 			m_IsJumping = false;
+			auto tempCurrentCoordinate = m_CurrentCoordinate;
 			m_CurrentCoordinate = m_JumpToCoordinate;
-
-			//TODO: Reset animation to idle
-			//...
 			m_pGameObject->GetTransform().SetPosition(m_JumpToPos.x, m_JumpToPos.y, 0.f);
+			
+			//Move by disk if saved
+			if (m_IsSavedByDisk)
+			{
+				m_IsSavedByDisk = false;
+
+				//Object will be carried by disk
+				auto topPos = m_pHexGrid->GetTop()->GetHexPosition();
+				topPos.y -= m_pHexGrid->GetHexHeight();
+
+				auto pCurrentHex = m_pHexGrid->GetHexComponent(tempCurrentCoordinate);
+				if (pCurrentHex)
+				{
+					auto pDisk = pCurrentHex->GetNeighbouringDisk();
+					pDisk->Move(m_pGameObject, topPos);
+					return;
+				}
+			}
 
 			//Notify lost life and reset for next position attempt
 			if (m_NeedsRespawn)
@@ -102,6 +121,9 @@ void HexJumpComponent::Render()
 
 void HexJumpComponent::JumpTo(int rowTranslation, int colTranslation)
 {
+	if (m_IsBeingCarried)
+		return;
+
 	//Setup for jump
 	m_CanJump = true;
 	m_InitPos = m_pGameObject->GetTransform().GetPosition();
@@ -109,21 +131,35 @@ void HexJumpComponent::JumpTo(int rowTranslation, int colTranslation)
 	bool isValidHex = m_pHexGrid->GetHexPosition(m_JumpToCoordinate, m_JumpToPos);
 	if (!isValidHex)
 	{
-		//Notify for lost life
-		m_NeedsRespawn = true;
-
-		//Translate to left or right depending on movement
-		int rowTrans = -1 * rowTranslation;
-		if (colTranslation == 0)
+		//Check if there's a disk to save QBert's life
+		auto pCurrentHex = m_pHexGrid->GetHexComponent(m_CurrentCoordinate);
+		if (pCurrentHex)
 		{
-			rowTrans = -rowTrans;
+			auto pDisk = pCurrentHex->GetNeighbouringDisk();
+			if (pDisk)
+			{
+				m_JumpToPos = pDisk->GetWorldPosition();
+				m_IsSavedByDisk = true;
+			}
 		}
-		m_JumpToPos.x = m_InitPos.x + (rowTrans * m_pHexGrid->GetHexWidth() * 2.f);
-		
-		//So that he falls down to the button of the map
-		float windowHeight = (float)QBertGame::GetInstance().GetWindowHeight();
-		float spriteHeight = (float)m_pGameObject->GetComponent<SpriteComponent>()->GetFrameHeight();
-		m_JumpToPos.y = windowHeight + spriteHeight; 
+		else
+		{
+			//Notify for lost life
+			m_NeedsRespawn = true;
+
+			//Translate to left or right depending on movement
+			int rowTrans = -1 * rowTranslation;
+			if (colTranslation == 0)
+			{
+				rowTrans = -rowTrans;
+			}
+			m_JumpToPos.x = m_InitPos.x + (rowTrans * m_pHexGrid->GetHexWidth() * 2.f);
+
+			//So that he falls down to the button of the map
+			float windowHeight = (float)QBertGame::GetInstance().GetWindowHeight();
+			float spriteHeight = (float)m_pGameObject->GetComponent<SpriteComponent>()->GetFrameHeight();
+			m_JumpToPos.y = windowHeight + spriteHeight;
+		}
 	}
 	
 	//If hex was valid, create offsetted third position as an "inbetween" position to form an arc that will define its movement

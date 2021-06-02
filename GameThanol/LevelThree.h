@@ -1,11 +1,10 @@
 #pragma once
 #include "QBertScene.h"
-
-class LevelTwo : public QBertScene
+class LevelThree : public QBertScene
 {
 public:
-	LevelTwo(const std::string& name, int idx);
-	~LevelTwo() = default;
+	LevelThree(const std::string& name, int idx);
+	~LevelThree() = default;
 
 	virtual void Initialize() override;
 	virtual void FixedUpdate(float dt) override;

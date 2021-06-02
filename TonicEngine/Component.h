@@ -21,6 +21,7 @@ public:
 
 	const glm::vec3& GetLocalPosition() const { return m_Transform.GetPosition(); }
 	glm::vec3 GetWorldPosition() const;
+	dae::GameObject* GetParentObject() { return m_pGameObject; }
 protected:
 	dae::GameObject* m_pGameObject = nullptr;
 	dae::Transform m_Transform;

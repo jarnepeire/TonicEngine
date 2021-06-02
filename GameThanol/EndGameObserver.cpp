@@ -1,6 +1,5 @@
 #include "EndGameObserver.h"
 #include <GameObject.h>
-#include "HealthComponent.h"
 #include "SceneManager.h"
 
 EndGameObserver::EndGameObserver(const std::string& endGameSceneName)

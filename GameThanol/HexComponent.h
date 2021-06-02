@@ -9,6 +9,7 @@ namespace dae
 	class GameObject;
 }
 class ImageComponent;
+class DiskComponent;
 
 struct HexCoordinate
 {
@@ -50,6 +51,9 @@ public:
 
 	void SetIsAlternating(bool b) { m_IsAlternating = b; }
 
+	DiskComponent* GetNeighbouringDisk() { return m_NeighbouringDisk; }
+	void SetNeighbouringDisk(DiskComponent* disk) { m_NeighbouringDisk = disk; }
+
 private:
 	std::vector<std::shared_ptr<ImageComponent>> m_ImageComponents;
 	const int m_HexWidth, m_HexHeight;
@@ -58,6 +62,6 @@ private:
 	int m_Visits;
 	int m_NbVisitsNeeded;
 	bool m_IsAlternating;
-
+	DiskComponent* m_NeighbouringDisk;
 };
 

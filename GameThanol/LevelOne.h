@@ -1,11 +1,16 @@
 #pragma once
 #include "QBertScene.h"
 
-class LevelTwo : public QBertScene
+namespace dae
+{
+	class GameObject;
+}
+
+class LevelOne : public QBertScene
 {
 public:
-	LevelTwo(const std::string& name, int idx);
-	~LevelTwo() = default;
+	LevelOne(const std::string& name, int idx);
+	~LevelOne() = default;
 
 	virtual void Initialize() override;
 	virtual void FixedUpdate(float dt) override;
@@ -16,5 +21,6 @@ public:
 
 private:
 	std::shared_ptr<dae::GameObject> m_pHexGridObject;
+
 };
 

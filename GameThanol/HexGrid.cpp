@@ -1,6 +1,8 @@
 #include "HexGrid.h"
 #include "GameObject.h"
 #include <ImageComponent.h>
+#include "DiskComponent.h"
+#include "SpriteComponent.h"
 
 HexGrid::HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHeight, const std::vector<std::string>& hexImagePaths, bool isAlternating)
 	: Component(parent)
@@ -8,6 +10,7 @@ HexGrid::HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHei
 	, m_GridSize(gridSize)
 	, m_Grid()
 	, m_Top()
+	, m_Disks()
 	, m_HexWidth(hexWidth)
 	, m_HexHeight(hexHeight)
 {
@@ -35,6 +38,11 @@ HexGrid::HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHei
 	InitializeGrid(gridSize, hexWidth, hexHeight, nbVisitsNeeded, isAlternating);
 }
 
+HexGrid::~HexGrid()
+{
+	m_Disks.clear();
+}
+
 void HexGrid::FixedUpdate(float dt)
 {
 	for (auto& hex : m_Grid)
@@ -57,6 +65,18 @@ void HexGrid::Render()
 	{
 		hex->Render();
 	}
+}
+
+std::shared_ptr<HexComponent> HexGrid::GetHexComponent(const HexCoordinate& hc)
+{
+	for (auto& hex : m_Grid)
+	{
+		if (hex->GetHexCoordinate() == hc)
+		{
+			return hex;
+		}
+	}
+	return nullptr;
 }
 
 bool HexGrid::GetHexPosition(const HexCoordinate& hc, glm::vec2& hexPos) const
@@ -113,6 +133,47 @@ bool HexGrid::IsGridCompleted() const
 		}
 	}
 	return true;
+}
+
+void HexGrid::AddDisk(DiskComponent* diskComp, const HexCoordinate& hc)
+{
+	auto pHex = GetHexComponent(hc);
+	if (!pHex)
+		return;
+
+	glm::vec2 pos = pHex->GetHexPosition();
+	if (hc.Col == 0) //Left side
+	{
+		pos.x = pos.x - (m_HexWidth / 2.f);
+		pos.y = pos.y - (m_HexHeight / 2.f);
+	}
+	else //Right side
+	{
+		pos.x = pos.x + (m_HexWidth / 2.f);
+		pos.y = pos.y - (m_HexHeight / 2.f);
+	}
+	pHex->SetNeighbouringDisk(diskComp);
+	diskComp->GetParentObject()->SetPosition(pos.x, pos.y);
+	m_Disks.push_back(diskComp);
+}
+
+void HexGrid::RemoveDisk(DiskComponent* diskComp, const HexCoordinate& hc)
+{
+	auto pHex = GetHexComponent(hc);
+	if (!pHex)
+		return;
+
+	auto itToRemove = std::remove_if(m_Disks.begin(), m_Disks.end(), [&diskComp](DiskComponent* disk)
+		{
+			return (disk == diskComp);
+		});
+
+	if (itToRemove != m_Disks.end())
+	{
+		diskComp->GetParentObject()->GetComponent<SpriteComponent>()->SetEnableRender(false);
+		m_Disks.erase(itToRemove);
+		pHex->SetNeighbouringDisk(nullptr);
+	}
 }
 
 void HexGrid::InitializeGrid(int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, bool isAlternating)

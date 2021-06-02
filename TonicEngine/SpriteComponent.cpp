@@ -7,6 +7,7 @@
 using namespace dae;
 SpriteComponent::SpriteComponent(dae::GameObject* parent, const std::string& filename, int frameWidth, int frameHeight, int nbColumns, int animationSpeedInMS, float scale)
 	: Component(parent)
+	, m_EnableRender(true)
 	, m_Texture(ResourceManager::GetInstance().LoadTexture(filename))
 	, m_Dest()
 	, m_Src()
@@ -60,7 +61,7 @@ void SpriteComponent::Update(float)
 
 void SpriteComponent::Render()
 {
-	if (m_Texture != nullptr)
+	if (m_Texture != nullptr && m_EnableRender)
 	{
 		auto pRender = m_pGameObject->GetComponent<RenderComponent>();
 		pRender->RenderAnimation(*m_Texture, m_Src, m_Dest, m_Flip);

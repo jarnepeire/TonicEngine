@@ -22,6 +22,9 @@ public:
 
 	const HexCoordinate& GetCurrentCoordinate() const { return m_CurrentCoordinate; }
 	const HexCoordinate& GetJumpToCoordinate() const { return m_JumpToCoordinate; }
+
+	bool IsBeingCarried() const { return m_IsBeingCarried; }
+	void SetIsBeingCarried(bool b) { m_IsBeingCarried = b; }
 private:
 	HexGrid* m_pHexGrid;
 	HexCoordinate m_CurrentCoordinate;
@@ -35,6 +38,8 @@ private:
 	bool m_NeedsRespawn;
 	float m_JumpingTimer;
 	float m_TimeToJump;
+	bool m_IsBeingCarried;
+	bool m_IsSavedByDisk;
 
 	//Analytic variables for arc
 	float m_A;

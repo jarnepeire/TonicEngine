@@ -1,0 +1,71 @@
+#include "WinningGameMenu.h"
+#include <GameObject.h>
+#include <RenderComponent.h>
+#include <TextComponent.h>
+#include <Renderer.h>
+#include <ResourceManager.h>
+#include "MenuButton.h"
+#include "ImageComponent.h"
+#include <SDLAudio.h>
+#include <LogAudio.h>
+#include <AudioLocator.h>
+#include <iostream>
+
+using namespace dae;
+WinningGameMenu::WinningGameMenu(const std::string& name, int idx)
+	: dae::Scene(name, idx)
+	, m_pToMainMenuButton()
+	, m_ClickSoundID()
+{
+}
+
+void WinningGameMenu::Initialize()
+{
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+
+	auto pEndText = std::make_shared<GameObject>();;
+	pEndText->SetPosition(30, 250);
+
+	pEndText->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pEndText.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	pEndText->AddComponent<TextComponent>(std::make_shared<TextComponent>(pEndText.get(), "You Win!", font));
+	Add(pEndText);
+
+	//Back to main menu button
+	{
+		auto playObj = std::make_shared<GameObject>();
+		playObj->SetPosition(250, 400);
+
+		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/ToMenuButton.png", 1.f));
+		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/ToMenuButtonHover.png", 1.f));
+		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(playObj.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+		Add(playObj);
+
+		m_pToMainMenuButton = std::make_shared<MenuButton>(pButtonImage, pButtonHoverImage);
+	}
+
+	//Sound
+	SDLAudio* pSDLAudio = new SDLAudio();
+	m_ClickSoundID = pSDLAudio->AddSound("../Data/Sounds/sfx_ClickSound.wav");
+
+	m_pAudioSytem = std::make_shared<LogAudio>(pSDLAudio);
+	AudioLocator::RegisterAudioSystem(m_pAudioSytem.get());
+}
+
+void WinningGameMenu::FixedUpdate(float dt)
+{
+}
+
+void WinningGameMenu::Update(float dt)
+{
+	m_pToMainMenuButton->Update(dt);
+	if (m_pToMainMenuButton->IsPressed())
+	{
+		//Go to main menu
+		m_pAudioSytem->Play(m_ClickSoundID, 0.5f);
+		SceneManager::GetInstance().SetActiveScene("Menu");
+	}
+}
+
+void WinningGameMenu::Render() const
+{
+}

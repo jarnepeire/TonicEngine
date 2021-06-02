@@ -179,7 +179,7 @@ void MainMenu::Initialize()
 	AudioLocator::RegisterAudioSystem(m_pAudioSytem.get());
 
 	//Input
-	m_Input.AddInputAction((int)KeyboardButton::F2, ControllerButton::NULL_VALUE, ControllerButtonType::NULL_VALUE, TriggerState::Pressed, std::make_shared<ToSceneCommand>("QBert"));
+	m_Input.AddInputAction((int)KeyboardButton::F2, ControllerButton::NULL_VALUE, ControllerButtonType::NULL_VALUE, TriggerState::Pressed, std::make_shared<ToSceneCommand>("LevelOne"));
 
 	//m_Input.AddInputAction((int)KeyboardButton::A, ControllerButton::ButtonA, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(qBert.get(), scoreSoundId));
 	//m_Input.AddInputAction((int)KeyboardButton::B, ControllerButton::ButtonB, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(qBert.get(), diedSoundId));
@@ -203,12 +203,12 @@ void MainMenu::Update(float dt)
 	{
 		//Go to level and make sure it's reset
 		m_pAudioSytem->Play(m_ClickSoundID, 0.5f);
-		auto pScene = SceneManager::GetInstance().GetScene("QBert");
+		auto pScene = SceneManager::GetInstance().GetScene("LevelOne");
 		auto pQBertScene = dynamic_cast<QBertScene*>(pScene);
 		if (pQBertScene)
 		{
 			pQBertScene->ResetLevel();
-			SceneManager::GetInstance().SetActiveScene("QBert");
+			SceneManager::GetInstance().SetActiveScene("LevelOne");
 		}
 	
 	}

@@ -39,7 +39,10 @@ public:
 
 	const int GetFrameWidth() const { return m_FrameWidth; }
 	const int GetFrameHeight() const { return m_FrameHeight; }
+
+	void SetEnableRender(bool b) { m_EnableRender = b; }
 private:
+	bool m_EnableRender;
 	std::shared_ptr<dae::Texture2D> m_Texture{};
 	SDL_Rect m_Dest;
 	SDL_Rect m_Src;

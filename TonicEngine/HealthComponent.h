@@ -12,6 +12,7 @@ public:
 	void Update(float dt) override;
 	void Render() override;
 
+	void SetNbLives(int lives);
 	void ResetLives();
 	void LoseLife();
 	int GetNbLives() const { return m_NbLives; }

@@ -1,4 +1,4 @@
-#include "LevelTwo.h"
+#include "LevelThree.h"
 #include <InputManager.h>
 #include "GameObject.h"
 #include "SpriteComponent.h"
@@ -19,28 +19,29 @@
 #include <ScoreDisplay.h>
 #include "CharacterComponent.h"
 #include "QBertAnimationObserver.h"
+#include "NextLevelObserver.h"
 #include "AudioLocator.h"
 #include <SDLAudio.h>
 #include <LogAudio.h>
-#include "NextLevelObserver.h"
 
 using namespace dae;
-LevelTwo::LevelTwo(const std::string& name, int idx)
+LevelThree::LevelThree(const std::string& name, int idx)
 	: QBertScene(name, idx)
 	, m_pHexGridObject()
 {
 }
 
-void LevelTwo::Initialize()
+void LevelThree::Initialize()
 {
 	//Sound
 	SDLAudio* pSDLAudio = new SDLAudio();
 	int jumpSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_QBertJump.wav");
+	unsigned int scoreSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_gain_score.wav");
+	unsigned int diedSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_death.wav");
 
 	m_pAudioSytem = std::make_shared<LogAudio>(pSDLAudio);
 	AudioLocator::RegisterAudioSystem(m_pAudioSytem.get());
 
-	//Level
 	auto qBertSmallFont = ResourceManager::GetInstance().LoadFont("CooperBlack.otf", 16);
 
 
@@ -52,16 +53,16 @@ void LevelTwo::Initialize()
 	//hexImagePaths.push_back("QBert/L1_BlockVisited.png");
 	//auto hexGridComp = m_pHexGridObject->AddComponent<HexGrid>(std::make_shared<HexGrid>(m_pHexGridObject.get(), 6, 64, 64, 1, hexImagePaths));
 
-	std::vector<std::string> hexImagePaths{};
-	hexImagePaths.push_back("QBert/L2_Block.png");
-	hexImagePaths.push_back("QBert/L2_BlockIntermediate.png");
-	hexImagePaths.push_back("QBert/L2_BlockVisited.png");
-	auto hexGridComp = m_pHexGridObject->AddComponent<HexGrid>(std::make_shared<HexGrid>(m_pHexGridObject.get(), 6, 64, 64, 2, hexImagePaths));
-
 	//std::vector<std::string> hexImagePaths{};
-	//hexImagePaths.push_back("QBert/L1_Block.png");
-	//hexImagePaths.push_back("QBert/L1_BlockVisited.png");
-	//auto hexGridComp = m_pHexGridObject->AddComponent<HexGrid>(std::make_shared<HexGrid>(m_pHexGridObject.get(), 6, 64, 64, hexImagePaths));
+	//hexImagePaths.push_back("QBert/L2_Block.png");
+	//hexImagePaths.push_back("QBert/L2_BlockIntermediate.png");
+	//hexImagePaths.push_back("QBert/L2_BlockVisited.png");
+	//auto hexGridComp = m_pHexGridObject->AddComponent<HexGrid>(std::make_shared<HexGrid>(m_pHexGridObject.get(), 6, 64, 64, 2, hexImagePaths));
+
+	std::vector<std::string> hexImagePaths{};
+	hexImagePaths.push_back("QBert/L1_Block.png");
+	hexImagePaths.push_back("QBert/L1_BlockVisited.png");
+	auto hexGridComp = m_pHexGridObject->AddComponent<HexGrid>(std::make_shared<HexGrid>(m_pHexGridObject.get(), 6, 64, 64, hexImagePaths));
 
 
 	m_pHexGridObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pHexGridObject.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
@@ -85,7 +86,8 @@ void LevelTwo::Initialize()
 	auto qBertScoreDisplay = std::make_shared<ScoreDisplay>(scoreTextComp);
 	auto qBertAnimation = std::make_shared<QBertAnimationObserver>();
 	auto endGameObserver = std::make_shared<EndGameObserver>("GameOver");
-	auto pNextLevelObserver = std::make_shared<NextLevelObserver>(hexGridComp, "LevelThree");
+	auto pNextLevelObserver = std::make_shared<NextLevelObserver>(hexGridComp, "WinningGame");
+
 
 	//QBert
 	m_pQBert->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pQBert.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
@@ -117,21 +119,25 @@ void LevelTwo::Initialize()
 	m_Input.AddInputAction((int)KeyboardButton::LEFT_ARROW, ControllerButton::ButtonX, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<JumpToHexTopLeftCommand>(m_pQBert.get(), jumpSoundId));
 	m_Input.AddInputAction((int)KeyboardButton::RIGHT_ARROW, ControllerButton::ButtonB, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<JumpToHexBottomRightCommand>(m_pQBert.get(), jumpSoundId));
 
+
+	//m_Input.AddInputAction((int)KeyboardButton::A, ControllerButton::ButtonA, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(m_pQBert.get(), scoreSoundId));
+	//m_Input.AddInputAction((int)KeyboardButton::B, ControllerButton::ButtonB, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(m_pQBert.get(), diedSoundId));
+
 }
 
-void LevelTwo::FixedUpdate(float dt)
+void LevelThree::FixedUpdate(float dt)
 {
 }
 
-void LevelTwo::Update(float dt)
+void LevelThree::Update(float dt)
 {
 }
 
-void LevelTwo::Render() const
+void LevelThree::Render() const
 {
 }
 
-void LevelTwo::ResetLevel()
+void LevelThree::ResetLevel()
 {
 	m_pQBert->GetComponent<HexJumpComponent>()->ResetToTop();
 	m_pQBert->GetComponent<HealthComponent>()->ResetLives();

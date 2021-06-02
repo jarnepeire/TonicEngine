@@ -16,6 +16,7 @@ HexComponent::HexComponent(dae::GameObject* parent, std::vector<std::shared_ptr<
 	, m_Visits(0)
 	, m_NbVisitsNeeded(nbVisitsNeeded)
 	, m_IsAlternating(false)
+	, m_NeighbouringDisk(nullptr)
 {
 }
 
