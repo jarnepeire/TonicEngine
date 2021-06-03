@@ -13,8 +13,5 @@ public:
 	virtual void Render() const override;
 
 	void ResetLevel() override;
-
-private:
-	std::shared_ptr<dae::GameObject> m_pHexGridObject;
 };
 

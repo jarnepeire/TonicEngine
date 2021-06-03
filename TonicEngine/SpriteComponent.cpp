@@ -17,7 +17,7 @@ SpriteComponent::SpriteComponent(dae::GameObject* parent, const std::string& fil
 	, m_Scale(scale)
 	, m_NbColumns(nbColumns)
 	, m_AnimationSpeedInMS(animationSpeedInMS)
-	, m_CurrentAnimation(ESpriteAnimation::idle)
+	//, m_CurrentAnimation(ESpriteAnimation::idle)
 	, m_CurrentAnimationRow()
 {
 	auto pos = m_Transform.GetPosition();
@@ -36,6 +36,14 @@ SpriteComponent::SpriteComponent(dae::GameObject* parent, const std::string& fil
 	//Apply scaling
 	m_Dest.w = int((float)m_Dest.w * m_Scale);
 	m_Dest.h = int((float)m_Dest.h * m_Scale);
+}
+
+void SpriteComponent::Initialize()
+{
+}
+
+void SpriteComponent::PostInitialize()
+{
 }
 
 void SpriteComponent::FixedUpdate(float)

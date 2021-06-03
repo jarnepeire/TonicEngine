@@ -5,11 +5,12 @@
 #include "RespawnComponent.h"
 #include <iostream>
 
-JumpToHexCommand::JumpToHexCommand(dae::GameObject* object, int rowJump, int colJump, int jumpSoundId)
+JumpToHexCommand::JumpToHexCommand(dae::GameObject* object, int rowJump, int colJump, unsigned int jumpSoundId, unsigned int deathSoundId)
 	: Command(object)
 	, m_RowJump(rowJump)
 	, m_ColJump(colJump)
 	, m_JumpSoundID(jumpSoundId)
+	, m_DeathSoundID(deathSoundId)
 {
 }
 
@@ -20,29 +21,39 @@ void JumpToHexCommand::Execute()
 
 	//If we're still respawning, we can't do anything
 	//and we can only jump to the next hex if we're standing still on a hex
-	if (pHexJump && !pHexJump->IsJumping() && !pRespawn->IsRespawning())
+	if (pHexJump && !pHexJump->IsJumping() && !pHexJump->IsBeingCarried() && !pRespawn->IsRespawning())
 	{
 		pHexJump->JumpTo(m_RowJump, m_ColJump);
-		AudioLocator::GetAudioSystem().Play(m_JumpSoundID, 0.15f);
+		if (pHexJump->NeedsRespawn())
+		{
+			//Jumper fell off and lost a life
+			AudioLocator::GetAudioSystem().Play(m_DeathSoundID, 0.15f);
+		}
+		else
+		{
+			//Jumper successfully jumped
+			AudioLocator::GetAudioSystem().Play(m_JumpSoundID, 0.15f);
+		}
+		
 	}
 }
 
-JumpToHexTopLeftCommand::JumpToHexTopLeftCommand(dae::GameObject* object, int jumpSoundId)
-	: JumpToHexCommand(object, 1, -1, jumpSoundId)
+JumpToHexTopLeftCommand::JumpToHexTopLeftCommand(dae::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId)
+	: JumpToHexCommand(object, 1, -1, jumpSoundId, deathSoundId)
 {
 }
 
-JumpToHexBottomLeftCommand::JumpToHexBottomLeftCommand(dae::GameObject* object, int jumpSoundId)
-	: JumpToHexCommand(object, -1, 0, jumpSoundId)
+JumpToHexBottomLeftCommand::JumpToHexBottomLeftCommand(dae::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId)
+	: JumpToHexCommand(object, -1, 0, jumpSoundId, deathSoundId)
 {
 }
 
-JumpToHexTopRightCommand::JumpToHexTopRightCommand(dae::GameObject* object, int jumpSoundId)
-	: JumpToHexCommand(object, 1, 0, jumpSoundId)
+JumpToHexTopRightCommand::JumpToHexTopRightCommand(dae::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId)
+	: JumpToHexCommand(object, 1, 0, jumpSoundId, deathSoundId)
 {
 }
 
-JumpToHexBottomRightCommand::JumpToHexBottomRightCommand(dae::GameObject* object, int jumpSoundId)
-	: JumpToHexCommand(object, -1, 1, jumpSoundId)
+JumpToHexBottomRightCommand::JumpToHexBottomRightCommand(dae::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId)
+	: JumpToHexCommand(object, -1, 1, jumpSoundId, deathSoundId)
 {
 }

@@ -197,10 +197,13 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="WinningGameMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Colors.h" />
     <ClInclude Include="DiskComponent.h" />
     <ClInclude Include="EndGameObserver.h" />
     <ClInclude Include="GameOverMenu.h" />
+    <ClInclude Include="GameScores.h" />
     <ClInclude Include="HexComponent.h" />
+    <ClInclude Include="HexCoordinate.h" />
     <ClInclude Include="HexGrid.h" />
     <ClInclude Include="HexJumpComponent.h" />
     <ClInclude Include="JumpToHexCommand.h" />

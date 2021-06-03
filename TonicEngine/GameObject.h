@@ -6,6 +6,7 @@
 class Component;
 namespace dae
 {
+	class Scene;
 	class Texture2D;
 	class GameObject final
 	{
@@ -17,11 +18,14 @@ namespace dae
 		GameObject& operator=(const GameObject & other) = delete;
 		GameObject& operator=(GameObject && other) = delete;
 
-
+		void Initialize();
+		void PostInitialize();
 		void FixedUpdate(float dt);
 		void Update(float dt);
 		void Render() const;
 		void SetPosition(float x, float y);
+		void SetParentScene(dae::Scene* pScene) { m_pParentScene = pScene; }
+		dae::Scene* GetParentScene() { return m_pParentScene; }
 
 		Transform& GetTransform() { return m_Transform; }
 
@@ -48,6 +52,7 @@ namespace dae
 	private:
 		Transform m_Transform;
 		std::vector<std::shared_ptr<Component>> m_pComponents;
+		dae::Scene* m_pParentScene;
 	};
 
 }

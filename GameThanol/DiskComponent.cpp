@@ -3,20 +3,31 @@
 #include <GameObject.h>
 #include <MathHelper.h>
 #include "HexGrid.h"
+#include "HexComponent.h"
 #include "HexJumpComponent.h"
+#include <AudioLocator.h>
 
-
-DiskComponent::DiskComponent(dae::GameObject* parent, float timeToMove)
+DiskComponent::DiskComponent(dae::GameObject* parent, float timeToMove, std::shared_ptr<HexGrid> hexGrid, const HexCoordinate& hc)
 	: Component(parent)
-	, m_Grid(nullptr)
+	, m_Grid(hexGrid)
 	, m_CanMove(false)
 	, m_pObjectToMove(nullptr)
 	, m_StartPosition()
 	, m_MoveToPosition()
 	, m_Timer(0.f)
 	, m_TimeToMove(timeToMove)
-	, m_AttachedHexCoordinate()
+	, m_AttachedHexCoordinate(hc)
+	, m_MovingSoundID()
 {
+}
+
+void DiskComponent::Initialize()
+{
+}
+
+void DiskComponent::PostInitialize()
+{
+	AttachToGrid(m_Grid, m_AttachedHexCoordinate);
 }
 
 void DiskComponent::FixedUpdate(float dt)
@@ -65,6 +76,10 @@ void DiskComponent::Move(dae::GameObject* pObjToMove, const glm::vec2& toPositio
 	m_MoveToPosition = toPosition;
 
 	m_pObjectToMove->GetComponent<HexJumpComponent>()->SetIsBeingCarried(true);
+
+	//Play moving sound
+	AudioLocator::GetAudioSystem().Play(m_MovingSoundID, 0.2f);
+
 }
 
 void DiskComponent::AttachToGrid(std::shared_ptr<HexGrid> hexGrid, const HexCoordinate& hc)

@@ -1,9 +1,11 @@
 #pragma once
 #include "Component.h"
+#include <string>
 
 namespace dae
 {
 	class Texture2D;
+	class GameObject;
 }
 
 class ImageComponent : public Component
@@ -11,6 +13,8 @@ class ImageComponent : public Component
 public:
 	ImageComponent(dae::GameObject* parent, const std::string& filename, float scale = 1.f);
 
+	void Initialize() override;
+	void PostInitialize() override;
 	void FixedUpdate(float dt) override;
 	void Update(float dt) override;
 	void Render() override;

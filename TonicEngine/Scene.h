@@ -23,6 +23,7 @@ namespace dae
 		virtual void Update(float dt) = 0;
 		virtual void Render() const = 0;
 
+		/* Adds the object to the scene, and initializes the object and its components */
 		void Add(const std::shared_ptr<GameObject>& object);
 
 		const std::string& GetName() const { return m_Name; }
@@ -45,8 +46,6 @@ namespace dae
 		std::string m_Name;
 
 		std::vector<std::shared_ptr<GameObject>> m_Objects{};
-
-		static unsigned int m_IdCounter; 
 
 		/* Private functions */
 		void RootFixedUpdate(float deltaT);

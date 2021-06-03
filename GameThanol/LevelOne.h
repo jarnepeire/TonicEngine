@@ -1,10 +1,14 @@
 #pragma once
 #include "QBertScene.h"
+#include "HexCoordinate.h"
+#include <vector>
 
 namespace dae
 {
 	class GameObject;
 }
+
+class HexGrid;
 
 class LevelOne : public QBertScene
 {
@@ -18,9 +22,5 @@ public:
 	virtual void Render() const override;
 
 	void ResetLevel() override;
-
-private:
-	std::shared_ptr<dae::GameObject> m_pHexGridObject;
-
 };
 

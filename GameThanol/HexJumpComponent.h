@@ -1,6 +1,6 @@
 #pragma once
 #include <Component.h>
-#include "HexComponent.h"
+#include "HexCoordinate.h"
 
 class HexGrid;
 
@@ -10,6 +10,8 @@ public:
 	HexJumpComponent(dae::GameObject* parent, HexGrid* pHexGrid, int startRow, int startCol, float timeToJump = 1.f);
 	virtual ~HexJumpComponent() = default;
 
+	void Initialize() override;
+	void PostInitialize() override;
 	void FixedUpdate(float dt) override;
 	void Update(float dt) override;
 	void Render() override;
@@ -25,6 +27,8 @@ public:
 
 	bool IsBeingCarried() const { return m_IsBeingCarried; }
 	void SetIsBeingCarried(bool b) { m_IsBeingCarried = b; }
+
+	bool NeedsRespawn() const { return m_NeedsRespawn; }
 private:
 	HexGrid* m_pHexGrid;
 	HexCoordinate m_CurrentCoordinate;

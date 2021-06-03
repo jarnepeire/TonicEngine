@@ -26,6 +26,7 @@ namespace dae
 		SDL_Window* m_pWindow{};
 		SDL_Renderer* m_Renderer{};
 
+		bool m_RenderImGui{ false };
 		bool m_ShowDemoWindow{ false };
 		void DisplayUI() const;
 	};

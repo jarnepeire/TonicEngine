@@ -13,6 +13,14 @@ CharacterComponent::CharacterComponent(dae::GameObject* parent)
 {
 }
 
+void CharacterComponent::Initialize()
+{
+}
+
+void CharacterComponent::PostInitialize()
+{
+}
+
 void CharacterComponent::FixedUpdate(float dt)
 {
 	UNREFERENCED_PARAMETER(dt);

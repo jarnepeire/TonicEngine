@@ -20,6 +20,14 @@ HexComponent::HexComponent(dae::GameObject* parent, std::vector<std::shared_ptr<
 {
 }
 
+void HexComponent::Initialize()
+{
+}
+
+void HexComponent::PostInitialize()
+{
+}
+
 void HexComponent::FixedUpdate(float)
 {
 }

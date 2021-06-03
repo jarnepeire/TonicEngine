@@ -14,6 +14,14 @@ RespawnComponent::RespawnComponent(dae::GameObject* parent, const glm::vec2& res
 {
 }
 
+void RespawnComponent::Initialize()
+{
+}
+
+void RespawnComponent::PostInitialize()
+{
+}
+
 void RespawnComponent::Update(float dt)
 {
 	if (m_CanRespawn)

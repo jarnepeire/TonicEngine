@@ -1,0 +1,8 @@
+#pragma once
+enum class GameScore : int
+{
+	SCORE_COLOR_CHANGE = 25,
+	SCORE_REMAINING_DISKS = 50,
+	SCORE_CATCH_SAM_SLICK = 300,
+	SCORE_DEFEAT_COILY = 500
+};

@@ -5,6 +5,7 @@
 #include <GameObject.h>
 #include "HealthComponent.h"
 #include <CharacterComponent.h>
+#include "GameScores.h"
 
 NextLevelObserver::NextLevelObserver(std::shared_ptr<HexGrid> currentLevelGrid, const std::string& nextLevelName)
 	: m_pGrid(currentLevelGrid)
@@ -19,20 +20,29 @@ void NextLevelObserver::Notify(dae::GameObject* object, Event e)
 		if (m_pGrid->IsGridCompleted())
 		{
 			auto pScene = dae::SceneManager::GetInstance().GetScene(m_NextLevelName);
-			auto qBertScene = dynamic_cast<QBertScene*>(pScene);
-			if (qBertScene)
+			auto pNextQBertScene = dynamic_cast<QBertScene*>(pScene);
+			if (pNextQBertScene)
 			{
-				//First we clear scene
-				qBertScene->ResetLevel();
+				//Clear next scene
+				pNextQBertScene->ResetLevel();
 
-				//Then update it with the current level information
-				auto pHealth = object->GetComponent<HealthComponent>();
-				if (pHealth)
-					qBertScene->SetStartLives(pHealth->GetNbLives());
+				//Set starting variables depending on previous scene
+				auto pPrevScene = object->GetParentScene();
+				auto pPrevQBertScene = dynamic_cast<QBertScene*>(pPrevScene);
 
-				auto pScore = object->GetComponent<CharacterComponent>();
-				if (pScore)
-					qBertScene->SetStartScore(pScore->GetScore());
+				auto pGrid = pPrevQBertScene->GetHexGridObject()->GetComponent<HexGrid>();
+				int diskScore = pGrid->GetRemainingDiskAmount() * (int)GameScore::SCORE_REMAINING_DISKS;
+
+				auto pScoreComp = object->GetComponent<CharacterComponent>();
+				if (pScoreComp)
+					pNextQBertScene->SetStartScore(pScoreComp->GetScore() + diskScore);
+
+				auto pHealthComp = object->GetComponent<HealthComponent>();
+				if (pHealthComp)
+					pNextQBertScene->SetStartLives(pHealthComp->GetNbLives());
+
+				//Clear previous scene
+				pPrevQBertScene->ResetLevel();
 			}
 			dae::SceneManager::GetInstance().SetActiveScene(m_NextLevelName);
 		}

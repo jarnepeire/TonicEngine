@@ -4,8 +4,6 @@
 
 using namespace dae;
 
-unsigned int Scene::m_IdCounter = 0;
-
 Scene::Scene(const std::string& name, int idx) 
 	: m_Name(name) 
 	, m_SceneIndex(idx)
@@ -17,6 +15,10 @@ Scene::~Scene() = default;
 
 void Scene::Add(const std::shared_ptr<GameObject>& object)
 {
+	object->Initialize();
+	object->PostInitialize();
+	object->SetParentScene(this);
+
 	m_Objects.push_back(object);
 }
 

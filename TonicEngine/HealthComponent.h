@@ -8,6 +8,8 @@ public:
 	HealthComponent(dae::GameObject* parent, int nbLives = 5);
 	virtual ~HealthComponent() = default;
 
+	void Initialize() override;
+	void PostInitialize() override;
 	void FixedUpdate(float dt) override;
 	void Update(float dt) override;
 	void Render() override;

@@ -3,6 +3,7 @@
 #include <ImageComponent.h>
 #include "DiskComponent.h"
 #include "SpriteComponent.h"
+#include "HexComponent.h"
 
 HexGrid::HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHeight, const std::vector<std::string>& hexImagePaths, bool isAlternating)
 	: Component(parent)
@@ -13,13 +14,13 @@ HexGrid::HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHei
 	, m_Disks()
 	, m_HexWidth(hexWidth)
 	, m_HexHeight(hexHeight)
+	, m_NbVisitsNeeded(1)
+	, m_IsAltering(isAlternating)
 {
-	int nbVisitsNeeded = 1;
-	for (int i = 0; i <= nbVisitsNeeded; ++i)
+	for (int i = 0; i <= m_NbVisitsNeeded; ++i)
 	{
 		m_ImageComponents.push_back(std::make_shared<ImageComponent>(parent, hexImagePaths[i], 1.f));
 	}
-	InitializeGrid(gridSize, hexWidth, hexHeight, nbVisitsNeeded, isAlternating);
 }
 
 HexGrid::HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, const std::vector<std::string>& hexImagePaths, bool isAlternating)
@@ -30,17 +31,49 @@ HexGrid::HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHei
 	, m_Top()
 	, m_HexWidth(hexWidth)
 	, m_HexHeight(hexHeight)
+	, m_NbVisitsNeeded(nbVisitsNeeded)
+	, m_IsAltering(isAlternating)
 {
-	for (int i = 0; i <= nbVisitsNeeded; ++i)
+	for (int i = 0; i <= m_NbVisitsNeeded; ++i)
 	{
 		m_ImageComponents.push_back(std::make_shared<ImageComponent>(parent, hexImagePaths[i], 1.f));
 	}
-	InitializeGrid(gridSize, hexWidth, hexHeight, nbVisitsNeeded, isAlternating);
 }
 
 HexGrid::~HexGrid()
 {
 	m_Disks.clear();
+}
+
+void HexGrid::Initialize()
+{
+	int offsetPerRow = int(m_HexWidth / 2.f);
+	int offsetPerCol = int(m_HexHeight / 4.f);
+
+	int horSize = int(m_HexWidth / 2.f);
+	int verSize = int(m_HexHeight / 2.f);
+
+	for (int row = 0; row <= m_GridSize; row++)
+	{
+		for (int col = 0; col < m_GridSize - row; col++)
+		{
+			auto pos = m_Transform.GetPosition() + m_pGameObject->GetTransform().GetPosition();
+
+			glm::vec2 hexPos;
+			hexPos.x = pos.x + (col * m_HexWidth) + (row * offsetPerRow);
+			hexPos.y = pos.y - (row * m_HexHeight) + (row * offsetPerCol);
+
+			std::shared_ptr<HexComponent> hex{ std::make_shared<HexComponent>(m_pGameObject, m_ImageComponents, m_NbVisitsNeeded, row, col, m_HexWidth, m_HexHeight, hexPos) };
+			hex->SetIsAlternating(m_IsAltering);
+			m_Grid.push_back(hex);
+		}
+	}
+
+	m_Top = m_Grid.back();
+}
+
+void HexGrid::PostInitialize()
+{
 }
 
 void HexGrid::FixedUpdate(float dt)
@@ -65,6 +98,11 @@ void HexGrid::Render()
 	{
 		hex->Render();
 	}
+}
+
+const std::shared_ptr<HexComponent>& HexGrid::GetTop() const
+{
+	return m_Top;
 }
 
 std::shared_ptr<HexComponent> HexGrid::GetHexComponent(const HexCoordinate& hc)
@@ -152,8 +190,10 @@ void HexGrid::AddDisk(DiskComponent* diskComp, const HexCoordinate& hc)
 		pos.x = pos.x + (m_HexWidth / 2.f);
 		pos.y = pos.y - (m_HexHeight / 2.f);
 	}
+
 	pHex->SetNeighbouringDisk(diskComp);
 	diskComp->GetParentObject()->SetPosition(pos.x, pos.y);
+	diskComp->GetParentObject()->GetComponent<SpriteComponent>()->SetEnableRender(true);
 	m_Disks.push_back(diskComp);
 }
 

@@ -10,6 +10,14 @@ RenderComponent::RenderComponent(dae::GameObject* parent, SDL_Renderer* pRendere
 {
 }
 
+void RenderComponent::Initialize()
+{
+}
+
+void RenderComponent::PostInitialize()
+{
+}
+
 void RenderComponent::FixedUpdate(float dt)
 {
 	UNREFERENCED_PARAMETER(dt);

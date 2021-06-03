@@ -4,6 +4,7 @@
 #include <string>
 
 class HealthComponent;
+class HexGrid;
 class EndGameObserver : public Observer
 {
 public:

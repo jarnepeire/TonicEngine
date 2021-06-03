@@ -16,6 +16,14 @@ HealthComponent::HealthComponent(dae::GameObject* parent, int nbLives)
 {
 }
 
+void HealthComponent::Initialize()
+{
+}
+
+void HealthComponent::PostInitialize()
+{
+}
+
 void HealthComponent::FixedUpdate(float dt)
 {
 	UNREFERENCED_PARAMETER(dt);

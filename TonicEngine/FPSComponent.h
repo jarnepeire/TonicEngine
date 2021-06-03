@@ -18,6 +18,8 @@ public:
 	FPSComponent(dae::GameObject* parent, const std::shared_ptr<dae::Font>& font);
 	virtual ~FPSComponent() = default;
 
+	void Initialize() override;
+	void PostInitialize() override;
 	void FixedUpdate(float dt) override;
 	void Update(float dt) override;
 	void Render() override;

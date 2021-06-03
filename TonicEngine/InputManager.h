@@ -142,6 +142,42 @@ namespace dae
 		mutable bool IsTriggered = false;
 	};
 
+	struct InputSettingALT
+	{
+		//Simple constructor
+		InputSettingALT() {}
+		InputSettingALT(ControllerButton button, ControllerButtonType type, TriggerState triggerState)
+		{
+			Button = button;
+			Type = type;
+			TriggerState = triggerState;
+		}
+
+		// operator== is required to compare keys in case of hash collision
+		bool operator==(const InputSettingALT& is) const
+		{
+			return (Button == is.Button
+				&& KeyboardKey == is.KeyboardKey
+				&& Type == is.Type
+				&& TriggerState == is.TriggerState
+				/*&& Command == is.Command*/);
+		}
+
+		// operator< is required to compare keys in case of hash collision
+		// ordered on keyboard key
+		bool operator<(const InputSettingALT& is) const
+		{
+			return KeyboardKey < is.KeyboardKey;
+		}
+
+		//Member variables
+		ControllerButton Button{};
+		int KeyboardKey{};
+		ControllerButtonType Type{};
+		TriggerState TriggerState{};
+		//std::shared_ptr<Command> Command{ nullptr };
+	};
+
 	class InputManager final
 	{
 	public:
@@ -165,7 +201,8 @@ namespace dae
 
 		XINPUT_STATE m_PrevControllerState;
 		XINPUT_STATE m_CurrControllerState;
-		std::map<dae::InputSetting, std::shared_ptr<Command>> m_InputActions;
+		//std::map<dae::InputSetting, std::shared_ptr<Command>> m_InputActions;
+		std::map<dae::InputSettingALT, std::shared_ptr<Command>> m_InputActions;
 
 		/* Private functions */
 		bool IsInputTriggered(int keyboardKey, TriggerState triggerState, SDL_Event& e);

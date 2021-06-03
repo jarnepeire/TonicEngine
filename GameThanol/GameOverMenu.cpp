@@ -15,6 +15,7 @@ using namespace dae;
 GameOverMenu::GameOverMenu(const std::string& name, int idx)
 	: dae::Scene(name, idx)
 	, m_pToMainMenuButton()
+	, m_pFinalScoreObj()
 	, m_ClickSoundID()
 {
 }
@@ -29,6 +30,15 @@ void GameOverMenu::Initialize()
 	pEndText->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pEndText.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
 	pEndText->AddComponent<TextComponent>(std::make_shared<TextComponent>(pEndText.get(), "Game Over!", font));
 	Add(pEndText);
+
+
+	m_pFinalScoreObj = std::make_shared<GameObject>();;
+	m_pFinalScoreObj->SetPosition(30, 350);
+
+	m_pFinalScoreObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pFinalScoreObj.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	m_pFinalScoreObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(m_pFinalScoreObj.get(), "Final Score: 0", font));
+	Add(m_pFinalScoreObj);
+
 
 	//Back to main menu button
 	{
@@ -68,4 +78,9 @@ void GameOverMenu::Update(float dt)
 
 void GameOverMenu::Render() const
 {
+}
+
+void GameOverMenu::SetFinalScore(int score)
+{
+	m_pFinalScoreObj->GetComponent<TextComponent>()->SetText("Final Score: " + std::to_string(score));
 }

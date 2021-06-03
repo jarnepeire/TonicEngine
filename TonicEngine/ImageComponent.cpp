@@ -15,10 +15,22 @@ ImageComponent::ImageComponent(dae::GameObject* parent, const std::string& filen
 	, m_ImageHeight()
 	, m_CanRender(true)
 {
+	//int w{}, h{};
+	//SDL_QueryTexture(m_Texture->GetSDLTexture(), nullptr, nullptr, &w, &h);
+	//m_ImageWidth = w * scale;
+	//m_ImageHeight = h * scale;
+}
+
+void ImageComponent::Initialize()
+{
 	int w{}, h{};
 	SDL_QueryTexture(m_Texture->GetSDLTexture(), nullptr, nullptr, &w, &h);
-	m_ImageWidth = w * scale;
-	m_ImageHeight = h * scale;
+	m_ImageWidth = w * m_Scale;
+	m_ImageHeight = h * m_Scale;
+}
+
+void ImageComponent::PostInitialize()
+{
 }
 
 void ImageComponent::FixedUpdate(float dt)

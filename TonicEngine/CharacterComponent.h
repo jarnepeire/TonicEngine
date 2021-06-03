@@ -8,6 +8,8 @@ public:
 	CharacterComponent(dae::GameObject* parent);
 	virtual ~CharacterComponent() = default;
 
+	void Initialize() override;
+	void PostInitialize() override;
 	void FixedUpdate(float dt) override;
 	void Update(float dt) override;
 	void Render() override;

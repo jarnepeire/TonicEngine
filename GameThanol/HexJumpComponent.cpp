@@ -12,6 +12,8 @@
 #include "CharacterComponent.h"
 #include "Event.h"
 #include "DiskComponent.h"
+#include "GameScores.h"
+#include "HexComponent.h"
 
 using namespace dae;
 HexJumpComponent::HexJumpComponent(dae::GameObject* parent, HexGrid* pHexGrid, int startRow, int startCol, float timeToJump)
@@ -30,6 +32,14 @@ HexJumpComponent::HexJumpComponent(dae::GameObject* parent, HexGrid* pHexGrid, i
 	, m_C()
 	, m_IsBeingCarried(false)
 	, m_IsSavedByDisk(false)
+{
+}
+
+void HexJumpComponent::Initialize()
+{
+}
+
+void HexJumpComponent::PostInitialize()
 {
 	glm::vec2 hexPos{};
 	m_pHexGrid->GetHexPosition(m_CurrentCoordinate, hexPos);
@@ -89,7 +99,7 @@ void HexJumpComponent::Update(float dt)
 				//Gain score if it wasn't visited yet
 				if (!m_pHexGrid->IsHexVisited(m_JumpToCoordinate))
 				{
-					m_pGameObject->GetComponent<CharacterComponent>()->GainScore(25);
+					m_pGameObject->GetComponent<CharacterComponent>()->GainScore((int)GameScore::SCORE_COLOR_CHANGE);
 				}
 
 				//Mark visit 
@@ -141,25 +151,26 @@ void HexJumpComponent::JumpTo(int rowTranslation, int colTranslation)
 				m_JumpToPos = pDisk->GetWorldPosition();
 				m_IsSavedByDisk = true;
 			}
-		}
-		else
-		{
-			//Notify for lost life
-			m_NeedsRespawn = true;
-
-			//Translate to left or right depending on movement
-			int rowTrans = -1 * rowTranslation;
-			if (colTranslation == 0)
+			else
 			{
-				rowTrans = -rowTrans;
-			}
-			m_JumpToPos.x = m_InitPos.x + (rowTrans * m_pHexGrid->GetHexWidth() * 2.f);
+				//Notify for lost life
+				m_NeedsRespawn = true;
 
-			//So that he falls down to the button of the map
-			float windowHeight = (float)QBertGame::GetInstance().GetWindowHeight();
-			float spriteHeight = (float)m_pGameObject->GetComponent<SpriteComponent>()->GetFrameHeight();
-			m_JumpToPos.y = windowHeight + spriteHeight;
+				//Translate to left or right depending on movement
+				int rowTrans = -1 * rowTranslation;
+				if (colTranslation == 0)
+				{
+					rowTrans = -rowTrans;
+				}
+				m_JumpToPos.x = m_InitPos.x + (rowTrans * m_pHexGrid->GetHexWidth() * 2.f);
+
+				//So that he falls down to the button of the map
+				float windowHeight = (float)QBertGame::GetInstance().GetWindowHeight();
+				float spriteHeight = (float)m_pGameObject->GetComponent<SpriteComponent>()->GetFrameHeight();
+				m_JumpToPos.y = windowHeight + spriteHeight;
+			}
 		}
+
 	}
 	
 	//If hex was valid, create offsetted third position as an "inbetween" position to form an arc that will define its movement

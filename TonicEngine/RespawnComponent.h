@@ -7,6 +7,8 @@ public:
 	RespawnComponent(dae::GameObject* parent, const glm::vec2& respawnPos, float respawnTime = 3.f);
 	virtual ~RespawnComponent() {}
 
+	void Initialize() override;
+	void PostInitialize() override;
 	void FixedUpdate(float) override {}
 	void Update(float dt) override;
 	void Render() override {}

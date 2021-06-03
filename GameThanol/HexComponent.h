@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "HexCoordinate.h"
 
 namespace dae 
 {
@@ -11,26 +12,6 @@ namespace dae
 class ImageComponent;
 class DiskComponent;
 
-struct HexCoordinate
-{
-	HexCoordinate()
-		: Row(0), Col(0) {}
-
-	HexCoordinate(int r, int c)
-		: Row(r), Col(c) {}
-
-	HexCoordinate(const HexCoordinate& hc)
-		: Row(hc.Row), Col(hc.Col) {}
-
-	bool operator==(const HexCoordinate& hc) const
-	{
-		return (this->Row == hc.Row && this->Col == hc.Col);
-	}
-
-	int Row;
-	int Col;
-};
-
 class HexComponent : public Component
 {
 public:
@@ -38,6 +19,8 @@ public:
 	HexComponent(dae::GameObject* parent, std::vector<std::shared_ptr<ImageComponent>> imageComps, int nbVisitsNeeded, int row, int col, int hexWidth, int hexHeight, const glm::vec2& pos);
 	virtual ~HexComponent() = default;
 	
+	void Initialize() override;
+	void PostInitialize() override;
 	void FixedUpdate(float dt) override;
 	void Update(float dt) override;
 	void Render() override;

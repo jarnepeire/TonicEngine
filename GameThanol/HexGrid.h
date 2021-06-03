@@ -1,7 +1,14 @@
 #pragma once
-#include "HexComponent.h"
+#include "Component.h"
+#include "HexCoordinate.h"
 #include <glm/vec2.hpp>
 #include <vector>
+#include <string>
+
+namespace dae
+{
+	class GameObject;
+}
 
 class DiskComponent;
 class ImageComponent;
@@ -14,11 +21,13 @@ public:
 	HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, const std::vector<std::string>& hexImagePaths, bool isAlternating = false);
 	virtual ~HexGrid();
 
+	void Initialize() override;
+	void PostInitialize() override;
 	virtual void FixedUpdate(float dt) override;
 	virtual void Update(float dt) override;
 	virtual void Render() override;
 
-	const std::shared_ptr<HexComponent>& GetTop() const { return m_Top; }
+	const std::shared_ptr<HexComponent>& GetTop() const;
 	std::shared_ptr<HexComponent> GetHexComponent(const HexCoordinate& hc);
 
 	bool GetHexPosition(const HexCoordinate& hc, glm::vec2& hexPos) const;
@@ -44,6 +53,8 @@ private:
 
 	int m_HexWidth;
 	int m_HexHeight;
+	int m_NbVisitsNeeded;
+	bool m_IsAltering;
 
 	void InitializeGrid(int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, bool isAlternating);
 };

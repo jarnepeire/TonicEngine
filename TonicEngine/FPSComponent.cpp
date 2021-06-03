@@ -21,7 +21,15 @@ FPSComponent::FPSComponent(dae::GameObject* parent, const std::shared_ptr<dae::F
 	, m_FPS()
 {
 	//To ensure there's a text component to receive the FPS stats
-	m_pTextComponent = m_pGameObject->AddComponent<TextComponent>(std::make_shared<TextComponent>(parent, "0", font));
+	m_pTextComponent = m_pGameObject->AddComponent<TextComponent>(std::make_shared<TextComponent>(m_pGameObject, "0", font));
+}
+
+void FPSComponent::Initialize()
+{
+}
+
+void FPSComponent::PostInitialize()
+{
 }
 
 void FPSComponent::FixedUpdate(float dt)

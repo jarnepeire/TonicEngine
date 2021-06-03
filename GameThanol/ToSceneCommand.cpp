@@ -12,5 +12,4 @@ void ToSceneCommand::Execute()
 	{
 		SceneManager::GetInstance().SetActiveScene(m_SceneIdx);
 	}
-	
 }

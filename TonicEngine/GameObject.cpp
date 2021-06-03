@@ -10,6 +10,22 @@ dae::GameObject::~GameObject()
 {
 }
 
+void dae::GameObject::Initialize()
+{
+	for (auto pComp : m_pComponents)
+	{
+		pComp->Initialize();
+	}
+}
+
+void dae::GameObject::PostInitialize()
+{
+	for (auto pComp : m_pComponents)
+	{
+		pComp->PostInitialize();
+	}
+}
+
 void dae::GameObject::FixedUpdate(float dt)
 {
 	for (auto pComp : m_pComponents)

@@ -21,6 +21,14 @@ TextComponent::TextComponent(dae::GameObject* parent, const std::string& text, c
 {
 }
 
+void TextComponent::Initialize()
+{
+}
+
+void TextComponent::PostInitialize()
+{
+}
+
 void TextComponent::FixedUpdate(float dt)
 {
 	UNREFERENCED_PARAMETER(dt);
@@ -62,4 +70,21 @@ void TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;
+}
+
+void TextComponent::SetFont(std::shared_ptr<dae::Font> pFont)
+{
+	m_Font = pFont;
+}
+
+void TextComponent::SetColor(int r, int g, int b)
+{
+	m_Color.r = (Uint8)r;
+	m_Color.g = (Uint8)g;
+	m_Color.b = (Uint8)b;
+}
+
+void TextComponent::SetColor(SDL_Color c)
+{
+	m_Color = c;
 }

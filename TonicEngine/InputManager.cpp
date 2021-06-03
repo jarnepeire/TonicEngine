@@ -19,7 +19,8 @@ bool dae::InputManager::ProcessInput()
 
 	//Describing the state through bitmask of the digital buttons: https://docs.microsoft.com/en-us/windows/win32/api/xinput/ns-xinput-xinput_gamepad
 	//We're only looping over registered input buttons that actually have a command (action) bind to them
-	for (std::pair<const InputSetting, std::shared_ptr<Command>>& it : m_InputActions)
+	//for (std::pair<const InputSetting, std::shared_ptr<Command>>& it : m_InputActions)
+	for (std::pair<const InputSettingALT, std::shared_ptr<Command>>& it : m_InputActions)
 	{
 		auto& input = it.first;
 		auto& command = it.second;
@@ -188,13 +189,14 @@ bool dae::InputManager::IsTriggerPressed(ControllerButton b)
 
 void dae::InputManager::AddInputAction(int keyboardKey, ControllerButton button, ControllerButtonType type, TriggerState triggerState, std::shared_ptr<Command> command)
 {
-	InputSetting setting{};
+	InputSettingALT setting{};
 	setting.Button = button;
 	setting.KeyboardKey = keyboardKey;
 	setting.Type = type;
 	setting.TriggerState = triggerState;
 
-	m_InputActions.insert(std::pair<InputSetting, std::shared_ptr<Command>>(setting, command));
+	//m_InputActions.insert(std::pair<InputSetting, std::shared_ptr<Command>>(setting, command));
+	m_InputActions.insert(std::pair<InputSettingALT, std::shared_ptr<Command>>(setting, command));
 }
 
 bool dae::InputManager::IsMouseButtonDown(MouseButton btn, TriggerState triggerState) const
