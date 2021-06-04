@@ -17,7 +17,6 @@ class HexComponent;
 class HexGrid : public Component
 {
 public:
-	HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHeight, const std::vector<std::string>& hexImagePaths, bool isAlternating = true);
 	HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, const std::vector<std::string>& hexImagePaths, bool isAlternating = false);
 	virtual ~HexGrid();
 

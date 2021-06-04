@@ -10,6 +10,8 @@
 #include <LogAudio.h>
 #include <AudioLocator.h>
 #include <iostream>
+#include "Colors.h"
+#include <SpriteComponent.h>
 
 using namespace dae;
 WinningGameMenu::WinningGameMenu(const std::string& name, int idx)
@@ -22,34 +24,57 @@ WinningGameMenu::WinningGameMenu(const std::string& name, int idx)
 
 void WinningGameMenu::Initialize()
 {
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto font48 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 48);
+	auto font36 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto menuFont = ResourceManager::GetInstance().LoadFont("VCR_OSD_MONO.otf", 16);
 
+	//Background
+	auto bgObject = std::make_shared<GameObject>();
+	bgObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(bgObject.get(), "QBert/MenuBackground.png"));
+	bgObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(bgObject.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	Add(bgObject);
+
+	//UI Text
 	auto pEndText = std::make_shared<GameObject>();;
-	pEndText->SetPosition(30, 250);
+	pEndText->SetPosition(30, 200);
 
 	pEndText->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pEndText.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
-	pEndText->AddComponent<TextComponent>(std::make_shared<TextComponent>(pEndText.get(), "You Win!", font));
+	auto pTextComp = pEndText->AddComponent<TextComponent>(std::make_shared<TextComponent>(pEndText.get(), "You Win!", font48));
+	pTextComp->SetColor(Colors::COLOR_TABLE[ColorName::Green]);
 	Add(pEndText);
 
 
-
-	m_pFinalScoreObj = std::make_shared<GameObject>();;
-	m_pFinalScoreObj->SetPosition(30, 350);
+	m_pFinalScoreObj = std::make_shared<GameObject>();
+	m_pFinalScoreObj->SetPosition(30, 265);
 
 	m_pFinalScoreObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pFinalScoreObj.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
-	m_pFinalScoreObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(m_pFinalScoreObj.get(), "Final Score: 0", font));
+	m_pFinalScoreObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(m_pFinalScoreObj.get(), "Final Score: 0", font36));
 	Add(m_pFinalScoreObj);
 
 
+	//QBert on block
+	auto qBertOnBlock = std::make_shared<GameObject>();
+	qBertOnBlock->SetPosition(450, 150);
+	qBertOnBlock->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(qBertOnBlock.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+
+	auto pBlockComp = qBertOnBlock->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(qBertOnBlock.get(), "QBert/L1_Block.png", 2.f));
+	pBlockComp->SetLocalPosition(-5, 55);
+
+	auto pQBertSpriteComp = qBertOnBlock->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(qBertOnBlock.get(), "QBert/QBert_Spritesheet.png", 37, 36, 8, 125, 1.5f));
+
+	Add(qBertOnBlock);
 
 	//Back to main menu button
 	{
 		auto playObj = std::make_shared<GameObject>();
-		playObj->SetPosition(250, 400);
+		playObj->SetPosition(260, 400);
 
 		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/ToMenuButton.png", 1.f));
 		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/ToMenuButtonHover.png", 1.f));
 		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(playObj.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(playObj.get(), "(A)", menuFont));
+		pTextComp->SetLocalPosition(85, 17.5f);
+		pTextComp->SetColor(Colors::COLOR_TABLE[ColorName::DarkLimeGreen]);
 		Add(playObj);
 
 		m_pToMainMenuButton = std::make_shared<MenuButton>(pButtonImage, pButtonHoverImage);
@@ -70,7 +95,7 @@ void WinningGameMenu::FixedUpdate(float dt)
 void WinningGameMenu::Update(float dt)
 {
 	m_pToMainMenuButton->Update(dt);
-	if (m_pToMainMenuButton->IsPressed())
+	if (m_pToMainMenuButton->IsPressed() || m_Input.IsInputTriggered(ControllerButton::ButtonA, ControllerButtonType::wButton, dae::TriggerState::Released))
 	{
 		//Go to main menu
 		m_pAudioSytem->Play(m_ClickSoundID, 0.5f);

@@ -5,24 +5,6 @@
 #include "SpriteComponent.h"
 #include "HexComponent.h"
 
-HexGrid::HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHeight, const std::vector<std::string>& hexImagePaths, bool isAlternating)
-	: Component(parent)
-	, m_ImageComponents()
-	, m_GridSize(gridSize)
-	, m_Grid()
-	, m_Top()
-	, m_Disks()
-	, m_HexWidth(hexWidth)
-	, m_HexHeight(hexHeight)
-	, m_NbVisitsNeeded(1)
-	, m_IsAltering(isAlternating)
-{
-	for (int i = 0; i <= m_NbVisitsNeeded; ++i)
-	{
-		m_ImageComponents.push_back(std::make_shared<ImageComponent>(parent, hexImagePaths[i], 1.f));
-	}
-}
-
 HexGrid::HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, const std::vector<std::string>& hexImagePaths, bool isAlternating)
 	: Component(parent)
 	, m_ImageComponents()
@@ -31,7 +13,7 @@ HexGrid::HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHei
 	, m_Top()
 	, m_HexWidth(hexWidth)
 	, m_HexHeight(hexHeight)
-	, m_NbVisitsNeeded(nbVisitsNeeded)
+	, m_NbVisitsNeeded((isAlternating) ? 1 : nbVisitsNeeded)
 	, m_IsAltering(isAlternating)
 {
 	for (int i = 0; i <= m_NbVisitsNeeded; ++i)

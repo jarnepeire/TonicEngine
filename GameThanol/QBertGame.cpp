@@ -9,6 +9,7 @@
 #include "LevelTwo.h"
 #include "LevelThree.h"
 #include "WinningGameMenu.h"
+#include "ControlsMenu.h"
 
 using namespace dae;
 QBertGame::QBertGame(uint32_t windowWidth, uint32_t windowHeight, float cappedFPS) 
@@ -25,5 +26,6 @@ void QBertGame::CreateGameScenes()
 	dae::SceneManager::GetInstance().AddGameScene(std::make_shared<LevelThree>("LevelThree", 3));
 	dae::SceneManager::GetInstance().AddGameScene(std::make_shared<GameOverMenu>("GameOver", 4));
 	dae::SceneManager::GetInstance().AddGameScene(std::make_shared<WinningGameMenu>("WinningGame", 5));
+	dae::SceneManager::GetInstance().AddGameScene(std::make_shared<ControlsMenu>("ControlsMenu", 6));
 	dae::SceneManager::GetInstance().SetActiveScene("Menu");
 }

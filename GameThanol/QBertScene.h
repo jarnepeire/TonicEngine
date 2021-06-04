@@ -9,10 +9,11 @@ namespace dae
 }
 
 class HexGrid;
+class GameLevelInfo;
 class QBertScene : public dae::Scene
 {
 public:
-	QBertScene(const std::string& name, int idx);
+	QBertScene(const std::string& name, int idx, const std::wstring& levelFile);
 	~QBertScene() = default;
 
 	virtual void Initialize() override {}
@@ -25,7 +26,9 @@ public:
 	void SetStartLives(int nbLives);
 
 	std::shared_ptr<dae::GameObject> GetHexGridObject() { return m_pHexGridObject; }
+	std::shared_ptr<GameLevelInfo> GetGameLevelInfo() { return m_pGameLevelInfo; }
 protected:
+	std::shared_ptr<GameLevelInfo> m_pGameLevelInfo;
 	std::shared_ptr<dae::GameObject> m_pQBert;
 	std::shared_ptr<dae::GameObject> m_pHexGridObject;
 

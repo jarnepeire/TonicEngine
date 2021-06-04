@@ -1,0 +1,19 @@
+{
+	"Level":
+	{ 
+		"GridSize": 7, 
+		"NbVisits": 1,
+		"IsAlternating": false,
+		"Disks": 
+		[ 
+		{"RowCoordinate": 3, "ColCoordinate": 0 },
+		{"RowCoordinate": 3, "ColCoordinate": 3 }
+		]
+	},
+	
+	"QBert":
+	{ 
+		"JumpTimeMS": 550, 
+		"Health": 3
+	}
+}

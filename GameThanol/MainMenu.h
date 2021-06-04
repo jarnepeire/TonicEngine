@@ -17,6 +17,7 @@ private:
 	std::shared_ptr<MenuButton> m_pOnePlayerButton;
 	std::shared_ptr<MenuButton> m_pTwoPlayerButton;
 	std::shared_ptr<MenuButton> m_pVersusButton;
+	std::shared_ptr<MenuButton> m_pControlsButton;
 
 	unsigned int m_ClickSoundID;
 };

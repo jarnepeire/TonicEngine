@@ -93,6 +93,12 @@
     <ClCompile Include="DiskComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="ControlsMenu.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLevelInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QBertGame.h">
@@ -159,6 +165,12 @@
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="Colors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlsMenu.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLevelInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

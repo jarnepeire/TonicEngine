@@ -9,15 +9,17 @@
 #include <RenderComponent.h>
 #include <Renderer.h>
 #include <SpriteComponent.h>
+#include "GameLevelInfo.h"
 
 using namespace dae;
-QBertScene::QBertScene(const std::string& name, int idx)
+QBertScene::QBertScene(const std::string& name, int idx, const std::wstring& levelFile)
 	: Scene(name, idx)
 	, m_pQBert(std::make_shared<GameObject>())
 	, m_pHexGridObject(std::make_shared<GameObject>())
 	, m_NbDisks()
 	, m_pDisks()
 	, m_DiskHexCoordinates()
+	, m_pGameLevelInfo(std::make_shared<GameLevelInfo>(levelFile))
 {
 }
 
