@@ -69,9 +69,6 @@
     <ClCompile Include="MenuButton.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="QBertAnimationObserver.cpp">
-      <Filter>Observers</Filter>
-    </ClCompile>
     <ClCompile Include="NextLevelObserver.cpp">
       <Filter>Observers</Filter>
     </ClCompile>
@@ -98,6 +95,24 @@
     </ClCompile>
     <ClCompile Include="GameLevelInfo.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HexJumpAIComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SamSlickComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="QBertObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="SamSlickObserver.cpp">
+      <Filter>Observers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,9 +149,6 @@
     <ClInclude Include="MenuButton.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="QBertAnimationObserver.h">
-      <Filter>Observers</Filter>
-    </ClInclude>
     <ClInclude Include="NextLevelObserver.h">
       <Filter>Observers</Filter>
     </ClInclude>
@@ -172,6 +184,24 @@
     </ClInclude>
     <ClInclude Include="GameLevelInfo.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HexJumpAIComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyObserver.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SamSlickComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="QBertObserver.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="SamSlickObserver.h">
+      <Filter>Observers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

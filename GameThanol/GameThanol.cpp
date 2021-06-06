@@ -11,6 +11,9 @@
 
 int main(int, char* [])
 {
+    //Seed random generator
+    srand(static_cast<unsigned>(time(0)));
+
     QBertGame* pGame = new QBertGame();
     dae::TonicEngine engine;
     engine.Run(pGame);

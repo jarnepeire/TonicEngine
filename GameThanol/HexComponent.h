@@ -27,6 +27,7 @@ public:
 
 	bool IsVisitted() const { return (m_Visits == m_NbVisitsNeeded); }
 	void ResetVisit() { m_Visits = 0; }
+	void Unvisit();
 	void Visit();
 
 	const HexCoordinate& GetHexCoordinate() const { return m_HexCoordinate; }

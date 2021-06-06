@@ -18,7 +18,9 @@
 using namespace dae;
 HexJumpComponent::HexJumpComponent(dae::GameObject* parent, HexGrid* pHexGrid, int startRow, int startCol, float timeToJump)
 	: Component(parent)
+	, m_OriginalStartCoordinate(HexCoordinate(startRow, startCol))
 	, m_pHexGrid(pHexGrid)
+	, m_PreviousCoordinate(HexCoordinate())
 	, m_CurrentCoordinate(HexCoordinate(startRow, startCol))
 	, m_JumpToCoordinate(HexCoordinate())
 	, m_CanJump(false)
@@ -37,13 +39,13 @@ HexJumpComponent::HexJumpComponent(dae::GameObject* parent, HexGrid* pHexGrid, i
 
 void HexJumpComponent::Initialize()
 {
+	glm::vec2 hexPos{};
+	m_pHexGrid->GetHexPosition(m_CurrentCoordinate, hexPos);
+	m_pGameObject->SetPosition(hexPos.x, hexPos.y);
 }
 
 void HexJumpComponent::PostInitialize()
 {
-	glm::vec2 hexPos{};
-	m_pHexGrid->GetHexPosition(m_CurrentCoordinate, hexPos);
-	m_pGameObject->SetPosition(hexPos.x, hexPos.y);
 }
 
 void HexJumpComponent::FixedUpdate(float dt)
@@ -61,66 +63,46 @@ void HexJumpComponent::Update(float dt)
 			m_JumpingTimer = 0.f;
 			m_CanJump = false;
 			m_IsJumping = false;
-			auto tempCurrentCoordinate = m_CurrentCoordinate;
+			m_PreviousCoordinate = m_CurrentCoordinate;
 			m_CurrentCoordinate = m_JumpToCoordinate;
 			m_pGameObject->GetTransform().SetPosition(m_JumpToPos.x, m_JumpToPos.y, 0.f);
 			
-			//Move by disk if saved
+			//If applicable notify it was saved by a disk
 			if (m_IsSavedByDisk)
 			{
 				m_IsSavedByDisk = false;
-
-				//Object will be carried by disk
-				auto topPos = m_pHexGrid->GetTop()->GetHexPosition();
-				topPos.y -= m_pHexGrid->GetHexHeight();
-
-				auto pCurrentHex = m_pHexGrid->GetHexComponent(tempCurrentCoordinate);
-				if (pCurrentHex)
-				{
-					auto pDisk = pCurrentHex->GetNeighbouringDisk();
-					pDisk->Move(m_pGameObject, topPos);
-					return;
-				}
+				m_pSubject->Notify(m_pGameObject, Event::EVENT_JUMPER_SAVED_BY_DISK);
 			}
-
-			//Notify lost life and reset for next position attempt
-			if (m_NeedsRespawn)
+			//Else if applicable notify lost life and reset coordinates/positions
+			else if (m_NeedsRespawn)
 			{
 				m_NeedsRespawn = false;
 				m_CurrentCoordinate = m_pHexGrid->GetTop()->GetHexCoordinate();
 				m_InitPos = m_pHexGrid->GetTop()->GetHexPosition();
-
-				auto pHealth = m_pGameObject->GetComponent<HealthComponent>();
-				if (pHealth)
-					pHealth->LoseLife();
+				m_pSubject->Notify(m_pGameObject, Event::EVENT_JUMPER_FELL_OFF_GRID);
 			}
+			//Otherwise it moved to the next hex and can be awarded for it
 			else
 			{
-				//Gain score if it wasn't visited yet
+				//Notify color change when hex isn't fully visited yet
 				if (!m_pHexGrid->IsHexVisited(m_JumpToCoordinate))
 				{
-					m_pGameObject->GetComponent<CharacterComponent>()->GainScore((int)GameScore::SCORE_COLOR_CHANGE);
+					m_pSubject->Notify(m_pGameObject, Event::EVENT_JUMPER_COLOR_CHANGE);
 				}
 
-				//Mark visit 
-				m_pHexGrid->VisitHex(m_JumpToCoordinate);
-				m_pSubject->Notify(m_pGameObject, Event::EVENT_PLAYER_LANDED);
+				//Mark a visit and notify it landed
+				//m_pHexGrid->VisitHex(m_JumpToCoordinate);
+				m_pSubject->Notify(m_pGameObject, Event::EVENT_JUMPER_LANDED);
 			}
 		}
 		else
 		{
-			//TODO: move object and make sure animation is set to jumping
 			//Moving object
 			m_IsJumping = true;
 
 			float timeToLerpAlpha = (m_JumpingTimer / m_TimeToJump);
 			glm::vec2 toPos = Vec2ParabolaLerp(m_InitPos, m_JumpToPos, m_A, m_B, m_C, timeToLerpAlpha);
 			m_pGameObject->GetTransform().SetPosition(toPos.x, toPos.y, 0.f);
-			
-			//float timeToLerpAlpha = (1.f / m_TimeToJump) * m_JumpingTimer;
-			//float toX = FLerp(m_InitPos.x, m_JumpToPos.x, timeToLerpAlpha);
-			//float toY = FLerp(m_InitPos.y, m_JumpToPos.y, timeToLerpAlpha);
-			//m_pGameObject->GetTransform().SetPosition(toX, toY, 0.f);
 		}
 	}
 }
@@ -153,7 +135,7 @@ void HexJumpComponent::JumpTo(int rowTranslation, int colTranslation)
 			}
 			else
 			{
-				//Notify for lost life
+				//Set flag for lost life
 				m_NeedsRespawn = true;
 
 				//Translate to left or right depending on movement
@@ -173,7 +155,7 @@ void HexJumpComponent::JumpTo(int rowTranslation, int colTranslation)
 
 	}
 	
-	//If hex was valid, create offsetted third position as an "inbetween" position to form an arc that will define its movement
+	//Create offsetted third position as an "inbetween" position to form an arc that will define its movement
 	int horizontal = (m_InitPos.x > m_JumpToPos.x) ? -1 : 1;
 	int vertical = (m_InitPos.y > m_JumpToPos.y) ? -1 : 1;
 	m_PosForArc.x = m_InitPos.x + (horizontal * (abs(m_InitPos.x - m_JumpToPos.x)) / 2.f);
@@ -212,8 +194,17 @@ void HexJumpComponent::JumpTo(int rowTranslation, int colTranslation)
 	m_B = (d1 - a1 * m_A) / b1;
 	m_C = m_InitPos.y - m_A * (m_InitPos.x * m_InitPos.x) - m_B * m_InitPos.x;
 
-	//Notify that QBert has jumped
-	m_pSubject->Notify(m_pGameObject, Event::EVENT_PLAYER_JUMPED);
+	//Notify that jumper has jumped
+	m_pSubject->Notify(m_pGameObject, Event::EVENT_JUMPER_JUMPED);
+}
+
+void HexJumpComponent::ResetToOriginalCoordinate()
+{
+	m_CurrentCoordinate = m_OriginalStartCoordinate;
+
+	glm::vec2 hexPos{};
+	m_pHexGrid->GetHexPosition(m_CurrentCoordinate, hexPos);
+	m_pGameObject->SetPosition(hexPos.x, hexPos.y);
 }
 
 void HexJumpComponent::ResetToTop()

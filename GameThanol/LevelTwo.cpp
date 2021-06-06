@@ -18,7 +18,6 @@
 #include <HealthDisplay.h>
 #include <ScoreDisplay.h>
 #include "CharacterComponent.h"
-#include "QBertAnimationObserver.h"
 #include "AudioLocator.h"
 #include <SDLAudio.h>
 #include <LogAudio.h>
@@ -26,6 +25,8 @@
 #include "DiskComponent.h"
 #include "Colors.h"
 #include "GameLevelInfo.h"
+
+#include "QBertObserver.h"
 
 using namespace dae;
 LevelTwo::LevelTwo(const std::string& name, int idx)
@@ -103,16 +104,16 @@ void LevelTwo::Initialize()
 	//Observer -> link up the text components to display to (doesn't own two text components in this case)
 	auto qBertHealthDisplay = std::make_shared<HealthDisplay>(healthTextComp);
 	auto qBertScoreDisplay = std::make_shared<ScoreDisplay>(scoreTextComp);
-	auto qBertAnimation = std::make_shared<QBertAnimationObserver>();
+	auto qBertObserver = std::make_shared<QBertObserver>(hexGridComp);
 	auto endGameObserver = std::make_shared<EndGameObserver>("GameOver");
 	auto pNextLevelObserver = std::make_shared<NextLevelObserver>(hexGridComp, "LevelThree");
+
 
 	//QBert
 	m_pQBert->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pQBert.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
 
 	auto pSpriteComp = m_pQBert->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(m_pQBert.get(), "QBert/QBert_Spritesheet.png", 37, 36, 8, 125, 0.75f));
 	pSpriteComp->SetLocalPosition(0, -36);
-	qBertAnimation->SetSpriteComponent(pSpriteComp);
 
 	auto pCharComp = m_pQBert->AddComponent<CharacterComponent>(std::make_shared<CharacterComponent>(m_pQBert.get()));
 	pCharComp->GetSubject()->AddObserver(qBertScoreDisplay);
@@ -120,13 +121,13 @@ void LevelTwo::Initialize()
 	auto pHealthComp = m_pQBert->AddComponent<HealthComponent>(std::make_shared<HealthComponent>(m_pQBert.get(), qBertInfo.Health));
 	pHealthComp->GetSubject()->AddObserver(endGameObserver);
 	pHealthComp->GetSubject()->AddObserver(qBertHealthDisplay);
-	pHealthComp->GetSubject()->AddObserver(qBertAnimation);
+	pHealthComp->GetSubject()->AddObserver(qBertObserver);
 
 	auto pRespawnComp = m_pQBert->AddComponent<RespawnComponent>(std::make_shared<RespawnComponent>(m_pQBert.get(), topPos, 3.0f));
 	pHealthComp->SetRespawnComponent(pRespawnComp);
 
 	auto pHexJumpComp = m_pQBert->AddComponent<HexJumpComponent>(std::make_shared<HexJumpComponent>(m_pQBert.get(), hexGridComp.get(), levelInfo.GridSize - 1, 0, qBertInfo.JumpTime));
-	pHexJumpComp->GetSubject()->AddObserver(qBertAnimation);
+	pHexJumpComp->GetSubject()->AddObserver(qBertObserver);
 	pHexJumpComp->GetSubject()->AddObserver(pNextLevelObserver);
 
 	Add(m_pQBert);

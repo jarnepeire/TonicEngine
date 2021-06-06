@@ -14,7 +14,7 @@ WinGameObserver::WinGameObserver(std::shared_ptr<HexGrid> currentLevelGrid, cons
 
 void WinGameObserver::Notify(dae::GameObject* object, Event e)
 {
-	if (e == Event::EVENT_PLAYER_LANDED)
+	if (e == Event::EVENT_JUMPER_LANDED)
 	{
 		if (m_pGrid->IsGridCompleted())
 		{

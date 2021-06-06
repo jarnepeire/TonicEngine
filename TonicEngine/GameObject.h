@@ -23,11 +23,14 @@ namespace dae
 		void FixedUpdate(float dt);
 		void Update(float dt);
 		void Render() const;
-		void SetPosition(float x, float y);
+		void SetPosition(float x, float y, float z = 0.f);
 		void SetParentScene(dae::Scene* pScene) { m_pParentScene = pScene; }
 		dae::Scene* GetParentScene() { return m_pParentScene; }
 
 		Transform& GetTransform() { return m_Transform; }
+
+		void SetDepthValue(float depth) { m_DepthValue = depth; }
+		float GetDepthValue() { return m_DepthValue; }
 
 		//Templated Component Code:
 		template<typename T>
@@ -50,9 +53,10 @@ namespace dae
 		}
 		
 	private:
+		float m_DepthValue{ 0.f };
 		Transform m_Transform;
 		std::vector<std::shared_ptr<Component>> m_pComponents;
-		dae::Scene* m_pParentScene;
+		dae::Scene* m_pParentScene = nullptr;
 	};
 
 }

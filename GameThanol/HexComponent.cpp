@@ -46,6 +46,18 @@ void HexComponent::Render()
 	}
 }
 
+void HexComponent::Unvisit()
+{
+	if (m_IsAlternating)
+	{
+		(IsVisitted()) ? --m_Visits : ++m_Visits;
+	}
+	else
+	{
+		Clamp<int>(--m_Visits, 0, m_NbVisitsNeeded);
+	}
+}
+
 void HexComponent::Visit()
 {
 	if (m_IsAlternating)

@@ -41,7 +41,7 @@ void HealthComponent::Render()
 void HealthComponent::SetNbLives(int lives)
 {
 	m_NbLives = lives;
-	m_pSubject->Notify(m_pGameObject, Event::EVENT_PLAYER_LOST_LIFE);
+	m_pSubject->Notify(m_pGameObject, Event::EVENT_CHARACTER_LOST_LIFE);
 }
 
 void HealthComponent::ResetLives()
@@ -57,7 +57,7 @@ void HealthComponent::LoseLife()
 	{
 		if (m_RespawnComponent)
 			m_RespawnComponent->Respawn();
-		m_pSubject->Notify(m_pGameObject, Event::EVENT_PLAYER_LOST_LIFE);
+		m_pSubject->Notify(m_pGameObject, Event::EVENT_CHARACTER_LOST_LIFE);
 	}
 	else
 	{

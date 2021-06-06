@@ -17,7 +17,7 @@ HealthDisplay::HealthDisplay(const std::shared_ptr<TextComponent>& pTextComponen
 
 void HealthDisplay::Notify(dae::GameObject* object, Event e)
 {
-	if (e == Event::EVENT_PLAYER_LOST_LIFE || e == Event::EVENT_LEVEL_RESET)
+	if (e == Event::EVENT_CHARACTER_LOST_LIFE || e == Event::EVENT_LEVEL_RESET)
 	{
 		auto health = object->GetComponent<HealthComponent>();
 		if (health != nullptr)

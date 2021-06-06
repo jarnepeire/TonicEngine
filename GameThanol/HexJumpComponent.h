@@ -20,8 +20,11 @@ public:
 	void JumpTo(int rowTranslation, int colTranslation);
 	bool IsJumping() const { return m_IsJumping; }
 
+	void ResetToOriginalCoordinate();
 	void ResetToTop();
 
+	HexGrid* GetGrid() { return m_pHexGrid; }
+	const HexCoordinate& GetPreviousCoordinate() const { return m_PreviousCoordinate; }
 	const HexCoordinate& GetCurrentCoordinate() const { return m_CurrentCoordinate; }
 	const HexCoordinate& GetJumpToCoordinate() const { return m_JumpToCoordinate; }
 
@@ -29,8 +32,11 @@ public:
 	void SetIsBeingCarried(bool b) { m_IsBeingCarried = b; }
 
 	bool NeedsRespawn() const { return m_NeedsRespawn; }
+
 private:
 	HexGrid* m_pHexGrid;
+	HexCoordinate m_OriginalStartCoordinate;
+	HexCoordinate m_PreviousCoordinate;
 	HexCoordinate m_CurrentCoordinate;
 	glm::vec2 m_InitPos;
 	HexCoordinate m_JumpToCoordinate;

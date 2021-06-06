@@ -74,12 +74,10 @@ void DiskComponent::Move(dae::GameObject* pObjToMove, const glm::vec2& toPositio
 	m_pObjectToMove = pObjToMove;
 	m_StartPosition = pObjToMove->GetTransform().GetPosition();
 	m_MoveToPosition = toPosition;
-
 	m_pObjectToMove->GetComponent<HexJumpComponent>()->SetIsBeingCarried(true);
 
 	//Play moving sound
 	AudioLocator::GetAudioSystem().Play(m_MovingSoundID, 0.2f);
-
 }
 
 void DiskComponent::AttachToGrid(std::shared_ptr<HexGrid> hexGrid, const HexCoordinate& hc)

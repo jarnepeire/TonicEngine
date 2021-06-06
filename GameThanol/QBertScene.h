@@ -30,6 +30,8 @@ public:
 protected:
 	std::shared_ptr<GameLevelInfo> m_pGameLevelInfo;
 	std::shared_ptr<dae::GameObject> m_pQBert;
+	std::shared_ptr<dae::GameObject> m_pSam;
+	std::shared_ptr<dae::GameObject> m_pSlick;
 	std::shared_ptr<dae::GameObject> m_pHexGridObject;
 
 	unsigned int m_NbDisks;

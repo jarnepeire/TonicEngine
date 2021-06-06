@@ -15,6 +15,8 @@ using namespace dae;
 QBertScene::QBertScene(const std::string& name, int idx, const std::wstring& levelFile)
 	: Scene(name, idx)
 	, m_pQBert(std::make_shared<GameObject>())
+	, m_pSam(std::make_shared<GameObject>())
+	, m_pSlick(std::make_shared<GameObject>())
 	, m_pHexGridObject(std::make_shared<GameObject>())
 	, m_NbDisks()
 	, m_pDisks()

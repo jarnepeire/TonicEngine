@@ -1,6 +1,7 @@
 #include "TonicEnginePCH.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include <algorithm>
 
 using namespace dae;
 
@@ -40,6 +41,12 @@ void dae::Scene::RootUpdate(float dt)
 
 void dae::Scene::RootRender()
 {
+	//Sort objects on depth value (higher depth = further away)
+	std::sort(m_Objects.begin(), m_Objects.end(), [](std::shared_ptr<dae::GameObject> pObjA, std::shared_ptr<dae::GameObject> pObjB)
+		{
+			return (pObjA->GetDepthValue() > pObjB->GetDepthValue());
+		});
+
 	for (const auto& object : m_Objects)
 	{
 		object->Render();

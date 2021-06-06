@@ -112,6 +112,17 @@ bool HexGrid::GetHexPosition(const HexCoordinate& hc, glm::vec2& hexPos) const
 	return false;
 }
 
+void HexGrid::UnvisitHex(const HexCoordinate& hc)
+{
+	for (auto& hex : m_Grid)
+	{
+		if (hex->GetHexCoordinate() == hc)
+		{
+			hex->Unvisit();
+		}
+	}
+}
+
 void HexGrid::VisitHex(const HexCoordinate& hc)
 {
 	for (auto& hex : m_Grid)

@@ -30,6 +30,7 @@ public:
 	std::shared_ptr<HexComponent> GetHexComponent(const HexCoordinate& hc);
 
 	bool GetHexPosition(const HexCoordinate& hc, glm::vec2& hexPos) const;
+	void UnvisitHex(const HexCoordinate& hc);
 	void VisitHex(const HexCoordinate& hc);
 	int GetHexWidth() const { return m_HexWidth; }
 	int GetHexHeight() const { return m_HexHeight; }

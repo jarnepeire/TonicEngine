@@ -15,7 +15,7 @@ NextLevelObserver::NextLevelObserver(std::shared_ptr<HexGrid> currentLevelGrid, 
 
 void NextLevelObserver::Notify(dae::GameObject* object, Event e)
 {
-	if (e == Event::EVENT_PLAYER_LANDED)
+	if (e == Event::EVENT_JUMPER_LANDED)
 	{
 		if (m_pGrid->IsGridCompleted())
 		{
