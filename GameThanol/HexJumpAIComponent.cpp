@@ -2,14 +2,17 @@
 #include "HexJumpComponent.h"
 #include <GameObject.h>
 #include "HexGrid.h"
+#include "AudioLocator.h"
+#include "SDLAudio.h"
 
-HexJumpAIComponent::HexJumpAIComponent(dae::GameObject* parent, float postJumpWaitingTime)
+HexJumpAIComponent::HexJumpAIComponent(dae::GameObject* parent, float postJumpWaitingTime, unsigned int jumpSoundId)
 	: Component(parent)
 	, m_HexJumpComponent()
 	, m_IsActive(true)
 	, m_CanWait(false)
 	, m_WaitingTimer(0.f)
 	, m_PostJumpWaitingTime(postJumpWaitingTime)
+	, m_JumpSoundID(jumpSoundId)
 {
 }
 
@@ -40,6 +43,7 @@ void HexJumpAIComponent::Update(float dt)
 			//Make next jump
 			HexCoordinate hc = DetermineNextJump();
 			m_HexJumpComponent->JumpTo(hc.Row, hc.Col);
+			AudioLocator::GetAudioSystem().Play(m_JumpSoundID, 0.2f);
 		}
 	}
 }

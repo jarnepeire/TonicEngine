@@ -8,9 +8,12 @@
 #include "DiskComponent.h"
 #include "CharacterComponent.h"
 #include "GameScores.h"
+#include <ColliderComponent.h>
+#include "EnemyComponent.h"
 
-QBertObserver::QBertObserver(std::shared_ptr<HexGrid> currentLevelGrid)
+QBertObserver::QBertObserver(std::shared_ptr<HexGrid> currentLevelGrid, std::shared_ptr<dae::GameObject> pQbertObj)
 	: m_pGrid(currentLevelGrid)
+	, m_pQBert(pQbertObj)
 {
 }
 
@@ -18,14 +21,19 @@ void QBertObserver::Notify(dae::GameObject* object, Event e)
 {
 	if (e == Event::EVENT_JUMPER_SAVED_BY_DISK)
 	{
+		//Pointer expired
+		auto pGrid = m_pGrid.lock();
+		if (!pGrid)
+			return;
+
 		//Object will be carried by disk
 		//Disk needs to move a little bit above the top
-		auto topPos = m_pGrid->GetTop()->GetHexPosition();
-		topPos.y -= m_pGrid->GetHexHeight();
+		auto topPos = pGrid->GetTop()->GetHexPosition();
+		topPos.y -= pGrid->GetHexHeight();
 
 		//Get the hex associated with the disk
 		const auto& prevHc = object->GetComponent<HexJumpComponent>()->GetPreviousCoordinate();
-		auto pCurrentHex = m_pGrid->GetHexComponent(prevHc);
+		auto pCurrentHex = pGrid->GetHexComponent(prevHc);
 		if (pCurrentHex)
 		{
 			auto pDisk = pCurrentHex->GetNeighbouringDisk();
@@ -35,9 +43,14 @@ void QBertObserver::Notify(dae::GameObject* object, Event e)
 	}
 	else if (e == Event::EVENT_JUMPER_LANDED)
 	{
+		//Pointer expired
+		auto pGrid = m_pGrid.lock();
+		if (!pGrid)
+			return;
+
 		auto pHexJump = object->GetComponent<HexJumpComponent>();
 		const auto& hc = pHexJump->GetJumpToCoordinate();
-		m_pGrid->VisitHex(hc);
+		pGrid->VisitHex(hc);
 	}
 	else if (e == Event::EVENT_JUMPER_JUMPED)
 	{
@@ -91,6 +104,33 @@ void QBertObserver::Notify(dae::GameObject* object, Event e)
 		auto pCharacter = object->GetComponent<CharacterComponent>();
 		if (pCharacter)
 			pCharacter->GainScore((int)GameScore::SCORE_COLOR_CHANGE);
+	}
+	else if (e == Event::EVENT_OBJECT_COLLIDE)
+	{
+		auto pEnemyComponent = object->GetComponent<EnemyComponent>();
+		if (!pEnemyComponent)
+			return;
+	
+		//Expired Qbert pointer
+		auto pQBert = m_pQBert.lock();
+		if (!pQBert)
+			return;
+
+		auto pCharacter = pQBert->GetComponent<CharacterComponent>();
+			
+		using ET = EnemyComponent::EnemyType;
+		ET type = pEnemyComponent->GetEnemyType();
+		if (type == ET::SamSlick)
+		{
+			pCharacter->GainScore((int)GameScore::SCORE_CATCH_SAM_SLICK);
+			object->GetComponent<HealthComponent>()->LoseLife();
+		}
+		else if (type == ET::Coily)
+		{
+			auto pHealth = pQBert->GetComponent<HealthComponent>();
+			if (pHealth)
+				pHealth->LoseLife();
+		}
 	}
 }
 

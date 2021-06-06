@@ -16,7 +16,12 @@ void WinGameObserver::Notify(dae::GameObject* object, Event e)
 {
 	if (e == Event::EVENT_JUMPER_LANDED)
 	{
-		if (m_pGrid->IsGridCompleted())
+		//Pointer expired
+		auto pGrid = m_pGrid.lock();
+		if (!pGrid)
+			return;
+
+		if (pGrid->IsGridCompleted())
 		{
 			auto pScene = dae::SceneManager::GetInstance().GetScene(m_WinningSceneName);
 			auto pWinningScene = dynamic_cast<WinningGameMenu*>(pScene);

@@ -12,7 +12,7 @@ class HexJumpComponent;
 class HexJumpAIComponent : public Component
 {
 public:
-	HexJumpAIComponent(dae::GameObject* parent, float postJumpWaitingTime);
+	HexJumpAIComponent(dae::GameObject* parent, float postJumpWaitingTime, unsigned int jumpSoundId);
 	virtual ~HexJumpAIComponent() = default;
 
 	void Initialize() override;
@@ -22,7 +22,7 @@ public:
 	void Render() override {}
 
 	bool IsActive() const { return m_IsActive; }
-	void SetActive(bool b) { m_IsActive; }
+	void SetActive(bool b) { m_IsActive = b; }
 	void StartWaiting();
 
 	void ResetAI();
@@ -36,5 +36,6 @@ private:
 	bool m_CanWait;
 	float m_WaitingTimer;
 	float m_PostJumpWaitingTime;
+	unsigned int m_JumpSoundID;
 };
 

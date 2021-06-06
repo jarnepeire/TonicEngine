@@ -6,8 +6,9 @@
 #include "HexComponent.h"
 #include <MathHelper.h>
 
-EnemyComponent::EnemyComponent(dae::GameObject* parent, int defeatingScore, float minSpawnTime, float maxSpawnTime)
+EnemyComponent::EnemyComponent(dae::GameObject* parent, EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime)
 	: Component(parent)
+	, m_EnemyType(enemyType)
 	, m_DefeatingScore(defeatingScore)
 	, m_HasSpawned(false)
 	, m_SpawnTimer(0.f)
@@ -54,6 +55,8 @@ void EnemyComponent::Update(float dt)
 			m_HasSpawned = true;
 			m_SpawnTimer = 0.f;
 
+			//Notify it is falling spawned
+			m_pSubject->Notify(m_pGameObject, Event::EVENT_ENEMY_FALLS);
 			m_CanFall = true;
 		}
 	}

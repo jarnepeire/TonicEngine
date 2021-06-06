@@ -9,7 +9,13 @@ namespace dae
 class EnemyComponent : public Component
 {
 public:
-	EnemyComponent(dae::GameObject* parent, int defeatingScore, float minSpawnTime, float maxSpawnTime);
+	enum class EnemyType
+	{
+		SamSlick,
+		Coily
+	};
+
+	EnemyComponent(dae::GameObject* parent, EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime);
 	virtual ~EnemyComponent() = default;
 
 	void Initialize() override;
@@ -18,9 +24,12 @@ public:
 	void Update(float dt) override;
 	void Render() override {}
 
+	const EnemyType& GetEnemyType() const { return m_EnemyType; }
+
 	void ResetEnemy();
 	int GetDefeatingScore() const { return m_DefeatingScore; }
 private:
+	EnemyType m_EnemyType;
 	bool m_HasSpawned;
 	float m_SpawnTimer;
 	float m_MinSpawnTime;

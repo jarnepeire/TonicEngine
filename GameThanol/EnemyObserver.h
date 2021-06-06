@@ -10,6 +10,6 @@ public:
 	void Notify(dae::GameObject* object, Event e) override;
 
 private:
-	std::shared_ptr<dae::GameObject> m_QBert;
+	std::weak_ptr<dae::GameObject> m_QBert;
 };
 

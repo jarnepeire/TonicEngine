@@ -103,7 +103,8 @@ void LevelThree::Initialize()
 	//Observer -> link up the text components to display to (doesn't own two text components in this case)
 	auto qBertHealthDisplay = std::make_shared<HealthDisplay>(healthTextComp);
 	auto qBertScoreDisplay = std::make_shared<ScoreDisplay>(scoreTextComp);
-	auto qBertObserver = std::make_shared<QBertObserver>(hexGridComp);
+	auto qBertObserver = std::make_shared<QBertObserver>(hexGridComp, m_pQBert);
+	//auto qBertObserver = std::make_shared<QBertObserver>(hexGridComp);
 	auto endGameObserver = std::make_shared<EndGameObserver>("GameOver");
 	auto pWinGameObserver = std::make_shared<WinGameObserver>(hexGridComp, "WinningGame");
 

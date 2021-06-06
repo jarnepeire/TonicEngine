@@ -4,6 +4,7 @@
 #include "HealthComponent.h"
 #include "HexJumpComponent.h"
 #include "SpriteComponent.h"
+#include "ColliderComponent.h"
 
 EnemyObserver::EnemyObserver(std::shared_ptr<dae::GameObject> qbertObject)
 	: m_QBert(qbertObject)
@@ -17,6 +18,10 @@ void EnemyObserver::Notify(dae::GameObject* object, Event e)
 		auto pHexJumpAI = object->GetComponent<HexJumpAIComponent>();
 		if (pHexJumpAI)
 			pHexJumpAI->StartWaiting();
+
+		auto pCollider = object->GetComponent<dae::ColliderComponent>();
+		if (pCollider) 
+			pCollider->SetCanReceiveCheckForCollision(true);
 	}
 	else if (e == Event::EVENT_JUMPER_LANDED)
 	{
@@ -39,6 +44,18 @@ void EnemyObserver::Notify(dae::GameObject* object, Event e)
 				pHexJumpAI->SetActive(false);
 			}
 		}
+	}
+	else if (e == Event::EVENT_PLAYER_DIED)
+	{
+		auto pHexJumpAI = object->GetComponent<HexJumpAIComponent>();
+		pHexJumpAI->SetActive(false);
+
+		auto pSpriteComp = object->GetComponent<SpriteComponent>();
+		pSpriteComp->SetEnableRender(false);
+
+		auto pCollider = object->GetComponent<dae::ColliderComponent>();
+		if (pCollider) 
+			pCollider->SetCanReceiveCheckForCollision(false);
 	}
 	else if (e == Event::EVENT_JUMPER_JUMPED)
 	{

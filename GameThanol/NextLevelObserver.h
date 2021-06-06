@@ -12,7 +12,7 @@ public:
 	void Notify(dae::GameObject * object, Event e) override;
 
 private:
-	std::shared_ptr<HexGrid> m_pGrid;
+	std::weak_ptr<HexGrid> m_pGrid;
 	std::string m_NextLevelName;
 };
 

@@ -233,6 +233,8 @@
     <ClInclude Include="AudioSystem.h" />
     <ClInclude Include="BaseGameThanol.h" />
     <ClInclude Include="CharacterComponent.h" />
+    <ClInclude Include="ColliderComponent.h" />
+    <ClInclude Include="ColliderManager.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControllerMapping.h" />
@@ -314,6 +316,8 @@
     <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="BaseGameThanol.cpp" />
     <ClCompile Include="CharacterComponent.cpp" />
+    <ClCompile Include="ColliderComponent.cpp" />
+    <ClCompile Include="ColliderManager.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Font.cpp" />

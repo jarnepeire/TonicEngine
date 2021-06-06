@@ -1,6 +1,7 @@
 #pragma once
 #include "SceneManager.h"
 #include "InputManager.h"
+#include "ColliderManager.h"
 
 #include <vector>
 #include <memory>
@@ -8,6 +9,7 @@
 class AudioSystem;
 namespace dae
 {
+	class ColliderComponent;
 	class GameObject;
 	class Scene
 	{
@@ -36,10 +38,12 @@ namespace dae
 		explicit Scene(const std::string& name, int idx);
 
 		InputManager m_Input;
+		ColliderManager m_ColliderManager;
 		std::shared_ptr<AudioSystem> m_pAudioSytem;
 	private: 
 		//friend Scene& SceneManager::CreateScene(const std::string& name);
 		friend class SceneManager;
+		friend class ColliderComponent;
 
 		/* Unique scene information */
 		const int m_SceneIndex;
@@ -51,6 +55,7 @@ namespace dae
 		void RootFixedUpdate(float deltaT);
 		void RootUpdate(float deltaT);
 		void RootRender();
+		void AddColliderToScene(ColliderComponent* pCollider);
 	};
 
 }

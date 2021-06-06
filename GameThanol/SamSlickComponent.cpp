@@ -1,8 +1,8 @@
 #include "SamSlickComponent.h"
 #include "HexJumpComponent.h"
 
-SamSlickComponent::SamSlickComponent(dae::GameObject* parent)
-    : HexJumpAIComponent(parent, 2.f)
+SamSlickComponent::SamSlickComponent(dae::GameObject* parent, unsigned int jumpSoundId)
+    : HexJumpAIComponent(parent, 2.f, jumpSoundId)
 {
 }
 

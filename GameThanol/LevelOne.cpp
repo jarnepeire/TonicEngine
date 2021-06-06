@@ -32,6 +32,7 @@
 #include "SamSlickComponent.h"
 #include "QBertObserver.h"
 #include "SamSlickObserver.h"
+#include "ColliderComponent.h"
 
 using namespace dae;
 LevelOne::LevelOne(const std::string& name, int idx)
@@ -47,6 +48,7 @@ void LevelOne::Initialize()
 	//Sound
 	SDLAudio* pSDLAudio = new SDLAudio();
 	unsigned int jumpSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_QBertJump.wav");
+	unsigned int samSlickJumpSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_SlickSamJump.wav");
 	unsigned int scoreSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_gain_score.wav");
 	unsigned int diedSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_Death.wav");
 	unsigned int movingDiskSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_DiskMoving.wav");
@@ -109,7 +111,7 @@ void LevelOne::Initialize()
 	auto qBertHealthDisplay = std::make_shared<HealthDisplay>(healthTextComp);
 	auto qBertScoreDisplay = std::make_shared<ScoreDisplay>(scoreTextComp);
 
-	auto qBertObserver = std::make_shared<QBertObserver>(hexGridComp);
+	auto qBertObserver = std::make_shared<QBertObserver>(hexGridComp, m_pQBert);
 	auto endGameObserver = std::make_shared<EndGameObserver>("GameOver");
 	auto pNextLevelObserver = std::make_shared<NextLevelObserver>(hexGridComp, "LevelTwo");
 
@@ -134,6 +136,10 @@ void LevelOne::Initialize()
 	auto pHexJumpComp = m_pQBert->AddComponent<HexJumpComponent>(std::make_shared<HexJumpComponent>(m_pQBert.get(), hexGridComp.get(), levelInfo.GridSize - 1, 0, qBertInfo.JumpTime));
 	pHexJumpComp->GetSubject()->AddObserver(qBertObserver);
 	pHexJumpComp->GetSubject()->AddObserver(pNextLevelObserver);
+
+	auto pQBertCollider = m_pQBert->AddComponent<ColliderComponent>(std::make_shared<ColliderComponent>(m_pQBert.get(), CollisionLayer::Layer0, true, 10.f, 10.f));
+	pQBertCollider->GetSubject()->AddObserver(qBertObserver);
+
 	Add(m_pQBert);
 
 	//Enemies
@@ -144,13 +150,13 @@ void LevelOne::Initialize()
 	//Sam
 	m_pSam->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pSam.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
 	auto pSamSprite = m_pSam->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(m_pSam.get(), "QBert/Sam_Spritesheet.png", 11, 16, 1, 100));
-	pSamSprite->SetLocalPosition(17, -7.5);
+	pSamSprite->SetLocalPosition(18, -9.5);
 
-	auto pSamEnemyComp = m_pSam->AddComponent<EnemyComponent>(std::make_shared<EnemyComponent>(m_pSam.get(), 300, 5.f, 10.f));
+	auto pSamEnemyComp = m_pSam->AddComponent<EnemyComponent>(std::make_shared<EnemyComponent>(m_pSam.get(), EnemyComponent::EnemyType::SamSlick, 300, 5.f, 10.f));
 	pSamEnemyComp->GetSubject()->AddObserver(pEnemyObserver);
 	pSamEnemyComp->GetSubject()->AddObserver(pSamSlickObserver);
 
-	m_pSam->AddComponent<HexJumpAIComponent>(std::make_shared<SamSlickComponent>(m_pSam.get()));
+	m_pSam->AddComponent<HexJumpAIComponent>(std::make_shared<SamSlickComponent>(m_pSam.get(), samSlickJumpSoundId));
 
 	auto pSamHexJump = m_pSam->AddComponent<HexJumpComponent>(std::make_shared<HexJumpComponent>(m_pSam.get(), hexGridComp.get(), levelInfo.GridSize - 2, 0, 0.7f));
 	pSamHexJump->GetSubject()->AddObserver(pEnemyObserver);
@@ -158,7 +164,31 @@ void LevelOne::Initialize()
 
 	auto pSamHealthComp = m_pSam->AddComponent<HealthComponent>(std::make_shared<HealthComponent>(m_pSam.get(), 1));
 	pSamHealthComp->GetSubject()->AddObserver(pEnemyObserver);
+
+	auto pSamCollider = m_pSam->AddComponent<ColliderComponent>(std::make_shared<ColliderComponent>(m_pSam.get(), CollisionLayer::Layer1, false, 10.f, 10.f));
+
 	Add(m_pSam);
+
+	//Slick
+	m_pSlick->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pSlick.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	auto pSlickSprite = m_pSlick->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(m_pSlick.get(), "QBert/Slick_Spritesheet.png", 12, 16, 1, 100));
+	pSlickSprite->SetLocalPosition(18, -9.5);
+
+	auto pSlickEnemyComp = m_pSlick->AddComponent<EnemyComponent>(std::make_shared<EnemyComponent>(m_pSlick.get(), EnemyComponent::EnemyType::SamSlick, 300, 15.f, 25.f));
+	pSlickEnemyComp->GetSubject()->AddObserver(pEnemyObserver);
+	pSlickEnemyComp->GetSubject()->AddObserver(pSamSlickObserver);
+
+	m_pSlick->AddComponent<HexJumpAIComponent>(std::make_shared<SamSlickComponent>(m_pSlick.get(), samSlickJumpSoundId));
+
+	auto pSlickHexJump = m_pSlick->AddComponent<HexJumpComponent>(std::make_shared<HexJumpComponent>(m_pSlick.get(), hexGridComp.get(), levelInfo.GridSize - 2, 1, 0.7f));
+	pSlickHexJump->GetSubject()->AddObserver(pEnemyObserver);
+	pSlickHexJump->GetSubject()->AddObserver(pSamSlickObserver);
+
+	auto pSlickHealthComp = m_pSlick->AddComponent<HealthComponent>(std::make_shared<HealthComponent>(m_pSlick.get(), 1));
+	pSlickHealthComp->GetSubject()->AddObserver(pEnemyObserver);
+
+	auto pSlickCollider = m_pSlick->AddComponent<ColliderComponent>(std::make_shared<ColliderComponent>(m_pSlick.get(), CollisionLayer::Layer1, false, 10.f, 10.f));
+	Add(m_pSlick);
 
 	//Input
 	m_Input.AddInputAction((int)KeyboardButton::UP_ARROW, ControllerButton::ButtonDPAD_Up, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<JumpToHexTopRightCommand>(m_pQBert.get(), jumpSoundId, diedSoundId));
@@ -197,6 +227,12 @@ void LevelOne::ResetLevel()
 	m_pSam->GetComponent<HexJumpAIComponent>()->ResetAI();
 	m_pSam->GetComponent<SpriteComponent>()->SetAnimationRow(0);
 	m_pSam->GetComponent<SpriteComponent>()->SetIsLeft(false);
+
+	m_pSlick->GetComponent<HexJumpComponent>()->ResetToOriginalCoordinate();
+	m_pSlick->GetComponent<EnemyComponent>()->ResetEnemy();
+	m_pSlick->GetComponent<HexJumpAIComponent>()->ResetAI();
+	m_pSlick->GetComponent<SpriteComponent>()->SetAnimationRow(0);
+	m_pSlick->GetComponent<SpriteComponent>()->SetIsLeft(false);
 
 	m_pHexGridObject->GetComponent<HexGrid>()->ResetGrid();
 

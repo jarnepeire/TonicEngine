@@ -4,7 +4,7 @@
 class SamSlickComponent : public HexJumpAIComponent
 {
 public:
-	SamSlickComponent(dae::GameObject* parent);
+	SamSlickComponent(dae::GameObject* parent, unsigned int jumpSoundId);
 	virtual ~SamSlickComponent() = default;
 
 protected:
