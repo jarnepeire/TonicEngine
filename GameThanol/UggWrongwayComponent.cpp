@@ -1,8 +1,8 @@
 #include "UggWrongwayComponent.h"
 
 using namespace Tonic;
-UggWrongwayComponent::UggWrongwayComponent(Tonic::GameObject* parent, UggWrongway type, unsigned int jumpSoundId)
-    : HexJumpAIComponent(parent, 1.25f, jumpSoundId)
+UggWrongwayComponent::UggWrongwayComponent(UggWrongway type, unsigned int jumpSoundId)
+    : HexJumpAIComponent(1.25f, jumpSoundId)
     , m_UggWrongway(type)
 {
 }

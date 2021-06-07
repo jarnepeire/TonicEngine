@@ -8,8 +8,8 @@
 #include <AudioLocator.h>
 
 using namespace Tonic;
-DiskComponent::DiskComponent(Tonic::GameObject* parent, float timeToMove, std::shared_ptr<HexGrid> hexGrid, const HexCoordinate& hc)
-	: Component(parent)
+DiskComponent::DiskComponent(float timeToMove, std::shared_ptr<HexGrid> hexGrid, const HexCoordinate& hc)
+	: Component()
 	, m_Grid(hexGrid)
 	, m_CanMove(false)
 	, m_pObjectToMove(nullptr)

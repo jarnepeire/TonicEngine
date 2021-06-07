@@ -6,10 +6,10 @@
 class HexGrid;
 
 
-class DiskComponent : public Tonic::Component
+class DiskComponent final : public Tonic::Component
 {
 public:
-	DiskComponent(Tonic::GameObject* parent, float timeToMove, std::shared_ptr<HexGrid> hexGrid, const HexCoordinate& hc);
+	DiskComponent(float timeToMove, std::shared_ptr<HexGrid> hexGrid, const HexCoordinate& hc);
 	virtual ~DiskComponent() = default;
 
 	void Initialize() override;

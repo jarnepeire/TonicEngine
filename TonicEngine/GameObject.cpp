@@ -1,12 +1,12 @@
 #include "TonicEnginePCH.h"
 #include "GameObject.h"
-#include "ResourceManager.h"
-#include "Renderer.h"
-#include "TextComponent.h"
-#include "FPSComponent.h"
-#include "Subject.h"
+#include "Component.h"
 
-Tonic::GameObject::~GameObject()
+Tonic::GameObject::GameObject()
+	: m_pParentScene(nullptr)
+	, m_Transform()
+	, m_DepthValue(0.f)
+	, m_pComponents()
 {
 }
 

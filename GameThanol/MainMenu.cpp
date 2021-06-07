@@ -45,27 +45,27 @@ void MainMenu::Initialize()
 
 	//Background
 	auto bgObject = std::make_shared<GameObject>();
-	bgObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(bgObject.get(), "QBert/Menu/MenuBackground.png"));
-	bgObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(bgObject.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+	bgObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>("QBert/Menu/MenuBackground.png"));
+	bgObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
 	Add(bgObject);
 
 	//Qbert Logo
 	auto logoObject = std::make_shared<GameObject>();
 	logoObject->SetPosition(30, 30);
-	logoObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(logoObject.get(), "QBert/Menu/QBertLogo.png", 0.25f));
-	logoObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(logoObject.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+	logoObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>("QBert/Menu/QBertLogo.png", 0.25f));
+	logoObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
 	Add(logoObject);
 
 	//Qbert on disk
 	auto qBertOnDisk = std::make_shared<GameObject>();
 	qBertOnDisk->SetPosition(400, 150);
-	qBertOnDisk->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(qBertOnDisk.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+	qBertOnDisk->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
 	
-	auto pDiskSpriteComp = qBertOnDisk->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(qBertOnDisk.get(), "QBert/Props/Disk_Spritesheet.png", 16, 10, 4, 120, 4.f));
+	auto pDiskSpriteComp = qBertOnDisk->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>("QBert/Props/Disk_Spritesheet.png", 16, 10, 4, 120, 4.f));
 	pDiskSpriteComp->SetLocalPosition(30, 125);
 
-	auto pQBertSpriteComp = qBertOnDisk->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(qBertOnDisk.get(), "QBert/Characters/QBert_Spritesheet.png", 37, 36, 8, 125, 2.5f));
-	pQBertSpriteComp->SetIsLeft(true);
+	auto pQBertSpriteComp = qBertOnDisk->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>("QBert/Characters/QBert_Spritesheet.png", 37, 36, 8, 125, 2.5f));
+	pQBertSpriteComp->SetIsFlipped(true);
 	Add(qBertOnDisk);
 
 
@@ -76,14 +76,14 @@ void MainMenu::Initialize()
 		auto textObj = std::make_shared<GameObject>();
 		textObj->SetPosition(60, 100);
 
-		textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "Jump on squares to ", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
-		auto pTextComp1 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "change them to", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("Jump on squares to ", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		auto pTextComp1 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("change them to", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
 		pTextComp1->SetLocalPosition(0, 15);
 
-		auto pTextComp2 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "the target color", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		auto pTextComp2 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("the target color", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
 		pTextComp2->SetLocalPosition(0, 30);
 
-		textObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(textObj.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+		textObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
 		Add(textObj);
 	}
 
@@ -92,18 +92,18 @@ void MainMenu::Initialize()
 		auto textObj = std::make_shared<GameObject>();
 		textObj->SetPosition(80, 165);
 
-		textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "Stay on playfield!", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("Stay on playfield!", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
 
-		auto pTextComp1 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "jumping off results", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		auto pTextComp1 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("jumping off results", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
 		pTextComp1->SetLocalPosition(0, 15);
 
-		auto pTextComp2 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "in a fatal plummet", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		auto pTextComp2 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("in a fatal plummet", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
 		pTextComp2->SetLocalPosition(0, 30);
 
-		auto pTextComp3 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "unless a disk is there", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		auto pTextComp3 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("unless a disk is there", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
 		pTextComp3->SetLocalPosition(0, 45);
 
-		textObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(textObj.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+		textObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
 		Add(textObj);
 	}
 
@@ -112,15 +112,15 @@ void MainMenu::Initialize()
 		auto textObj = std::make_shared<GameObject>();
 		textObj->SetPosition(100, 245);
 
-		textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "Avoid all objects", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("Avoid all objects", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
 
-		auto pTextComp1 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "and creatures that", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		auto pTextComp1 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("and creatures that", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
 		pTextComp1->SetLocalPosition(0, 15);
 
-		auto pTextComp2 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "are not green", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		auto pTextComp2 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("are not green", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
 		pTextComp2->SetLocalPosition(0, 30);
 
-		textObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(textObj.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+		textObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
 		Add(textObj);
 	}
 
@@ -129,15 +129,15 @@ void MainMenu::Initialize()
 		auto textObj = std::make_shared<GameObject>();
 		textObj->SetPosition(120, 315);
 
-		textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "Use spinning disks", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("Use spinning disks", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
 
-		auto pTextComp1 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "to lure snake to", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		auto pTextComp1 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("to lure snake to", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
 		pTextComp1->SetLocalPosition(0, 15);
 
-		auto pTextComp2 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(textObj.get(), "his death", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
+		auto pTextComp2 = textObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("his death", qBertSmallFont, SDL_Color{ 4, 179, 4 }));
 		pTextComp2->SetLocalPosition(0, 30);
 
-		textObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(textObj.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+		textObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
 		Add(textObj);
 	}
 
@@ -146,10 +146,10 @@ void MainMenu::Initialize()
 		auto playObj = std::make_shared<GameObject>();
 		playObj->SetPosition(30, 400);
 
-		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/Menu/OnePlayerButton.png", 1.f));
-		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/Menu/OnePlayerButtonHover.png", 1.f));
-		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(playObj.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
-		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(playObj.get(), "(A)", menuFont));
+		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>("QBert/Menu/OnePlayerButton.png", 1.f));
+		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>("QBert/Menu/OnePlayerButtonHover.png", 1.f));
+		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
+		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("(A)", menuFont));
 		pTextComp->SetLocalPosition(85, 17.5f);
 		pTextComp->SetColor(Colors::COLOR_TABLE[ColorName::DarkLimeGreen]);
 		Add(playObj);
@@ -162,10 +162,10 @@ void MainMenu::Initialize()
 		auto playObj = std::make_shared<GameObject>();
 		playObj->SetPosition(160, 400);
 
-		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/Menu/TwoPlayerButton.png", 1.f));
-		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/Menu/TwoPlayerButtonHover.png", 1.f));
-		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(playObj.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
-		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(playObj.get(), "(B)", menuFont));
+		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>("QBert/Menu/TwoPlayerButton.png", 1.f));
+		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>("QBert/Menu/TwoPlayerButtonHover.png", 1.f));
+		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
+		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("(B)", menuFont));
 		pTextComp->SetLocalPosition(85, 17.5f);
 		pTextComp->SetColor(Colors::COLOR_TABLE[ColorName::DarkLimeGreen]);
 		Add(playObj);
@@ -178,10 +178,10 @@ void MainMenu::Initialize()
 		auto playObj = std::make_shared<GameObject>();
 		playObj->SetPosition(290, 400);
 
-		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/Menu/VersusButton.png", 1.f));
-		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/Menu/VersusButtonHover.png", 1.f));
-		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(playObj.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
-		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(playObj.get(), "(X)", menuFont));
+		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>("QBert/Menu/VersusButton.png", 1.f));
+		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>("QBert/Menu/VersusButtonHover.png", 1.f));
+		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
+		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("(X)", menuFont));
 		pTextComp->SetLocalPosition(80, 17.5f);
 		pTextComp->SetColor(Colors::COLOR_TABLE[ColorName::DarkLimeGreen]);
 		Add(playObj);
@@ -194,10 +194,10 @@ void MainMenu::Initialize()
 		auto playObj = std::make_shared<GameObject>();
 		playObj->SetPosition(420, 400);
 
-		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/Menu/ControlsButton.png", 1.f));
-		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/Menu/ControlsButtonHover.png", 1.f));
-		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(playObj.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
-		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(playObj.get(), "(Y)", menuFont));
+		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>("QBert/Menu/ControlsButton.png", 1.f));
+		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>("QBert/Menu/ControlsButtonHover.png", 1.f));
+		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
+		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("(Y)", menuFont));
 		pTextComp->SetLocalPosition(85, 17.5f);
 		pTextComp->SetColor(Colors::COLOR_TABLE[ColorName::DarkLimeGreen]);
 		Add(playObj);

@@ -13,11 +13,11 @@ enum class EnemyType
 	Coily
 };
 
-class EnemyComponent : public Tonic::Component
+class EnemyComponent final : public Tonic::Component
 {
 public:
 
-	EnemyComponent(Tonic::GameObject* parent, EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime, unsigned int deathSoundId);
+	EnemyComponent(EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime, unsigned int deathSoundId);
 	virtual ~EnemyComponent() = default;
 
 	void Initialize() override;

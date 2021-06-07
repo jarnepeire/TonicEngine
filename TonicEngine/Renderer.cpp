@@ -25,11 +25,19 @@ int GetOpenGLDriverIndex()
 	return openglIndex;
 }
 
+Tonic::Renderer::Renderer()
+	: m_pWindow{}
+	, m_pRenderer{}
+	, m_RenderImGui{ false }
+	, m_ShowDemoWindow{ false }
+{
+}
+
 void Tonic::Renderer::Init(SDL_Window * window)
 {
 	m_pWindow = window;
-	m_Renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED /*| SDL_RENDERER_PRESENTVSYNC*/);
-	if (m_Renderer == nullptr) 
+	m_pRenderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED /*| SDL_RENDERER_PRESENTVSYNC*/);
+	if (m_pRenderer == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
@@ -43,7 +51,7 @@ void Tonic::Renderer::Init(SDL_Window * window)
 
 void Tonic::Renderer::Render() const
 {
-	SDL_RenderClear(m_Renderer);
+	SDL_RenderClear(m_pRenderer);
 
 	SceneManager::GetInstance().Render();
 
@@ -59,7 +67,7 @@ void Tonic::Renderer::Render() const
 		ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 	}
 
-	SDL_RenderPresent(m_Renderer);
+	SDL_RenderPresent(m_pRenderer);
 }
 
 void Tonic::Renderer::Destroy()
@@ -68,10 +76,10 @@ void Tonic::Renderer::Destroy()
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
-	if (m_Renderer != nullptr)
+	if (m_pRenderer != nullptr)
 	{
-		SDL_DestroyRenderer(m_Renderer);
-		m_Renderer = nullptr;
+		SDL_DestroyRenderer(m_pRenderer);
+		m_pRenderer = nullptr;
 	}
 }
 

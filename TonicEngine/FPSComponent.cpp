@@ -3,8 +3,8 @@
 #include "GameObject.h"
 #include "TextComponent.h"
 
-Tonic::FPSComponent::FPSComponent(Tonic::GameObject* parent, const std::shared_ptr<TextComponent>& pTextComp)
-	: Component(parent)
+Tonic::FPSComponent::FPSComponent(const std::shared_ptr<TextComponent>& pTextComp)
+	: Component()
 	, m_DisplayFPS(true)
 	, m_Frames()
 	, m_TotalTime()
@@ -13,23 +13,15 @@ Tonic::FPSComponent::FPSComponent(Tonic::GameObject* parent, const std::shared_p
 {
 }
 
-Tonic::FPSComponent::FPSComponent(Tonic::GameObject* parent, const std::shared_ptr<Tonic::Font>& font)
-	: Component(parent)
+Tonic::FPSComponent::FPSComponent(const std::shared_ptr<Tonic::Font>& font)
+	: Component()
 	, m_DisplayFPS(true)
 	, m_Frames()
-	, m_TotalTime()
 	, m_FPS()
+	, m_TotalTime()
 {
 	//To ensure there's a text component to receive the FPS stats
-	m_pTextComponent = m_pGameObject->AddComponent<TextComponent>(std::make_shared<TextComponent>(m_pGameObject, "0", font));
-}
-
-void Tonic::FPSComponent::Initialize()
-{
-}
-
-void Tonic::FPSComponent::PostInitialize()
-{
+	m_pTextComponent = m_pGameObject->AddComponent<TextComponent>(std::make_shared<TextComponent>("0", font));
 }
 
 void Tonic::FPSComponent::FixedUpdate(float dt)
@@ -55,8 +47,4 @@ void Tonic::FPSComponent::Update(float dt)
 			m_pTextComponent->SetText(std::to_string(m_FPS));
 		}
 	}
-}
-
-void Tonic::FPSComponent::Render()
-{
 }

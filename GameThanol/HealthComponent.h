@@ -2,10 +2,10 @@
 #include <Component.h>
 class RespawnComponent;
 
-class HealthComponent : public Tonic::Component
+class HealthComponent final : public Tonic::Component
 {
 public:
-	HealthComponent(Tonic::GameObject* parent, int nbLives = 5);
+	HealthComponent(int nbLives = 5);
 	virtual ~HealthComponent() = default;
 
 	void Initialize() override;
@@ -19,7 +19,7 @@ public:
 	void LoseLife();
 	int GetNbLives() const { return m_NbLives; }
 
-	void SetRespawnComponent(std::shared_ptr<RespawnComponent> respawnComponent);
+	void SetRespawnComponent(const std::shared_ptr<RespawnComponent>& respawnComponent);
 	bool HasDied() const { return m_HasDied; }
 private:
 	std::shared_ptr<RespawnComponent> m_RespawnComponent;

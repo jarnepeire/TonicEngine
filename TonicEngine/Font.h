@@ -6,10 +6,9 @@ namespace Tonic
 	/**
 	 * Simple RAII wrapper for an _TTF_Font
 	 */
-	class Font
+	class Font final
 	{
 	public:
-		_TTF_Font* GetFont() const;
 		explicit Font(const std::string& fullPath, unsigned int size);
 		~Font();
 
@@ -17,8 +16,11 @@ namespace Tonic
 		Font(Font &&) = delete;
 		Font & operator= (const Font &) = delete;
 		Font & operator= (const Font &&) = delete;
+
+		_TTF_Font* GetFont() const;
+	
 	private:
-		_TTF_Font* m_Font;
+		_TTF_Font* m_pFont;
 		unsigned int m_Size;
 	};
 }

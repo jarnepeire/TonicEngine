@@ -3,8 +3,6 @@
 
 namespace Tonic
 {
-
-
 	class LogAudio : public AudioSystem
 	{
 	public:

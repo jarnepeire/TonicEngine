@@ -126,18 +126,18 @@ void EnemyObserver::Notify(Tonic::GameObject* object, int eventId)
 				{
 					//Flip character
 					bool jumpLeft = ((jumpToCoord.Col - currCoord.Col) == -1);
-					if (pSpriteComponent) pSpriteComponent->SetIsLeft(jumpLeft);
+					if (pSpriteComponent) pSpriteComponent->SetIsFlipped(jumpLeft);
 				}
 				else //Mean's he jumped down
 				{
 					//Flip character
 					bool jumpLeft = ((jumpToCoord.Col - currCoord.Col) == 0);
-					if (pSpriteComponent) pSpriteComponent->SetIsLeft(jumpLeft);
+					if (pSpriteComponent) pSpriteComponent->SetIsFlipped(jumpLeft);
 				}
 			}
 			else if (enemyType == EnemyType::UggWrongway)
 			{
-				if (pSpriteComponent) pSpriteComponent->SetIsLeft(true);
+				if (pSpriteComponent) pSpriteComponent->SetIsFlipped(true);
 			}
 
 		}

@@ -12,7 +12,6 @@ namespace Tonic
 	private:
 		InputLocator();
 
-		//static std::mutex m_Mutex;
 		static InputManager m_pNullInput;
 		static InputManager* m_pInputManager;
 	};

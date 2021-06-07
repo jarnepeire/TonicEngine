@@ -6,8 +6,8 @@
 #include <MathHelper.h>
 
 using namespace Tonic;
-HexComponent::HexComponent(Tonic::GameObject* parent, std::vector<std::shared_ptr<ImageComponent>> imageComps, int nbVisitsNeeded, int row, int col, int hexWidth, int hexHeight, const glm::vec2& pos)
-	: Component(parent)
+HexComponent::HexComponent(std::vector<std::shared_ptr<ImageComponent>> imageComps, int nbVisitsNeeded, int row, int col, int hexWidth, int hexHeight, const glm::vec2& pos)
+	: Component()
 	, m_ImageComponents(imageComps)
 	, m_HexWidth(hexWidth)
 	, m_HexHeight(hexHeight)

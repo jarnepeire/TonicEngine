@@ -17,7 +17,7 @@ class HexComponent;
 class HexGrid : public Tonic::Component
 {
 public:
-	HexGrid(Tonic::GameObject* parent, int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, const std::vector<std::string>& hexImagePaths, bool isAlternating = false);
+	HexGrid(int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, const std::vector<std::string>& hexImagePaths, bool isAlternating = false);
 	virtual ~HexGrid();
 
 	void Initialize() override;
@@ -56,6 +56,5 @@ private:
 	int m_NbVisitsNeeded;
 	bool m_IsAltering;
 
-	void InitializeGrid(int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, bool isAlternating);
 };
 

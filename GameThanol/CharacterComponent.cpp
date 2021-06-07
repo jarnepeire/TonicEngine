@@ -8,8 +8,8 @@
 #include "GameEvent.h"
 
 using namespace Tonic;
-CharacterComponent::CharacterComponent(Tonic::GameObject* parent)
-	: Component(parent)
+CharacterComponent::CharacterComponent()
+	: Component()
 	, m_Score(0)
 {
 }

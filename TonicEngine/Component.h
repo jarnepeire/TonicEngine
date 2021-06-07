@@ -8,8 +8,13 @@ namespace Tonic
 	class Component
 	{
 	public:
-		Component(Tonic::GameObject* parent);
-		virtual ~Component() {}
+		Component();
+		virtual ~Component() = default;
+
+		Component(const Component& other) = delete;
+		Component(Component&& other) = delete;
+		Component& operator=(const Component& other) = delete;
+		Component& operator=(Component&& other) = delete;
 
 		/* Initializes the component with the needed functionality */
 		virtual void Initialize() = 0;
@@ -30,11 +35,14 @@ namespace Tonic
 		/* Returns local position of component within the game object */
 		const glm::vec3& GetLocalPosition() const { return m_Transform.GetPosition(); }
 
+		/* Sets the parent game object for this component */
+		void SetGameObject(Tonic::GameObject* pObj) { m_pGameObject = pObj;  }
+		
 		/* Set local position of component within the game object */
 		void SetLocalPosition(const float x, const float y);
 
 		/* Get subject object of component, to be used to add observers to */
-		std::unique_ptr<Subject>& GetSubject() { return m_pSubject; }
+		const std::unique_ptr<Subject>& GetSubject() const { return m_pSubject; }
 
 		/* Returns world position of component (local position within the game object + game object's position) */
 		glm::vec3 GetWorldPosition() const;

@@ -4,10 +4,10 @@
 
 class HexGrid;
 
-class HexJumpComponent : public Tonic::Component
+class HexJumpComponent final : public Tonic::Component
 {
 public:
-	HexJumpComponent(Tonic::GameObject* parent, HexGrid* pHexGrid, int startRow, int startCol, float timeToJump = 1.f);
+	HexJumpComponent(HexGrid* pHexGrid, int startRow, int startCol, float timeToJump = 1.f);
 	virtual ~HexJumpComponent() = default;
 
 	void Initialize() override;
@@ -22,6 +22,7 @@ public:
 
 	void ResetToOriginalCoordinate();
 	void ResetToTop();
+	void ResetPosition();
 
 	HexGrid* GetGrid() { return m_pHexGrid; }
 	const HexCoordinate& GetPreviousCoordinate() const { return m_PreviousCoordinate; }

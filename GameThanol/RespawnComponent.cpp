@@ -4,8 +4,8 @@
 #include <GameObject.h>
 
 using namespace Tonic;
-RespawnComponent::RespawnComponent(Tonic::GameObject* parent, const glm::vec2& respawnPos, float respawnTime)
-	: Component(parent)
+RespawnComponent::RespawnComponent(const glm::vec2& respawnPos, float respawnTime)
+	: Component()
 	, m_RespawnPosition(respawnPos)
 	, m_InitPosition(glm::vec2(respawnPos.x, -35.f)) //offset above screen
 	, m_CanRespawn(false)

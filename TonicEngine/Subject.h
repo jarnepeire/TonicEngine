@@ -8,7 +8,7 @@ namespace Tonic
 	class GameObject;
 	class Observer;
 
-	class Subject
+	class Subject final
 	{
 	public:
 		Subject() = default;

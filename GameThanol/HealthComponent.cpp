@@ -8,8 +8,8 @@
 #include "GameEvent.h"
 
 using namespace Tonic;
-HealthComponent::HealthComponent(Tonic::GameObject* parent, int nbLives)
-	: Component(parent)
+HealthComponent::HealthComponent(int nbLives)
+	: Component()
 	, m_NbLives(nbLives)
 	, m_NbLivesOriginal(nbLives)
 	, m_RespawnComponent()
@@ -69,7 +69,7 @@ void HealthComponent::LoseLife()
 
 }
 
-void HealthComponent::SetRespawnComponent(std::shared_ptr<RespawnComponent> respawnComponent)
+void HealthComponent::SetRespawnComponent(const std::shared_ptr<RespawnComponent>& respawnComponent)
 {
 	m_RespawnComponent = respawnComponent;
 }

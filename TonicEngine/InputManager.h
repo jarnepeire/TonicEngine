@@ -1,99 +1,8 @@
-//#pragma once
-//#include <Windows.h>
-//#include <Xinput.h>
-//#include <map>
-//#include <unordered_map>
-//#include <vector>
-//#include <memory>
-//
-//#include "Command.h"
-//#include "Singleton.h"
-//#include "KeyboardMapping.h"
-//#include "ControllerMapping.h"
-//
-//#pragma warning (disable:4201)
-//#include "glm/glm.hpp"
-//
-//namespace Tonic
-//{
-//	enum class TriggerState
-//	{
-//		NULL_VALUE = -666,
-//		Pressed,
-//		Released,
-//		Hold
-//	};
-//
-//	struct InputSetting
-//	{
-//		//Simple constructor
-//		InputSetting() {}
-//		InputSetting(ControllerButton button, ControllerButtonType type, TriggerState triggerState)
-//		{
-//			Button = button;
-//			Type = type;
-//			TriggerState = triggerState;
-//		}
-//
-//		// operator== is required to compare keys in case of hash collision
-//		bool operator==(const InputSetting& is) const
-//		{
-//			return Button == is.Button && TriggerState == is.TriggerState;
-//		}
-//
-//		// operator< is required to compare keys in case of hash collision
-//		bool operator<(const InputSetting& is) const
-//		{
-//			return Button < is.Button;
-//		}
-//
-//		//Member variables
-//		ControllerButton Button{};
-//		int KeyboardKey{};
-//		ControllerButtonType Type{};
-//		TriggerState TriggerState{};
-//		mutable bool IsTriggered = false;
-//	};
-//
-//	class InputManager final : public Singleton<InputManager>
-//	{
-//	public:
-//		InputManager() = default;
-//
-//		bool ProcessInput();
-//		bool IsInputTriggered(ControllerButton button, ControllerButtonType type, TriggerState triggerState);
-//		void AddInputAction(int keyboardKey, ControllerButton button, ControllerButtonType type, TriggerState triggerState, std::shared_ptr<Command> command);
-//
-//		glm::vec2 GetThumbstickDirectionNormalized(ControllerButton button);
-//		float GetTriggerForce(ControllerButton button);
-//
-//	private:
-//		XINPUT_STATE m_PrevControllerState;
-//		XINPUT_STATE m_CurrControllerState;
-//		std::map<Tonic::InputSetting, std::shared_ptr<Command>> m_InputActions;
-//		//std::unordered_map<Tonic::InputSetting, std::shared_ptr<Command>> m_InputActions;
-//
-//		/* Private functions */
-//		bool IsPressed(ControllerButton button) const;
-//		bool WasPressed(ControllerButton button) const;
-//
-//		Tonic::TriggerState GetCurrentTriggerState(ControllerButton button);
-//		bool DidThumbstickMove(ControllerButton button);
-//		bool IsTriggerPressed(ControllerButton button);
-//	};
-//
-//}
-
 #pragma once
 #include <Windows.h>
 #include <Xinput.h>
 #include <map>
-#include <unordered_map>
-#include <vector>
 #include <memory>
-
-#include "Command.h"
-#include "Singleton.h"
 #include "KeyboardMapping.h"
 #include "ControllerMapping.h"
 
@@ -103,6 +12,8 @@
 
 namespace Tonic
 {
+	class Command;
+
 	enum class TriggerState
 	{
 		NULL_VALUE = -666,
@@ -115,7 +26,7 @@ namespace Tonic
 	{
 		//Simple constructor
 		InputSetting() {}
-		InputSetting(ControllerButton button, ControllerButtonType type, TriggerState triggerState)
+		InputSetting(Tonic::ControllerButton button, Tonic::ControllerButtonType type, Tonic::TriggerState triggerState)
 		{
 			Button = button;
 			Type = type;
@@ -125,57 +36,24 @@ namespace Tonic
 		// operator== is required to compare keys in case of hash collision
 		bool operator==(const InputSetting& is) const
 		{
-			return Button == is.Button && TriggerState == is.TriggerState;
-		}
-
-		// operator< is required to compare keys in case of hash collision
-		bool operator<(const InputSetting& is) const
-		{
-			return Button < is.Button;
-		}
-
-		//Member variables
-		ControllerButton Button{};
-		int KeyboardKey{};
-		ControllerButtonType Type{};
-		TriggerState TriggerState{};
-		mutable bool IsTriggered = false;
-	};
-
-	struct InputSettingALT
-	{
-		//Simple constructor
-		InputSettingALT() {}
-		InputSettingALT(ControllerButton button, ControllerButtonType type, TriggerState triggerState)
-		{
-			Button = button;
-			Type = type;
-			TriggerState = triggerState;
-		}
-
-		// operator== is required to compare keys in case of hash collision
-		bool operator==(const InputSettingALT& is) const
-		{
 			return (Button == is.Button
 				&& KeyboardKey == is.KeyboardKey
 				&& Type == is.Type
-				&& TriggerState == is.TriggerState
-				/*&& Command == is.Command*/);
+				&& TriggerState == is.TriggerState);
 		}
 
 		// operator< is required to compare keys in case of hash collision
 		// ordered on keyboard key
-		bool operator<(const InputSettingALT& is) const
+		bool operator<(const InputSetting& is) const
 		{
 			return KeyboardKey < is.KeyboardKey;
 		}
 
 		//Member variables
-		ControllerButton Button{};
+		Tonic::ControllerButton Button{};
 		int KeyboardKey{};
-		ControllerButtonType Type{};
-		TriggerState TriggerState{};
-		//std::shared_ptr<Command> Command{ nullptr };
+		Tonic::ControllerButtonType Type{};
+		Tonic::TriggerState TriggerState{};
 	};
 
 	class InputManager final
@@ -183,36 +61,53 @@ namespace Tonic
 	public:
 		InputManager() = default;
 
+		/* Process all types of input and returns whether the window is being terminated or not */
 		bool ProcessInput();
-		bool IsInputTriggered(ControllerButton button, ControllerButtonType type, TriggerState triggerState);
-		bool IsInputTriggered(int keyboardKey, TriggerState triggerState);
-		void AddInputAction(int keyboardKey, ControllerButton button, ControllerButtonType type, TriggerState triggerState, std::shared_ptr<Command> command);
+		
+		/* Returns true if combination of controller button and type is triggered in the given state */
+		bool IsInputTriggered(Tonic::ControllerButton button, Tonic::ControllerButtonType type, Tonic::TriggerState triggerState) const;
+		
+		/* Returns true if combination of keyboard key in the given state is triggered */
+		bool IsInputTriggered(int keyboardKey, Tonic::TriggerState triggerState) const;
+		
+		/* Adds a new command to the manager to be executed on certain key inputs */
+		void AddInputAction(int keyboardKey, Tonic::ControllerButton button, Tonic::ControllerButtonType type, Tonic::TriggerState triggerState, std::shared_ptr<Tonic::Command> command);
 
-		bool IsMouseButtonDown(MouseButton btn, TriggerState triggerState) const;
+		/* Returns true if given mouse button is triggered in the given trigger state */
+		bool IsMouseButtonDown(Tonic::MouseButton btn, Tonic::TriggerState triggerState) const;
+		
+		/* Returns relative movement vector of the mouse since previous frame */
 		const glm::vec2& GetRelativeMouseMove() const { return m_RelativeMouseMove; }
+		
+		/* Returns mouse position */
 		const glm::vec2& GetMousePos(bool getOldPos = false) const;
-		glm::vec2 GetThumbstickDirectionNormalized(ControllerButton button);
-		float GetTriggerForce(ControllerButton button);
+		
+		/* Returns vector of direction in which thumbstick is being rotated */
+		glm::vec2 GetThumbstickDirectionNormalized(Tonic::ControllerButton button) const;
+		
+		/* Returns trigger force of the controller trigger given */
+		float GetTriggerForce(Tonic::ControllerButton button) const;
+
+		/* Makes sure that old input doesn't impact the new scene */
+		void CarryOverInput(InputManager* pInput);
 
 	private:
-		Uint32 m_PrevMouseButtonState;
-		Uint32 m_MouseButtonState;
-		glm::vec2 m_CurrMousePos, m_PrevMousePos, m_RelativeMouseMove;
+		Uint32 m_PrevMouseButtonState{};
+		Uint32 m_MouseButtonState{};
+		glm::vec2 m_CurrMousePos{}, m_PrevMousePos{}, m_RelativeMouseMove{};
 
-		XINPUT_STATE m_PrevControllerState;
-		XINPUT_STATE m_CurrControllerState;
-		//std::map<Tonic::InputSetting, std::shared_ptr<Command>> m_InputActions;
-		std::map<Tonic::InputSettingALT, std::shared_ptr<Command>> m_InputActions;
+		XINPUT_STATE m_PrevControllerState{};
+		XINPUT_STATE m_CurrControllerState{};
+		std::map<Tonic::InputSetting, std::shared_ptr<Tonic::Command>> m_InputActions{};
 
 		/* Private functions */
-		bool IsInputTriggered(int keyboardKey, TriggerState triggerState, SDL_Event& e);
-		bool IsPressed(ControllerButton button) const;
-		bool WasPressed(ControllerButton button) const;
+		bool IsInputTriggered(int keyboardKey, Tonic::TriggerState triggerState, SDL_Event& e) const;
+		bool IsPressed(Tonic::ControllerButton button) const;
+		bool WasPressed(Tonic::ControllerButton button) const;
 
-		Tonic::TriggerState GetCurrentTriggerState(ControllerButton button);
-		bool DidThumbstickMove(ControllerButton button);
-		bool IsTriggerPressed(ControllerButton button);
-
+		Tonic::TriggerState GetCurrentTriggerState(Tonic::ControllerButton button) const;
+		bool DidThumbstickMove(Tonic::ControllerButton button) const;
+		bool IsTriggerPressed(Tonic::ControllerButton button) const;
 	};
 
 }

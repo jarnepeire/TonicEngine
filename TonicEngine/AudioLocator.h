@@ -1,6 +1,5 @@
 #pragma once
 #include "NullAudio.h"
-//#include <mutex>
 
 namespace Tonic
 {
@@ -13,7 +12,6 @@ namespace Tonic
 	private:
 		AudioLocator();
 
-		//static std::mutex m_Mutex;
 		static NullAudio m_pNullAudio;
 		static AudioSystem* m_pAudioSystem;
 	};

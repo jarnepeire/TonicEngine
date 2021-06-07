@@ -1,5 +1,6 @@
 #include "TonicEnginePCH.h"
 #include "InputManager.h"
+#include "Command.h"
 #include <SDL.h>
 
 bool Tonic::InputManager::ProcessInput()
@@ -19,8 +20,7 @@ bool Tonic::InputManager::ProcessInput()
 
 	//Describing the state through bitmask of the digital buttons: https://docs.microsoft.com/en-us/windows/win32/api/xinput/ns-xinput-xinput_gamepad
 	//We're only looping over registered input buttons that actually have a command (action) bind to them
-	//for (std::pair<const InputSetting, std::shared_ptr<Command>>& it : m_InputActions)
-	for (std::pair<const InputSettingALT, std::shared_ptr<Command>>& it : m_InputActions)
+	for (std::pair<const InputSetting, std::shared_ptr<Command>>& it : m_InputActions)
 	{
 		auto& input = it.first;
 		auto& command = it.second;
@@ -36,7 +36,7 @@ bool Tonic::InputManager::ProcessInput()
 				command->Execute();
 		}
 	}
-	
+
 	//Updating mouse position
 	m_PrevMousePos = m_CurrMousePos;
 	m_PrevMouseButtonState = m_MouseButtonState;
@@ -53,7 +53,7 @@ bool Tonic::InputManager::ProcessInput()
 	return true;
 }
 
-bool Tonic::InputManager::IsInputTriggered(ControllerButton button, ControllerButtonType type, TriggerState triggerState)
+bool Tonic::InputManager::IsInputTriggered(ControllerButton button, ControllerButtonType type, TriggerState triggerState) const
 {
 	//Check if the input that is requested matches the current state of input
 	switch (type)
@@ -74,10 +74,9 @@ bool Tonic::InputManager::IsInputTriggered(ControllerButton button, ControllerBu
 		return false;
 		break;
 	}
-	
 }
 
-bool Tonic::InputManager::IsInputTriggered(int keyboardKey, TriggerState triggerState)
+bool Tonic::InputManager::IsInputTriggered(int keyboardKey, TriggerState triggerState) const
 {
 	//Getting SDL events
 	SDL_Event e{};
@@ -104,7 +103,7 @@ bool Tonic::InputManager::IsInputTriggered(int keyboardKey, TriggerState trigger
 	return false;
 }
 
-bool Tonic::InputManager::IsInputTriggered(int keyboardKey, TriggerState triggerState, SDL_Event& e)
+bool Tonic::InputManager::IsInputTriggered(int keyboardKey, TriggerState triggerState, SDL_Event& e) const
 {
 	//Execute command pressed by keyboard
 	bool isHeld = (e.key.repeat != 0);
@@ -135,7 +134,7 @@ bool Tonic::InputManager::WasPressed(ControllerButton button) const
 	return ((int)m_PrevControllerState.Gamepad.wButtons == (int)button);
 }
 
-Tonic::TriggerState Tonic::InputManager::GetCurrentTriggerState(ControllerButton button)
+Tonic::TriggerState Tonic::InputManager::GetCurrentTriggerState(ControllerButton button) const
 {
 	//Full credit to: https://bell0bytes.eu/xinput-and-gamepads/
 	//For the way of detecting whether a button was hold/released/pressed
@@ -151,7 +150,7 @@ Tonic::TriggerState Tonic::InputManager::GetCurrentTriggerState(ControllerButton
 			return TriggerState::NULL_VALUE;
 }
 
-bool Tonic::InputManager::DidThumbstickMove(ControllerButton b)
+bool Tonic::InputManager::DidThumbstickMove(ControllerButton b) const
 {
 	if (b == ControllerButton::LeftThumbstick)
 	{
@@ -179,7 +178,7 @@ bool Tonic::InputManager::DidThumbstickMove(ControllerButton b)
 	}
 }
 
-bool Tonic::InputManager::IsTriggerPressed(ControllerButton b)
+bool Tonic::InputManager::IsTriggerPressed(ControllerButton b) const
 {
 	if (b == ControllerButton::LeftTrigger)
 		return m_CurrControllerState.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD;
@@ -189,14 +188,13 @@ bool Tonic::InputManager::IsTriggerPressed(ControllerButton b)
 
 void Tonic::InputManager::AddInputAction(int keyboardKey, ControllerButton button, ControllerButtonType type, TriggerState triggerState, std::shared_ptr<Command> command)
 {
-	InputSettingALT setting{};
+	InputSetting setting{};
 	setting.Button = button;
 	setting.KeyboardKey = keyboardKey;
 	setting.Type = type;
 	setting.TriggerState = triggerState;
 
-	//m_InputActions.insert(std::pair<InputSetting, std::shared_ptr<Command>>(setting, command));
-	m_InputActions.insert(std::pair<InputSettingALT, std::shared_ptr<Command>>(setting, command));
+	m_InputActions.insert(std::pair<InputSetting, std::shared_ptr<Command>>(setting, command));
 }
 
 bool Tonic::InputManager::IsMouseButtonDown(MouseButton btn, TriggerState triggerState) const
@@ -221,7 +219,7 @@ const glm::vec2& Tonic::InputManager::GetMousePos(bool getOldPos) const
 	return (getOldPos) ? m_PrevMousePos : m_CurrMousePos;
 }
 
-glm::vec2 Tonic::InputManager::GetThumbstickDirectionNormalized(ControllerButton b)
+glm::vec2 Tonic::InputManager::GetThumbstickDirectionNormalized(ControllerButton b) const
 {
 	//Source: https://docs.microsoft.com/en-us/windows/win32/xinput/getting-started-with-xinput
 	//Determine which thumbstick to calculate direction for
@@ -250,11 +248,24 @@ glm::vec2 Tonic::InputManager::GetThumbstickDirectionNormalized(ControllerButton
 	return glm::vec2(xNormalized, yNormalized);
 }
 
-float Tonic::InputManager::GetTriggerForce(ControllerButton b)
+float Tonic::InputManager::GetTriggerForce(ControllerButton b) const
 {
 	if (b == ControllerButton::LeftTrigger)
 		return (float)m_CurrControllerState.Gamepad.bLeftTrigger / 255.f;
 	else
 		return (float)m_CurrControllerState.Gamepad.bRightTrigger / 255.f;
+}
+
+void Tonic::InputManager::CarryOverInput(InputManager* pInput)
+{
+	m_PrevMouseButtonState = pInput->m_PrevMouseButtonState;
+	m_MouseButtonState = pInput->m_MouseButtonState;
+
+	m_CurrMousePos = pInput->m_CurrMousePos;
+	m_PrevMousePos = pInput->m_PrevMousePos;
+	m_RelativeMouseMove = pInput->m_RelativeMouseMove;
+
+	m_PrevControllerState = pInput->m_PrevControllerState;
+	m_CurrControllerState = pInput->m_CurrControllerState;
 }
 

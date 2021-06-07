@@ -3,7 +3,6 @@ namespace Tonic
 {
 	class GameObject;
 
-
 	class Command
 	{
 	public:
@@ -12,7 +11,9 @@ namespace Tonic
 			m_pObject = object;
 		}
 
-		virtual ~Command() {}
+		virtual ~Command() = default;
+
+		/* Executes given command code */
 		virtual void Execute() = 0;
 
 	protected:

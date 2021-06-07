@@ -20,7 +20,7 @@ void MenuButton::Update(float dt)
 		m_ButtonComp->CanRender(false);
 		m_ButtonHoverComp->CanRender(true);
 
-		if (InputLocator::GetInputManager().IsMouseButtonDown(MouseButton::LMB, Tonic::TriggerState::Pressed))
+		if (InputLocator::GetInputManager().IsMouseButtonDown(MouseButton::LMB, Tonic::TriggerState::Released))
 		{
 			//Is pressing
 			m_IsPressed = true;

@@ -1,10 +1,10 @@
 #pragma once
 #include "HexJumpAIComponent.h"
 
-class SamSlickComponent : public HexJumpAIComponent
+class SamSlickComponent final : public HexJumpAIComponent
 {
 public:
-	SamSlickComponent(Tonic::GameObject* parent, unsigned int jumpSoundId);
+	SamSlickComponent(unsigned int jumpSoundId);
 	virtual ~SamSlickComponent() = default;
 
 protected:

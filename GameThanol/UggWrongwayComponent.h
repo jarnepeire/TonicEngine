@@ -1,7 +1,7 @@
 #pragma once
 #include "HexJumpAIComponent.h"
 
-class UggWrongwayComponent : public HexJumpAIComponent
+class UggWrongwayComponent final : public HexJumpAIComponent
 {
 public:
 	enum class UggWrongway
@@ -10,7 +10,7 @@ public:
 		Wrongway
 	};
 
-	UggWrongwayComponent(Tonic::GameObject* parent, UggWrongway type, unsigned int jumpSoundId);
+	UggWrongwayComponent(UggWrongway type, unsigned int jumpSoundId);
 	virtual ~UggWrongwayComponent() = default;
 
 protected:

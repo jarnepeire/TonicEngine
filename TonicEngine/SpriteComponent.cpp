@@ -4,10 +4,10 @@
 #include "GameObject.h"
 #include "RenderComponent.h"
 
-Tonic::SpriteComponent::SpriteComponent(Tonic::GameObject* parent, const std::string& filename, int frameWidth, int frameHeight, int nbColumns, int animationSpeedInMS, float scale)
-	: Component(parent)
+Tonic::SpriteComponent::SpriteComponent(const std::string& filename, int frameWidth, int frameHeight, int nbColumns, int animationSpeedInMS, float scale)
+	: Component()
 	, m_EnableRender(true)
-	, m_Texture(ResourceManager::GetInstance().LoadTexture(filename))
+	, m_pTexture(ResourceManager::GetInstance().LoadTexture(filename))
 	, m_Dest()
 	, m_Src()
 	, m_Flip(SDL_FLIP_NONE) // SDL_FLIP_HORIZONTAL // SDL_FLIP_NONE
@@ -16,10 +16,14 @@ Tonic::SpriteComponent::SpriteComponent(Tonic::GameObject* parent, const std::st
 	, m_Scale(scale)
 	, m_NbColumns(nbColumns)
 	, m_AnimationSpeedInMS(animationSpeedInMS)
-	//, m_CurrentAnimation(ESpriteAnimation::idle)
 	, m_CurrentAnimationRow()
 {
+}
+
+void Tonic::SpriteComponent::Initialize()
+{
 	auto pos = m_Transform.GetPosition();
+
 	//Initialize src
 	m_Src.x = 0;
 	m_Src.y = 0;
@@ -31,22 +35,10 @@ Tonic::SpriteComponent::SpriteComponent(Tonic::GameObject* parent, const std::st
 	m_Dest.y = static_cast<int>(pos.y);
 	m_Dest.w = m_Src.w * 2;
 	m_Dest.h = m_Src.h * 2;
-	
+
 	//Apply scaling
 	m_Dest.w = int((float)m_Dest.w * m_Scale);
 	m_Dest.h = int((float)m_Dest.h * m_Scale);
-}
-
-void Tonic::SpriteComponent::Initialize()
-{
-}
-
-void Tonic::SpriteComponent::PostInitialize()
-{
-}
-
-void Tonic::SpriteComponent::FixedUpdate(float)
-{
 }
 
 void Tonic::SpriteComponent::Update(float)
@@ -57,9 +49,6 @@ void Tonic::SpriteComponent::Update(float)
 	m_Dest.y = static_cast<int>(pos.y);
 
 	//Set the current row according to animation
-	//int currentRow = static_cast<std::underlying_type<ESpriteAnimation>::type>(m_CurrentAnimation);
-	//m_Src.y = 0 + (currentRow * m_FrameHeight);
-
 	m_Src.y = 0 + (m_CurrentAnimationRow * m_FrameHeight);
 
 	//Run over the different frames in a row
@@ -68,14 +57,14 @@ void Tonic::SpriteComponent::Update(float)
 
 void Tonic::SpriteComponent::Render()
 {
-	if (m_Texture != nullptr && m_EnableRender)
+	if (m_pTexture != nullptr && m_EnableRender)
 	{
 		auto pRender = m_pGameObject->GetComponent<RenderComponent>();
-		pRender->RenderAnimation(*m_Texture, m_Src, m_Dest, m_Flip);
+		pRender->RenderAnimation(*m_pTexture, m_Src, m_Dest, m_Flip);
 	}
 }
 
-void Tonic::SpriteComponent::SetIsLeft(bool isLeft)
+void Tonic::SpriteComponent::SetIsFlipped(bool isFlipped)
 {
-	m_Flip = (isLeft) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+	m_Flip = (isFlipped) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 }

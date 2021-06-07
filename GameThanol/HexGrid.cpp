@@ -6,8 +6,8 @@
 #include "HexComponent.h"
 
 using namespace Tonic;
-HexGrid::HexGrid(Tonic::GameObject* parent, int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, const std::vector<std::string>& hexImagePaths, bool isAlternating)
-	: Component(parent)
+HexGrid::HexGrid(int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, const std::vector<std::string>& hexImagePaths, bool isAlternating)
+	: Component()
 	, m_ImageComponents()
 	, m_GridSize(gridSize)
 	, m_Grid()
@@ -19,7 +19,7 @@ HexGrid::HexGrid(Tonic::GameObject* parent, int gridSize, int hexWidth, int hexH
 {
 	for (int i = 0; i <= m_NbVisitsNeeded; ++i)
 	{
-		m_ImageComponents.push_back(std::make_shared<ImageComponent>(parent, hexImagePaths[i], 1.f));
+		m_ImageComponents.push_back(std::make_shared<ImageComponent>(hexImagePaths[i], 1.f));
 	}
 }
 
@@ -46,7 +46,8 @@ void HexGrid::Initialize()
 			hexPos.x = pos.x + (col * m_HexWidth) + (row * offsetPerRow);
 			hexPos.y = pos.y - (row * m_HexHeight) + (row * offsetPerCol);
 
-			std::shared_ptr<HexComponent> hex{ std::make_shared<HexComponent>(m_pGameObject, m_ImageComponents, m_NbVisitsNeeded, row, col, m_HexWidth, m_HexHeight, hexPos) };
+			std::shared_ptr<HexComponent> hex{ std::make_shared<HexComponent>(m_ImageComponents, m_NbVisitsNeeded, row, col, m_HexWidth, m_HexHeight, hexPos) };
+			hex->SetGameObject(m_pGameObject);
 			hex->SetIsAlternating(m_IsAltering);
 			m_Grid.push_back(hex);
 		}
@@ -209,42 +210,3 @@ void HexGrid::RemoveDisk(DiskComponent* diskComp, const HexCoordinate& hc)
 		pHex->SetNeighbouringDisk(nullptr);
 	}
 }
-
-void HexGrid::InitializeGrid(int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, bool isAlternating)
-{
-	int offsetPerRow = int(hexWidth / 2.f);
-	int offsetPerCol = int(hexHeight / 4.f);
-
-	int horSize = int(hexWidth / 2.f);
-	int verSize = int(hexHeight / 2.f);
-
-	for (int row = 0; row <= gridSize; row++)
-	{
-		for (int col = 0; col < gridSize - row; col++)
-		{
-			auto pos = m_Transform.GetPosition() + m_pGameObject->GetTransform().GetPosition();
-
-			glm::vec2 hexPos;
-			hexPos.x = pos.x + (col * hexWidth) + (row * offsetPerRow);
-			hexPos.y = pos.y - (row * hexHeight) + (row * offsetPerCol);
-
-			std::shared_ptr<HexComponent> hex{ std::make_shared<HexComponent>(m_pGameObject, m_ImageComponents, nbVisitsNeeded, row, col, hexWidth, hexHeight, hexPos) };
-			hex->SetIsAlternating(isAlternating);
-			m_Grid.push_back(hex);
-		}
-	}
-
-	m_Top = m_Grid.back();
-}
-
-//glm::vec2 HexGrid::GetHexPosition(const HexCoordinate& hc) const
-//{
-//	for (auto& hex : m_Grid)
-//	{
-//		if (hex->GetHexCoordinate() == hc)
-//		{
-//			return hex->GetHexPosition();
-//		}
-//	}
-//	return glm::vec2(InvalidHexPosValue, InvalidHexPosValue);
-//}

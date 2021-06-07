@@ -1,34 +1,11 @@
 #include "TonicEnginePCH.h"
 #include "RenderComponent.h"
 #include "Renderer.h"
-#include "SceneManager.h"
 #include "Texture2D.h"
 
-Tonic::RenderComponent::RenderComponent(Tonic::GameObject* parent, SDL_Renderer* pRenderer)
-	: Component(parent)
+Tonic::RenderComponent::RenderComponent(SDL_Renderer* pRenderer)
+	: Component()
 	, m_pSDLRenderer(pRenderer)
-{
-}
-
-void Tonic::RenderComponent::Initialize()
-{
-}
-
-void Tonic::RenderComponent::PostInitialize()
-{
-}
-
-void Tonic::RenderComponent::FixedUpdate(float dt)
-{
-	UNREFERENCED_PARAMETER(dt);
-}
-
-void Tonic::RenderComponent::Update(float dt)
-{
-	UNREFERENCED_PARAMETER(dt);
-}
-
-void Tonic::RenderComponent::Render()
 {
 }
 
@@ -53,7 +30,7 @@ void Tonic::RenderComponent::RenderTexture(const Tonic::Texture2D& texture, floa
 	SDL_RenderCopy(m_pSDLRenderer, texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void Tonic::RenderComponent::RenderAnimation(const Tonic::Texture2D& texture, SDL_Rect& src, SDL_Rect& dest, SDL_RendererFlip& flip)
+void Tonic::RenderComponent::RenderAnimation(const Tonic::Texture2D& texture, SDL_Rect& src, SDL_Rect& dest, SDL_RendererFlip& flip) const
 {
 	//Render with src
 	SDL_RenderCopyEx(m_pSDLRenderer, texture.GetSDLTexture(), &src, &dest, NULL, NULL, flip);

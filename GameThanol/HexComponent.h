@@ -12,11 +12,11 @@ namespace Tonic
 }
 class DiskComponent;
 
-class HexComponent : public Tonic::Component
+class HexComponent final : public Tonic::Component
 {
 public:
 
-	HexComponent(Tonic::GameObject* parent, std::vector<std::shared_ptr<Tonic::ImageComponent>> imageComps, int nbVisitsNeeded, int row, int col, int hexWidth, int hexHeight, const glm::vec2& pos);
+	HexComponent(std::vector<std::shared_ptr<Tonic::ImageComponent>> imageComps, int nbVisitsNeeded, int row, int col, int hexWidth, int hexHeight, const glm::vec2& pos);
 	virtual ~HexComponent() = default;
 	
 	void Initialize() override;

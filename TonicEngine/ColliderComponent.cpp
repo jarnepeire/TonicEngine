@@ -3,8 +3,8 @@
 #include "GameObject.h"
 #include "Scene.h"
 
-Tonic::ColliderComponent::ColliderComponent(Tonic::GameObject* parent, CollisionLayer collisionLayer, bool canCheckForCollision, float width, float height)
-	: Component(parent)
+Tonic::ColliderComponent::ColliderComponent(CollisionLayer collisionLayer, bool canCheckForCollision, float width, float height)
+	: Component()
 	, m_ColliderBox()
 	, m_CollisionLayer(collisionLayer)
 	, m_CanCheckForCollision(canCheckForCollision)
@@ -14,12 +14,9 @@ Tonic::ColliderComponent::ColliderComponent(Tonic::GameObject* parent, Collision
 {
 }
 
-void Tonic::ColliderComponent::Initialize()
-{
-}
-
 void Tonic::ColliderComponent::PostInitialize()
 {
+	//Set location of collision box, taking into account the parent object's transform
 	const auto& parentPos = m_pGameObject->GetTransform().GetPosition();
 	const auto& compPos = m_Transform.GetPosition();
 	m_ColliderBox.BottomLeft.x = (parentPos.x + compPos.x) - (m_Width / 2.f);
@@ -28,12 +25,13 @@ void Tonic::ColliderComponent::PostInitialize()
 	m_ColliderBox.TopRight.x = (parentPos.x + compPos.x) + (m_Width / 2.f);
 	m_ColliderBox.TopRight.y = (parentPos.y + compPos.y) - (m_Height / 2.f);
 
+	//Add collider to the scene's collider manager to be updated
 	m_pGameObject->GetParentScene()->AddColliderToScene(this);
 }
 
 void Tonic::ColliderComponent::Update(float)
 {
-	//Update location of collision box
+	//Update location of collision box, taking into account the parent object's transform
 	const auto& parentPos = m_pGameObject->GetTransform().GetPosition();
 	const auto& compPos = m_Transform.GetPosition();
 	m_ColliderBox.BottomLeft.x = (parentPos.x + compPos.x) - (m_Width / 2.f);
@@ -43,7 +41,7 @@ void Tonic::ColliderComponent::Update(float)
 	m_ColliderBox.TopRight.y = (parentPos.y + compPos.y) - (m_Height / 2.f);
 }
 
-bool Tonic::ColliderComponent::CollideCheck(ColliderComponent* pCollider)
+bool Tonic::ColliderComponent::CollideCheck(ColliderComponent* pCollider) const
 {
 	//Same layer means no collision
 	if (m_CollisionLayer == pCollider->GetCollisionLayer())

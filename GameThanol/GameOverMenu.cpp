@@ -30,48 +30,46 @@ void GameOverMenu::Initialize()
 
 	//Background
 	auto bgObject = std::make_shared<GameObject>();
-	bgObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(bgObject.get(), "QBert/Menu/MenuBackground.png"));
-	bgObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(bgObject.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+	bgObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>("QBert/Menu/MenuBackground.png"));
+	bgObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
 	Add(bgObject);
 
 	//UI Text
 	auto pEndText = std::make_shared<GameObject>();;
 	pEndText->SetPosition(30, 200);
 
-	pEndText->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pEndText.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
-	auto pTextComp = pEndText->AddComponent<TextComponent>(std::make_shared<TextComponent>(pEndText.get(), "You Lose!", font48));
+	pEndText->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
+	auto pTextComp = pEndText->AddComponent<TextComponent>(std::make_shared<TextComponent>("You Lose!", font48));
 	pTextComp->SetColor(Colors::COLOR_TABLE[ColorName::Red]);
 	Add(pEndText);
 
-
+	//Final Score
 	m_pFinalScoreObj = std::make_shared<GameObject>();
 	m_pFinalScoreObj->SetPosition(30, 265);
 
-	m_pFinalScoreObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pFinalScoreObj.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
-	m_pFinalScoreObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(m_pFinalScoreObj.get(), "Final Score: 0", font36));
+	m_pFinalScoreObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
+	m_pFinalScoreObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("Final Score: 0", font36));
 	Add(m_pFinalScoreObj);
 
 	//Coily on block
 	auto pCoily = std::make_shared<GameObject>();
 	pCoily->SetPosition(450, 150);
-	pCoily->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pCoily.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+	pCoily->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
 
-	auto pCoilySpriteComp = pCoily->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(pCoily.get(), "QBert/Characters/Coily_Spritesheet.png", 16, 32, 1, 125, 2.5f));
+	auto pCoilySpriteComp = pCoily->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>("QBert/Characters/Coily_Spritesheet.png", 16, 32, 1, 125, 2.5f));
 	pCoilySpriteComp->SetAnimationRow(1);
-	pCoilySpriteComp->SetIsLeft(true);
-
+	pCoilySpriteComp->SetIsFlipped(true);
 	Add(pCoily);
-
 
 	//Back to main menu button
 	{
 		auto playObj = std::make_shared<GameObject>();
 		playObj->SetPosition(250, 400);
 
-		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/Menu/ToMenuButton.png", 1.f));
-		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/Menu/ToMenuButtonHover.png", 1.f));
-		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(playObj.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
-		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(playObj.get(), "(A)", menuFont));
+		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>("QBert/Menu/ToMenuButton.png", 1.f));
+		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>("QBert/Menu/ToMenuButtonHover.png", 1.f));
+		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
+		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("(A)", menuFont));
 		pTextComp->SetLocalPosition(85, 17.5f);
 		pTextComp->SetColor(Colors::COLOR_TABLE[ColorName::DarkLimeGreen]);
 		Add(playObj);

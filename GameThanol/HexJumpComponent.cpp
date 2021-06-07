@@ -16,8 +16,8 @@
 #include "GameEvent.h"
 
 using namespace Tonic;
-HexJumpComponent::HexJumpComponent(Tonic::GameObject* parent, HexGrid* pHexGrid, int startRow, int startCol, float timeToJump)
-	: Component(parent)
+HexJumpComponent::HexJumpComponent(HexGrid* pHexGrid, int startRow, int startCol, float timeToJump)
+	: Component()
 	, m_OriginalStartCoordinate(HexCoordinate(startRow, startCol))
 	, m_pHexGrid(pHexGrid)
 	, m_PreviousCoordinate(HexCoordinate())
@@ -205,7 +205,6 @@ void HexJumpComponent::ResetToOriginalCoordinate()
 
 	m_CurrentCoordinate = m_OriginalStartCoordinate;
 	m_pHexGrid->GetHexPosition(m_CurrentCoordinate, m_InitPos);
-	//m_pGameObject->SetPosition(m_InitPos.x, m_InitPos.y);
 }
 
 void HexJumpComponent::ResetToTop()
@@ -216,5 +215,9 @@ void HexJumpComponent::ResetToTop()
 
 	m_CurrentCoordinate = m_pHexGrid->GetTop()->GetHexCoordinate();
 	m_pHexGrid->GetHexPosition(m_CurrentCoordinate, m_InitPos);
-	//m_pGameObject->SetPosition(m_InitPos.x, m_InitPos.y);
+}
+
+void HexJumpComponent::ResetPosition()
+{
+	m_pGameObject->SetPosition(m_InitPos.x, m_InitPos.y);
 }

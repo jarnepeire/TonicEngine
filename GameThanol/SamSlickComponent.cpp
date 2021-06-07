@@ -2,8 +2,8 @@
 #include "HexJumpComponent.h"
 
 using namespace Tonic;
-SamSlickComponent::SamSlickComponent(Tonic::GameObject* parent, unsigned int jumpSoundId)
-    : HexJumpAIComponent(parent, 2.f, jumpSoundId)
+SamSlickComponent::SamSlickComponent(unsigned int jumpSoundId)
+    : HexJumpAIComponent(2.f, jumpSoundId)
 {
 }
 

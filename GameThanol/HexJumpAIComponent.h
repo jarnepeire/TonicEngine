@@ -12,7 +12,7 @@ class HexJumpComponent;
 class HexJumpAIComponent : public Tonic::Component
 {
 public:
-	HexJumpAIComponent(Tonic::GameObject* parent, float postJumpWaitingTime, unsigned int jumpSoundId);
+	HexJumpAIComponent(float postJumpWaitingTime, unsigned int jumpSoundId);
 	virtual ~HexJumpAIComponent() = default;
 
 	void Initialize() override;

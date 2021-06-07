@@ -49,13 +49,13 @@ void QBertScene::AddDiskToGrid(std::shared_ptr<HexGrid> hexGrid, const HexCoordi
 {
 	auto pDisk = std::make_shared<GameObject>();
 
-	auto pDiskComp = pDisk->AddComponent<DiskComponent>(std::make_shared<DiskComponent>(pDisk.get(), 2.f, hexGrid, hc));
+	auto pDiskComp = pDisk->AddComponent<DiskComponent>(std::make_shared<DiskComponent>(2.f, hexGrid, hc));
 	pDiskComp->SetMovingSoundID(moveSoundId);
 
-	auto pDiskSpriteComp = pDisk->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(pDisk.get(), "QBert/Props/Disk_Spritesheet.png", 16, 10, 4, 100));
+	auto pDiskSpriteComp = pDisk->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>("QBert/Props/Disk_Spritesheet.png", 16, 10, 4, 100));
 	pDiskSpriteComp->SetLocalPosition(12, 6);
 
-	pDisk->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pDisk.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+	pDisk->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
 	Add(pDisk);
 
 	m_pDisks.push_back(pDisk);

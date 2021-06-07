@@ -3,8 +3,8 @@
 #include "Subject.h"
 #include "GameObject.h"
 
-Tonic::Component::Component(Tonic::GameObject* parent)
-	: m_pGameObject(parent)
+Tonic::Component::Component()
+	: m_pGameObject(nullptr)
 	, m_pSubject(std::make_unique<Subject>())
 {
 }

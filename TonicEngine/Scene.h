@@ -2,16 +2,15 @@
 #include "SceneManager.h"
 #include "InputManager.h"
 #include "ColliderManager.h"
-
 #include <vector>
 #include <memory>
-
 
 namespace Tonic
 {
 	class AudioSystem;
 	class ColliderComponent;
 	class GameObject;
+
 	class Scene
 	{
 	public:
@@ -29,11 +28,17 @@ namespace Tonic
 		/* Adds the object to the scene, and initializes the object and its components */
 		void Add(const std::shared_ptr<GameObject>& object);
 
+		/* Returns scene name */
 		const std::string& GetName() const { return m_Name; }
+
+		/* Returns scene index */
 		const int GetSceneIndex() const { return m_SceneIndex; }
 
+		/* Returns input manager of scene */
 		InputManager& GetInput() { return m_Input; }
-		std::shared_ptr<AudioSystem> GetAudioSystem() { return m_pAudioSytem; }
+
+		/* Returns audio system of scene */
+		const std::shared_ptr<AudioSystem>& GetAudioSystem() { return m_pAudioSytem; }
 
 	protected:
 		explicit Scene(const std::string& name, int idx);
@@ -41,16 +46,15 @@ namespace Tonic
 		InputManager m_Input;
 		ColliderManager m_ColliderManager;
 		std::shared_ptr<AudioSystem> m_pAudioSytem;
+
 	private: 
-		//friend Scene& SceneManager::CreateScene(const std::string& name);
 		friend class SceneManager;
 		friend class ColliderComponent;
 
 		/* Unique scene information */
 		const int m_SceneIndex;
 		std::string m_Name;
-
-		std::vector<std::shared_ptr<GameObject>> m_Objects{};
+		std::vector<std::shared_ptr<GameObject>> m_pObjects{};
 
 		/* Private functions */
 		void RootFixedUpdate(float deltaT);

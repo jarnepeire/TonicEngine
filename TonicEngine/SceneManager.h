@@ -25,31 +25,30 @@ namespace Tonic
 		void SetActiveScene(const std::string& sceneTag);
 
 		/* Adds a new scene to the manager and call its root- and initialize function */
-		//void AddScene(const std::shared_ptr<Tonic::Scene>& scene);
-		void AddGameScene(std::shared_ptr<Tonic::Scene> scene);
+		void AddGameScene(const std::shared_ptr<Tonic::Scene>& scene);
 
 		/* Returns reference to vector of all scenes */
-		std::vector<std::shared_ptr<Tonic::Scene>>& GetScenes() { return m_Scenes; }
+		std::vector<std::shared_ptr<Tonic::Scene>>& GetScenes() { return m_pScenes; }
 
 		/* Returns pointer to the scene with the given index
-		Returns nullptr on invalid index */
+			Returns nullptr on invalid index */
 		Scene* GetScene(const int index) const;
 
 		/* Returns pointer to the scene with the given scene tag
-		Returns nullptr on invalid scene tag */
+			Returns nullptr on invalid scene tag */
 		Scene* GetScene(const std::string& sceneTag) const;
 
 		/* Returns pointer to the scene that's currently active */
 		Scene* GetCurrentScene() const;
 
 		/* Returns the next free index value */
-		int GetNextFreeIndex() const { return int(m_Scenes.size()); }
+		int GetNextFreeIndex() const { return int(m_pScenes.size()); }
 
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
 
 		int m_ActiveSceneIdx = 0;
-		std::vector<std::shared_ptr<Scene>> m_Scenes;
+		std::vector<std::shared_ptr<Scene>> m_pScenes{};
 	};
 }

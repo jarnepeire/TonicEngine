@@ -15,9 +15,12 @@ int main(int, char* [])
     //Seed random generator
     srand(static_cast<unsigned>(time(0)));
 
+    //Create and run game
     QBertGame* pGame = new QBertGame();
+
     Tonic::TonicEngine engine;
     engine.Run(pGame);
+
     delete pGame;
     return 0;
 }

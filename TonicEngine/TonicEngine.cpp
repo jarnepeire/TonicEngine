@@ -1,46 +1,30 @@
 #include "TonicEnginePCH.h"
 #include "TonicEngine.h"
+
+#include <SDL.h>
+#include <SDL_mixer.h>
 #include <chrono>
 #include <thread>
-#include "InputManager.h"
-#include "SceneManager.h"
-#include "Renderer.h"
-#include "ResourceManager.h"
-#include <SDL.h>
-#include "GameObject.h"
-#include "Scene.h"
-
-#include "InputLocator.h"
-
-//Sound
-#include "AudioLocator.h"
-#include "SDLAudio.h"
-#include "LogAudio.h"
-
-//Commands
-#include "Command.h"
-
-
-//Components
-#include "FPSComponent.h"
-#include "TextComponent.h"
-#include "RenderComponent.h"
-#include "ImageComponent.h"
 
 //Game
 #include "BaseGameThanol.h"
+#include "InputLocator.h"
+#include "SceneManager.h"
+#include "ResourceManager.h"
+#include "Renderer.h"
 
 using namespace std;
 using namespace std::chrono;
 
 void Tonic::TonicEngine::Initialize(Tonic::BaseGameThanol* pGame)
 {
+	//Initialize SDL window
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
-	//Sound
+	//Initialize SDL audio
 	SDL_Init(SDL_INIT_AUDIO);
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 		std::cout << "Error: " << Mix_GetError() << "\n";
@@ -58,15 +42,9 @@ void Tonic::TonicEngine::Initialize(Tonic::BaseGameThanol* pGame)
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 
+	//Initialize renderer
 	Renderer::GetInstance().Init(m_Window);
 	m_MsPerFrame = int(1000.f / pGame->GetCappedFPS());
-}
-
-/**
- * Code constructing the scene world starts here
- */
-void Tonic::TonicEngine::LoadGame() const
-{
 }
 
 void Tonic::TonicEngine::Cleanup()
@@ -90,13 +68,11 @@ void Tonic::TonicEngine::Run(Tonic::BaseGameThanol* pGame)
 
 	//Initialize scenes
 	SceneManager::GetInstance().InitializeScenegraph();
-	LoadGame();
 
 	//Game Loop: http://gameprogrammingpatterns.com/game-loop.html
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
-		//auto& input = InputManager::GetInstance();
 
 		auto previous = high_resolution_clock::now();
 		float lag{};
@@ -111,7 +87,6 @@ void Tonic::TonicEngine::Run(Tonic::BaseGameThanol* pGame)
 			lag += elapsed;
 
 			doContinue = InputLocator::GetInputManager().ProcessInput();
-			//doContinue = input.ProcessInput();
 
 			//Fixed Update
 			while (lag >= ms_per_update)

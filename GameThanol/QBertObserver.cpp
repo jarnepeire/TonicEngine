@@ -70,7 +70,7 @@ void QBertObserver::Notify(Tonic::GameObject* object, int eventId)
 
 				//Flip character
 				bool jumpLeft = ((jumpToCoord.Col - currCoord.Col) == -1);
-				if (pSpriteComp) pSpriteComp->SetIsLeft(jumpLeft);
+				if (pSpriteComp) pSpriteComp->SetIsFlipped(jumpLeft);
 			}
 			else //Mean's he jumped down
 			{
@@ -78,7 +78,7 @@ void QBertObserver::Notify(Tonic::GameObject* object, int eventId)
 
 				//Flip character
 				bool jumpLeft = ((jumpToCoord.Col - currCoord.Col) == 0);
-				if (pSpriteComp) pSpriteComp->SetIsLeft(jumpLeft);
+				if (pSpriteComp) pSpriteComp->SetIsFlipped(jumpLeft);
 			}
 		}
 	}
@@ -97,14 +97,14 @@ void QBertObserver::Notify(Tonic::GameObject* object, int eventId)
 		//Reset anim
 		auto pSpriteComp = object->GetComponent<SpriteComponent>();
 		if (pSpriteComp) pSpriteComp->SetAnimationRow(0);
-		if (pSpriteComp) pSpriteComp->SetIsLeft(false);
+		if (pSpriteComp) pSpriteComp->SetIsFlipped(false);
 	}
 	else if (eventId == (int)GameEvent::EVENT_CHARACTER_DIED)
 	{
 		//Reset anim
 		auto pSpriteComp = object->GetComponent<SpriteComponent>();
 		if (pSpriteComp) pSpriteComp->SetAnimationRow(0);
-		if (pSpriteComp) pSpriteComp->SetIsLeft(false);
+		if (pSpriteComp) pSpriteComp->SetIsFlipped(false);
 	}
 	else if (eventId == (int)GameEvent::EVENT_JUMPER_COLOR_CHANGE)
 	{

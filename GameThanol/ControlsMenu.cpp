@@ -29,19 +29,19 @@ void ControlsMenu::Initialize()
 
 	//Background
 	auto bgObject = std::make_shared<GameObject>();
-	bgObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(bgObject.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
-	bgObject->AddComponent<Tonic::ImageComponent>(std::make_shared<Tonic::ImageComponent>(bgObject.get(), "QBert/Menu/ControlsMenuBackground.png"));
+	bgObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
+	bgObject->AddComponent<Tonic::ImageComponent>(std::make_shared<Tonic::ImageComponent>("QBert/Menu/ControlsMenuBackground.png"));
 
-	auto pJumpUpComp = bgObject->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(bgObject.get(), "QBert/Menu/Tut_JumpUp_Spritesheet.png", 180, 155, 14, 100, 0.25f));
+	auto pJumpUpComp = bgObject->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>("QBert/Menu/Tut_JumpUp_Spritesheet.png", 180, 155, 14, 100, 0.25f));
 	pJumpUpComp->SetLocalPosition(480, 20);
 
-	auto pJumpRightComp = bgObject->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(bgObject.get(), "QBert/Menu/Tut_JumpRight_Spritesheet.png", 180, 155, 14, 100, 0.25f));
+	auto pJumpRightComp = bgObject->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>("QBert/Menu/Tut_JumpRight_Spritesheet.png", 180, 155, 14, 100, 0.25f));
 	pJumpRightComp->SetLocalPosition(480, 140);
 
-	auto pJumpDownComp = bgObject->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(bgObject.get(), "QBert/Menu/Tut_JumpDown_Spritesheet.png", 180, 155, 14, 100, 0.25f));
+	auto pJumpDownComp = bgObject->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>("QBert/Menu/Tut_JumpDown_Spritesheet.png", 180, 155, 14, 100, 0.25f));
 	pJumpDownComp->SetLocalPosition(480, 260);
 
-	auto pJumpLeftComp = bgObject->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(bgObject.get(), "QBert/Menu/Tut_JumpLeft_Spritesheet.png", 180, 155, 14, 100, 0.25f));
+	auto pJumpLeftComp = bgObject->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>("QBert/Menu/Tut_JumpLeft_Spritesheet.png", 180, 155, 14, 100, 0.25f));
 	pJumpLeftComp->SetLocalPosition(480, 380);
 
 	Add(bgObject);
@@ -52,10 +52,10 @@ void ControlsMenu::Initialize()
 		auto playObj = std::make_shared<GameObject>();
 		playObj->SetPosition(250, 425);
 	
-		auto pButtonImage = playObj->AddComponent<Tonic::ImageComponent>(std::make_shared<Tonic::ImageComponent>(playObj.get(), "QBert/Menu/ToMenuButton.png", 1.f));
-		auto pButtonHoverImage = playObj->AddComponent<Tonic::ImageComponent>(std::make_shared<Tonic::ImageComponent>(playObj.get(), "QBert/Menu/ToMenuButtonHover.png", 1.f));
-		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(playObj.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
-		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(playObj.get(), "(A)", menuFont));
+		auto pButtonImage = playObj->AddComponent<Tonic::ImageComponent>(std::make_shared<Tonic::ImageComponent>("QBert/Menu/ToMenuButton.png", 1.f));
+		auto pButtonHoverImage = playObj->AddComponent<Tonic::ImageComponent>(std::make_shared<Tonic::ImageComponent>("QBert/Menu/ToMenuButtonHover.png", 1.f));
+		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
+		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("(A)", menuFont));
 		pTextComp->SetLocalPosition(85, 17.5f);
 		pTextComp->SetColor(Colors::COLOR_TABLE[ColorName::DarkLimeGreen]);
 		Add(playObj);

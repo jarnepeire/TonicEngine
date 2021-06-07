@@ -3,28 +3,25 @@
 #include "ColliderComponent.h"
 #include "GameObject.h"
 #include "Event.h"
-#include "SpriteComponent.h"
 
 Tonic::ColliderManager::ColliderManager()
-	: m_Colliders(0)
+	: m_pColliders()
 {
 }
 
-void Tonic::ColliderManager::FixedUpdate(float)
+void Tonic::ColliderManager::Update(float)
 {
-	for (auto pCollider : m_Colliders)
+	for (auto pCollider : m_pColliders)
 	{
-		auto pSprite = pCollider->GetParentObject()->GetComponent<SpriteComponent>();
-		auto colliderPos = pCollider->GetWorldPosition();
-		auto spritePos = pSprite->GetWorldPosition();
-		
 		if (pCollider->CanCheckForCollision())
 		{
-			for (auto pOtherCollider : m_Colliders)
+			for (auto pOtherCollider : m_pColliders)
 			{
+				//Don't check for self collision
 				if (pCollider == pOtherCollider)
 					continue;
 
+				//Notify on collision with what object
 				bool collides = pCollider->CollideCheck(pOtherCollider);
 				if (collides)
 				{
@@ -36,12 +33,7 @@ void Tonic::ColliderManager::FixedUpdate(float)
 	}
 }
 
-void Tonic::ColliderManager::Update(float)
-{
-	
-}
-
 void Tonic::ColliderManager::AddCollider(ColliderComponent* pCollider)
 {
-	m_Colliders.push_back(pCollider);
+	m_pColliders.push_back(pCollider);
 }

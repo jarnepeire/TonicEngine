@@ -10,8 +10,8 @@
 #include "AudioLocator.h"
 
 using namespace Tonic;
-EnemyComponent::EnemyComponent(Tonic::GameObject* parent, EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime, unsigned int deathSoundId)
-	: Component(parent)
+EnemyComponent::EnemyComponent(EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime, unsigned int deathSoundId)
+	: Component()
 	, m_EnemyType(enemyType)
 	, m_DefeatingScore(defeatingScore)
 	, m_HasSpawned(false)

@@ -6,8 +6,8 @@
 #include "SDLAudio.h"
 
 using namespace Tonic;
-HexJumpAIComponent::HexJumpAIComponent(Tonic::GameObject* parent, float postJumpWaitingTime, unsigned int jumpSoundId)
-	: Component(parent)
+HexJumpAIComponent::HexJumpAIComponent(float postJumpWaitingTime, unsigned int jumpSoundId)
+	: Component()
 	, m_HexJumpComponent()
 	, m_IsActive(true)
 	, m_CanWait(false)

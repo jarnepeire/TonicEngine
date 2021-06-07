@@ -1,5 +1,4 @@
 #pragma once
-
 namespace Tonic 
 {
 	struct PlayMessage
