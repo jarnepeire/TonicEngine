@@ -5,8 +5,11 @@
 #include "HexGrid.h"
 #include "HexComponent.h"
 #include <MathHelper.h>
+#include "QBertGame.h"
+#include <SpriteComponent.h>
+#include "AudioLocator.h"
 
-EnemyComponent::EnemyComponent(dae::GameObject* parent, EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime)
+EnemyComponent::EnemyComponent(dae::GameObject* parent, EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime, unsigned int deathSoundId)
 	: Component(parent)
 	, m_EnemyType(enemyType)
 	, m_DefeatingScore(defeatingScore)
@@ -20,6 +23,7 @@ EnemyComponent::EnemyComponent(dae::GameObject* parent, EnemyType enemyType, int
 	, m_TimeToFall(0.5f)
 	, m_FallStartPos()
 	, m_StartPos()
+	, m_DeathSoundID(deathSoundId)
 {
 }
 
@@ -39,8 +43,25 @@ void EnemyComponent::PostInitialize()
 		const auto& currHc = pHexJump->GetCurrentCoordinate();
 		pHexJump->GetGrid()->GetHexPosition(currHc, m_StartPos);
 		m_pGameObject->SetPosition(m_StartPos.x, m_StartPos.y);
-		m_FallStartPos.x = m_StartPos.x;
-		m_FallStartPos.y = -50.f; //outside screen
+
+		//Depends on enemy
+		float windowHeight = (float)QBertGame::GetInstance().GetWindowHeight();
+		float spriteHeight = (float)m_pGameObject->GetComponent<SpriteComponent>()->GetFrameHeight();
+		if (m_EnemyType == EnemyType::SamSlick)
+		{
+			m_FallStartPos.x = m_StartPos.x;
+			m_FallStartPos.y = -spriteHeight * 2.f; //Falls from top outside screen
+		}
+		else if (m_EnemyType == EnemyType::UggWrongway)
+		{
+			m_FallStartPos.x = m_StartPos.x;
+			m_FallStartPos.y = windowHeight + (spriteHeight * 2.f); //Falls from bottom outside screen
+		}
+		else //Coily
+		{
+			m_FallStartPos.x = m_StartPos.x;
+			m_FallStartPos.y = -spriteHeight * 2.f; //Falls from top outside screen
+		}
 	}
 	m_pGameObject->SetPosition(m_FallStartPos.x, m_FallStartPos.y);
 }
@@ -93,4 +114,9 @@ void EnemyComponent::ResetEnemy()
 	m_FallTimer = 0.f;
 
 	m_pGameObject->SetPosition(m_FallStartPos.x, m_FallStartPos.y);
+}
+
+void EnemyComponent::Kill()
+{
+	AudioLocator::GetAudioSystem().Play(m_DeathSoundID, 0.2f);
 }

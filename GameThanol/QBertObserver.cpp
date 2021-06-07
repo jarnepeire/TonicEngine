@@ -82,6 +82,11 @@ void QBertObserver::Notify(dae::GameObject* object, Event e)
 	}
 	else if (e == Event::EVENT_JUMPER_FELL_OFF_GRID)
 	{
+		//Respawn to top
+		auto pHexJump = object->GetComponent<HexJumpComponent>();
+		if (pHexJump)
+			pHexJump->ResetToTop();
+
 		//Lose heath
 		auto pHealth = object->GetComponent<HealthComponent>();
 		if (pHealth)
@@ -92,7 +97,7 @@ void QBertObserver::Notify(dae::GameObject* object, Event e)
 		if (pSpriteComp) pSpriteComp->SetAnimationRow(0);
 		if (pSpriteComp) pSpriteComp->SetIsLeft(false);
 	}
-	else if (e == Event::EVENT_PLAYER_DIED)
+	else if (e == Event::EVENT_CHARACTER_DIED)
 	{
 		//Reset anim
 		auto pSpriteComp = object->GetComponent<SpriteComponent>();
@@ -117,16 +122,35 @@ void QBertObserver::Notify(dae::GameObject* object, Event e)
 			return;
 
 		auto pCharacter = pQBert->GetComponent<CharacterComponent>();
-			
-		using ET = EnemyComponent::EnemyType;
-		ET type = pEnemyComponent->GetEnemyType();
-		if (type == ET::SamSlick)
+		EnemyType type = pEnemyComponent->GetEnemyType();
+		if (type == EnemyType::SamSlick)
 		{
 			pCharacter->GainScore((int)GameScore::SCORE_CATCH_SAM_SLICK);
 			object->GetComponent<HealthComponent>()->LoseLife();
 		}
-		else if (type == ET::Coily)
+		else if (type == EnemyType::UggWrongway)
 		{
+			//Respawn to top
+			auto pHexJump = pQBert->GetComponent<HexJumpComponent>();
+			if (pHexJump)
+				pHexJump->ResetToTop();
+
+			//Lose life
+			auto pHealth = pQBert->GetComponent<HealthComponent>();
+			if (pHealth)
+				pHealth->LoseLife();
+
+			//Ugg or Wrongway loses life (and dissapears)
+			object->GetComponent<HealthComponent>()->LoseLife();
+		}
+		else if (type == EnemyType::Coily)
+		{
+			//Respawn to top
+			auto pHexJump = object->GetComponent<HexJumpComponent>();
+			if (pHexJump)
+				pHexJump->ResetToTop();
+
+			//Lose life
 			auto pHealth = pQBert->GetComponent<HealthComponent>();
 			if (pHealth)
 				pHealth->LoseLife();

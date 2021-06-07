@@ -77,8 +77,6 @@ void HexJumpComponent::Update(float dt)
 			else if (m_NeedsRespawn)
 			{
 				m_NeedsRespawn = false;
-				m_CurrentCoordinate = m_pHexGrid->GetTop()->GetHexCoordinate();
-				m_InitPos = m_pHexGrid->GetTop()->GetHexPosition();
 				m_pSubject->Notify(m_pGameObject, Event::EVENT_JUMPER_FELL_OFF_GRID);
 			}
 			//Otherwise it moved to the next hex and can be awarded for it
@@ -200,18 +198,22 @@ void HexJumpComponent::JumpTo(int rowTranslation, int colTranslation)
 
 void HexJumpComponent::ResetToOriginalCoordinate()
 {
-	m_CurrentCoordinate = m_OriginalStartCoordinate;
+	m_JumpingTimer = 0.f;
+	m_CanJump = false;
+	m_IsJumping = false;
 
-	glm::vec2 hexPos{};
-	m_pHexGrid->GetHexPosition(m_CurrentCoordinate, hexPos);
-	m_pGameObject->SetPosition(hexPos.x, hexPos.y);
+	m_CurrentCoordinate = m_OriginalStartCoordinate;
+	m_pHexGrid->GetHexPosition(m_CurrentCoordinate, m_InitPos);
+	m_pGameObject->SetPosition(m_InitPos.x, m_InitPos.y);
 }
 
 void HexJumpComponent::ResetToTop()
 {
+	m_JumpingTimer = 0.f;
+	m_CanJump = false;
+	m_IsJumping = false;
+
 	m_CurrentCoordinate = m_pHexGrid->GetTop()->GetHexCoordinate();
-	
-	glm::vec2 hexPos{};
-	m_pHexGrid->GetHexPosition(m_CurrentCoordinate, hexPos);
-	m_pGameObject->SetPosition(hexPos.x, hexPos.y);
+	m_pHexGrid->GetHexPosition(m_CurrentCoordinate, m_InitPos);
+	m_pGameObject->SetPosition(m_InitPos.x, m_InitPos.y);
 }

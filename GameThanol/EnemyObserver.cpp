@@ -5,6 +5,7 @@
 #include "HexJumpComponent.h"
 #include "SpriteComponent.h"
 #include "ColliderComponent.h"
+#include "EnemyComponent.h"
 
 EnemyObserver::EnemyObserver(std::shared_ptr<dae::GameObject> qbertObject)
 	: m_QBert(qbertObject)
@@ -45,7 +46,20 @@ void EnemyObserver::Notify(dae::GameObject* object, Event e)
 			}
 		}
 	}
-	else if (e == Event::EVENT_PLAYER_DIED)
+	else if (e == Event::EVENT_JUMPER_SAVED_BY_DISK)
+	{
+		auto pHealth = object->GetComponent<HealthComponent>();
+		if (pHealth)
+		{
+			pHealth->LoseLife();
+			if (pHealth->HasDied())
+			{
+				auto pHexJumpAI = object->GetComponent<HexJumpAIComponent>();
+				pHexJumpAI->SetActive(false);
+			}
+		}
+	}
+	else if (e == Event::EVENT_CHARACTER_DIED)
 	{
 		auto pHexJumpAI = object->GetComponent<HexJumpAIComponent>();
 		pHexJumpAI->SetActive(false);
@@ -56,30 +70,48 @@ void EnemyObserver::Notify(dae::GameObject* object, Event e)
 		auto pCollider = object->GetComponent<dae::ColliderComponent>();
 		if (pCollider) 
 			pCollider->SetCanReceiveCheckForCollision(false);
+
+		auto pEnemyComp = object->GetComponent<EnemyComponent>();
+		if (pEnemyComp)
+			pEnemyComp->Kill();
+
 	}
 	else if (e == Event::EVENT_JUMPER_JUMPED)
 	{
 		auto pHexJump = object->GetComponent<HexJumpComponent>();
 		if (pHexJump)
 		{
-			const auto& currCoord = pHexJump->GetCurrentCoordinate();
-			const auto& jumpToCoord = pHexJump->GetJumpToCoordinate();
-			bool jumpUp = ((jumpToCoord.Row - currCoord.Row) == 1);
-
 			auto pSpriteComponent = object->GetComponent<SpriteComponent>();
 			if (pSpriteComponent) pSpriteComponent->SetAnimationRow(1);
-			if (jumpUp) //Mean's he jumped up
+
+
+			//Check for left
+			auto pEnemyComp = object->GetComponent<EnemyComponent>();
+			auto enemyType = pEnemyComp->GetEnemyType();
+			if (enemyType == EnemyType::SamSlick)
 			{
-				//Flip character
-				bool jumpLeft = ((jumpToCoord.Col - currCoord.Col) == -1);
-				if (pSpriteComponent) pSpriteComponent->SetIsLeft(jumpLeft);
+				const auto& currCoord = pHexJump->GetCurrentCoordinate();
+				const auto& jumpToCoord = pHexJump->GetJumpToCoordinate();
+				bool jumpUp = ((jumpToCoord.Row - currCoord.Row) == 1);
+
+				if (jumpUp) //Mean's he jumped up
+				{
+					//Flip character
+					bool jumpLeft = ((jumpToCoord.Col - currCoord.Col) == -1);
+					if (pSpriteComponent) pSpriteComponent->SetIsLeft(jumpLeft);
+				}
+				else //Mean's he jumped down
+				{
+					//Flip character
+					bool jumpLeft = ((jumpToCoord.Col - currCoord.Col) == 0);
+					if (pSpriteComponent) pSpriteComponent->SetIsLeft(jumpLeft);
+				}
 			}
-			else //Mean's he jumped down
+			else if (enemyType == EnemyType::UggWrongway)
 			{
-				//Flip character
-				bool jumpLeft = ((jumpToCoord.Col - currCoord.Col) == 0);
-				if (pSpriteComponent) pSpriteComponent->SetIsLeft(jumpLeft);
+				if (pSpriteComponent) pSpriteComponent->SetIsLeft(true);
 			}
+
 		}
 	}
 }

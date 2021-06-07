@@ -6,16 +6,18 @@ namespace dae
 	class GameObject;
 }
 
+enum class EnemyType
+{
+	SamSlick,
+	UggWrongway,
+	Coily
+};
+
 class EnemyComponent : public Component
 {
 public:
-	enum class EnemyType
-	{
-		SamSlick,
-		Coily
-	};
 
-	EnemyComponent(dae::GameObject* parent, EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime);
+	EnemyComponent(dae::GameObject* parent, EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime, unsigned int deathSoundId);
 	virtual ~EnemyComponent() = default;
 
 	void Initialize() override;
@@ -28,6 +30,8 @@ public:
 
 	void ResetEnemy();
 	int GetDefeatingScore() const { return m_DefeatingScore; }
+	void Kill();
+
 private:
 	EnemyType m_EnemyType;
 	bool m_HasSpawned;
@@ -43,6 +47,6 @@ private:
 	glm::vec2 m_StartPos;
 
 	int m_DefeatingScore;
-
+	unsigned int m_DeathSoundID;
 };
 

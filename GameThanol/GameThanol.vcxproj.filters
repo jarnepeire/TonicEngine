@@ -114,6 +114,12 @@
     <ClCompile Include="SamSlickObserver.cpp">
       <Filter>Observers</Filter>
     </ClCompile>
+    <ClCompile Include="UggWrongwayComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="UggWrongwayObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QBertGame.h">
@@ -201,6 +207,12 @@
       <Filter>Observers</Filter>
     </ClInclude>
     <ClInclude Include="SamSlickObserver.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="UggWrongwayComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="UggWrongwayObserver.h">
       <Filter>Observers</Filter>
     </ClInclude>
   </ItemGroup>

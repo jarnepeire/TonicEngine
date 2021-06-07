@@ -200,6 +200,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="SamSlickComponent.cpp" />
     <ClCompile Include="SamSlickObserver.cpp" />
     <ClCompile Include="ToSceneCommand.cpp" />
+    <ClCompile Include="UggWrongwayComponent.cpp" />
+    <ClCompile Include="UggWrongwayObserver.cpp" />
     <ClCompile Include="WinGameObserver.cpp" />
     <ClCompile Include="WinningGameMenu.cpp" />
   </ItemGroup>
@@ -231,6 +233,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="SamSlickComponent.h" />
     <ClInclude Include="SamSlickObserver.h" />
     <ClInclude Include="ToSceneCommand.h" />
+    <ClInclude Include="UggWrongwayComponent.h" />
+    <ClInclude Include="UggWrongwayObserver.h" />
     <ClInclude Include="WinGameObserver.h" />
     <ClInclude Include="WinningGameMenu.h" />
   </ItemGroup>

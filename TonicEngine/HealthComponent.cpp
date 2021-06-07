@@ -63,7 +63,7 @@ void HealthComponent::LoseLife()
 	{
 		//Notify death
 		m_HasDied = true;
-		m_pSubject->Notify(m_pGameObject, Event::EVENT_PLAYER_DIED);
+		m_pSubject->Notify(m_pGameObject, Event::EVENT_CHARACTER_DIED);
 	}
 
 }

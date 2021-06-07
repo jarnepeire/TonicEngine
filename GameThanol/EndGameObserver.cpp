@@ -11,7 +11,7 @@ EndGameObserver::EndGameObserver(const std::string& endGameSceneName)
 
 void EndGameObserver::Notify(dae::GameObject* object, Event e)
 {
-	if (e == Event::EVENT_PLAYER_DIED)
+	if (e == Event::EVENT_CHARACTER_DIED)
 	{
 		auto pScene = dae::SceneManager::GetInstance().GetScene(m_EndGameSceneName);
 		auto pGameOverScene = dynamic_cast<GameOverMenu*>(pScene);

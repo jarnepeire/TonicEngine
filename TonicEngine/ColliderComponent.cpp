@@ -65,6 +65,17 @@ bool ColliderComponent::CollideCheck(ColliderComponent* pCollider)
 		}	
 	}
 	return false;
+
+	//if (m_ColliderBox.BottomLeft.x > otherColliderBox.TopRight.x || otherColliderBox.BottomLeft.x > m_ColliderBox.TopRight.x)
+	//{
+	//	return false;
+	//
+	//}
+	//if (m_ColliderBox.BottomLeft.y < otherColliderBox.TopRight.y || otherColliderBox.BottomLeft.y < m_ColliderBox.TopRight.y)
+	//{
+	//	return false;
+	//}
+	//return true;
 }
 
 //void dae::ColliderComponent::AddCollidingObject(dae::GameObject* pObj)

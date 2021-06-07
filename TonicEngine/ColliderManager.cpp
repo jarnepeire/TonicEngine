@@ -3,6 +3,7 @@
 #include "ColliderComponent.h"
 #include "GameObject.h"
 #include "Event.h"
+#include "SpriteComponent.h"
 
 using namespace dae;
 dae::ColliderManager::ColliderManager()
@@ -14,6 +15,10 @@ void dae::ColliderManager::FixedUpdate(float)
 {
 	for (auto pCollider : m_Colliders)
 	{
+		auto pSprite = pCollider->GetParentObject()->GetComponent<SpriteComponent>();
+		auto colliderPos = pCollider->GetWorldPosition();
+		auto spritePos = pSprite->GetWorldPosition();
+		
 		if (pCollider->CanCheckForCollision())
 		{
 			for (auto pOtherCollider : m_Colliders)
