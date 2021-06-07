@@ -1,7 +1,7 @@
 #pragma once
 #include "InputManager.h"
 
-namespace dae
+namespace Tonic
 {
 	class InputLocator final
 	{

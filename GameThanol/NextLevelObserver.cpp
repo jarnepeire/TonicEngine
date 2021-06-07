@@ -4,18 +4,22 @@
 #include "QBertScene.h"
 #include <GameObject.h>
 #include "HealthComponent.h"
-#include <CharacterComponent.h>
+#include "CharacterComponent.h"
 #include "GameScores.h"
+#include "AudioLocator.h"
+#include "GameEvent.h"
 
-NextLevelObserver::NextLevelObserver(std::shared_ptr<HexGrid> currentLevelGrid, const std::string& nextLevelName)
+using namespace Tonic;
+NextLevelObserver::NextLevelObserver(std::shared_ptr<HexGrid> currentLevelGrid, const std::string& nextLevelName, unsigned int nextLevelSoundId)
 	: m_pGrid(currentLevelGrid)
 	, m_NextLevelName(nextLevelName)
+	, m_NextLevelSoundID(nextLevelSoundId)
 {
 }
 
-void NextLevelObserver::Notify(dae::GameObject* object, Event e)
+void NextLevelObserver::Notify(Tonic::GameObject* object, int eventId)
 {
-	if (e == Event::EVENT_JUMPER_LANDED)
+	if (eventId == (int)GameEvent::EVENT_JUMPER_LANDED)
 	{
 		//Pointer expired
 		auto pGrid = m_pGrid.lock();
@@ -24,7 +28,7 @@ void NextLevelObserver::Notify(dae::GameObject* object, Event e)
 
 		if (pGrid->IsGridCompleted())
 		{
-			auto pScene = dae::SceneManager::GetInstance().GetScene(m_NextLevelName);
+			auto pScene = Tonic::SceneManager::GetInstance().GetScene(m_NextLevelName);
 			auto pNextQBertScene = dynamic_cast<QBertScene*>(pScene);
 			if (pNextQBertScene)
 			{
@@ -49,7 +53,9 @@ void NextLevelObserver::Notify(dae::GameObject* object, Event e)
 				//Clear previous scene
 				pPrevQBertScene->ResetLevel();
 			}
-			dae::SceneManager::GetInstance().SetActiveScene(m_NextLevelName);
+
+			AudioLocator::GetAudioSystem().Play(m_NextLevelSoundID, 0.25f);
+			Tonic::SceneManager::GetInstance().SetActiveScene(m_NextLevelName);
 		}
 	}
 }

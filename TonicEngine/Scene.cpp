@@ -4,9 +4,7 @@
 #include <algorithm>
 #include "ColliderManager.h"
 
-using namespace dae;
-
-Scene::Scene(const std::string& name, int idx) 
+Tonic::Scene::Scene(const std::string& name, int idx)
 	: m_Name(name) 
 	, m_SceneIndex(idx)
 	, m_Input()
@@ -14,9 +12,9 @@ Scene::Scene(const std::string& name, int idx)
 	, m_pAudioSytem()
 {}
 
-Scene::~Scene() = default;
+Tonic::Scene::~Scene() = default;
 
-void Scene::Add(const std::shared_ptr<GameObject>& object)
+void Tonic::Scene::Add(const std::shared_ptr<GameObject>& object)
 {
 	object->SetParentScene(this);
 
@@ -26,7 +24,7 @@ void Scene::Add(const std::shared_ptr<GameObject>& object)
 	m_Objects.push_back(object);
 }
 
-void dae::Scene::RootFixedUpdate(float dt)
+void Tonic::Scene::RootFixedUpdate(float dt)
 {
 	m_ColliderManager.FixedUpdate(dt);
 	for (auto& object : m_Objects)
@@ -35,7 +33,7 @@ void dae::Scene::RootFixedUpdate(float dt)
 	}
 }
 
-void dae::Scene::RootUpdate(float dt)
+void Tonic::Scene::RootUpdate(float dt)
 {
 	m_ColliderManager.Update(dt);
 	for (auto& object : m_Objects)
@@ -44,10 +42,10 @@ void dae::Scene::RootUpdate(float dt)
 	}
 }
 
-void dae::Scene::RootRender()
+void Tonic::Scene::RootRender()
 {
 	//Sort objects on depth value (higher depth = further away)
-	std::sort(m_Objects.begin(), m_Objects.end(), [](std::shared_ptr<dae::GameObject> pObjA, std::shared_ptr<dae::GameObject> pObjB)
+	std::sort(m_Objects.begin(), m_Objects.end(), [](std::shared_ptr<Tonic::GameObject> pObjA, std::shared_ptr<Tonic::GameObject> pObjB)
 		{
 			return (pObjA->GetDepthValue() > pObjB->GetDepthValue());
 		});
@@ -58,7 +56,7 @@ void dae::Scene::RootRender()
 	}
 }
 
-void dae::Scene::AddColliderToScene(ColliderComponent* pCollider)
+void Tonic::Scene::AddColliderToScene(ColliderComponent* pCollider)
 {
 	m_ColliderManager.AddCollider(pCollider);
 }

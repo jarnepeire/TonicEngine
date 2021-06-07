@@ -2,7 +2,7 @@
 #include "CharacterComponent.h"
 #include <GameObject.h>
 #include "HealthComponent.h"
-#include "Event.h"
+#include "GameEvent.h"
 #include "HexGrid.h"
 #include "HexComponent.h"
 #include "DiskComponent.h"
@@ -11,7 +11,7 @@
 #include <SpriteComponent.h>
 #include "GameLevelInfo.h"
 
-using namespace dae;
+using namespace Tonic;
 QBertScene::QBertScene(const std::string& name, int idx, const std::wstring& levelFile)
 	: Scene(name, idx)
 	, m_pQBert(std::make_shared<GameObject>())
@@ -52,10 +52,10 @@ void QBertScene::AddDiskToGrid(std::shared_ptr<HexGrid> hexGrid, const HexCoordi
 	auto pDiskComp = pDisk->AddComponent<DiskComponent>(std::make_shared<DiskComponent>(pDisk.get(), 2.f, hexGrid, hc));
 	pDiskComp->SetMovingSoundID(moveSoundId);
 
-	auto pDiskSpriteComp = pDisk->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(pDisk.get(), "QBert/Disk_Spritesheet.png", 16, 10, 4, 100));
+	auto pDiskSpriteComp = pDisk->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(pDisk.get(), "QBert/Props/Disk_Spritesheet.png", 16, 10, 4, 100));
 	pDiskSpriteComp->SetLocalPosition(12, 6);
 
-	pDisk->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pDisk.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	pDisk->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pDisk.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
 	Add(pDisk);
 
 	m_pDisks.push_back(pDisk);

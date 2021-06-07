@@ -4,7 +4,7 @@
 #include <chrono>
 using namespace std::chrono;
 
-SDLAudio::SDLAudio()
+Tonic::SDLAudio::SDLAudio()
 	: m_Head(0)
 	, m_Tail(0)
 	//Start at 8 max requests at the same time
@@ -20,7 +20,7 @@ SDLAudio::SDLAudio()
 {
 }
 
-SDLAudio::~SDLAudio()
+Tonic::SDLAudio::~SDLAudio()
 {
 	//Setup to make thread code exit condition true
 	m_Head = m_Tail;
@@ -37,7 +37,7 @@ SDLAudio::~SDLAudio()
 	}
 }
 
-void SDLAudio::ProcessRequests()
+void Tonic::SDLAudio::ProcessRequests()
 {
 	//Timer start
 	auto lastRequest = high_resolution_clock::now();
@@ -86,7 +86,7 @@ void SDLAudio::ProcessRequests()
 	} 	while (m_Head != m_Tail);
 }
 
-bool SDLAudio::CanPlaySound(Mix_Chunk** storedSound, unsigned int id)
+bool Tonic::SDLAudio::CanPlaySound(Mix_Chunk** storedSound, unsigned int id)
 {
 	bool canPlay = true;
 	if (m_SoundsMap.find(id) != m_SoundsMap.end())
@@ -113,7 +113,7 @@ bool SDLAudio::CanPlaySound(Mix_Chunk** storedSound, unsigned int id)
 	return canPlay;
 }
 
-void SDLAudio::ResetDuplicateRequests()
+void Tonic::SDLAudio::ResetDuplicateRequests()
 {
 	m_Timer = 0.f; //Full reset needed! If we just subtract Interval, it can be possible the timer is still bigger next iteration
 	for (int i = 0; i < m_MaxPending; ++i)
@@ -122,7 +122,7 @@ void SDLAudio::ResetDuplicateRequests()
 	}
 }
 
-bool SDLAudio::IsDuplicateRequest(unsigned int id)
+bool Tonic::SDLAudio::IsDuplicateRequest(unsigned int id)
 {
 	//Check all pending requests for duplicates:
 	for (int i = 0; i < m_MaxPending; ++i)
@@ -135,7 +135,7 @@ bool SDLAudio::IsDuplicateRequest(unsigned int id)
 	return false;
 }
 
-void SDLAudio::Play(unsigned int id, float volume)
+void Tonic::SDLAudio::Play(unsigned int id, float volume)
 {
 	//Best to start locking here, we don't want a double to double size twice, nor accidentally overwrite the future value in array
 	std::lock_guard<std::mutex> lock{ m_Mutex };
@@ -160,7 +160,7 @@ void SDLAudio::Play(unsigned int id, float volume)
 	m_HasRequests.notify_one();
 }
 
-bool SDLAudio::AddSound(unsigned int id, const char* filepath)
+bool Tonic::SDLAudio::AddSound(unsigned int id, const char* filepath)
 {
 	//Sound ID is not used yet
 	if (m_SoundsMap.find(id) == m_SoundsMap.end())
@@ -172,7 +172,7 @@ bool SDLAudio::AddSound(unsigned int id, const char* filepath)
 	return false;
 }
 
-unsigned int SDLAudio::AddSound(const char* filepath)
+unsigned int Tonic::SDLAudio::AddSound(const char* filepath)
 {
 	std::lock_guard<std::mutex> lock{ m_Mutex };
 	Mix_Chunk* pSound = Mix_LoadWAV(filepath);

@@ -1,11 +1,10 @@
 #pragma once
 #include "Component.h"
-class TextComponent;
 
-class CharacterComponent : public Component
+class CharacterComponent : public Tonic::Component
 {
 public:
-	CharacterComponent(dae::GameObject* parent);
+	CharacterComponent(Tonic::GameObject* parent);
 	virtual ~CharacterComponent() = default;
 
 	void Initialize() override;

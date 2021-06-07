@@ -5,18 +5,18 @@
 #include <string>
 #include <iostream>
 #include "MathHelper.h"
-#include <HealthComponent.h>
+#include "HealthComponent.h"
 #include "QBertGame.h"
 #include "SpriteComponent.h"
 #include "RespawnComponent.h"
 #include "CharacterComponent.h"
-#include "Event.h"
 #include "DiskComponent.h"
 #include "GameScores.h"
 #include "HexComponent.h"
+#include "GameEvent.h"
 
-using namespace dae;
-HexJumpComponent::HexJumpComponent(dae::GameObject* parent, HexGrid* pHexGrid, int startRow, int startCol, float timeToJump)
+using namespace Tonic;
+HexJumpComponent::HexJumpComponent(Tonic::GameObject* parent, HexGrid* pHexGrid, int startRow, int startCol, float timeToJump)
 	: Component(parent)
 	, m_OriginalStartCoordinate(HexCoordinate(startRow, startCol))
 	, m_pHexGrid(pHexGrid)
@@ -71,13 +71,13 @@ void HexJumpComponent::Update(float dt)
 			if (m_IsSavedByDisk)
 			{
 				m_IsSavedByDisk = false;
-				m_pSubject->Notify(m_pGameObject, Event::EVENT_JUMPER_SAVED_BY_DISK);
+				m_pSubject->Notify(m_pGameObject, (int)GameEvent::EVENT_JUMPER_SAVED_BY_DISK);
 			}
 			//Else if applicable notify lost life and reset coordinates/positions
 			else if (m_NeedsRespawn)
 			{
 				m_NeedsRespawn = false;
-				m_pSubject->Notify(m_pGameObject, Event::EVENT_JUMPER_FELL_OFF_GRID);
+				m_pSubject->Notify(m_pGameObject, (int)GameEvent::EVENT_JUMPER_FELL_OFF_GRID);
 			}
 			//Otherwise it moved to the next hex and can be awarded for it
 			else
@@ -85,12 +85,12 @@ void HexJumpComponent::Update(float dt)
 				//Notify color change when hex isn't fully visited yet
 				if (!m_pHexGrid->IsHexVisited(m_JumpToCoordinate))
 				{
-					m_pSubject->Notify(m_pGameObject, Event::EVENT_JUMPER_COLOR_CHANGE);
+					m_pSubject->Notify(m_pGameObject, (int)GameEvent::EVENT_JUMPER_COLOR_CHANGE);
 				}
 
 				//Mark a visit and notify it landed
 				//m_pHexGrid->VisitHex(m_JumpToCoordinate);
-				m_pSubject->Notify(m_pGameObject, Event::EVENT_JUMPER_LANDED);
+				m_pSubject->Notify(m_pGameObject, (int)GameEvent::EVENT_JUMPER_LANDED);
 			}
 		}
 		else
@@ -135,6 +135,7 @@ void HexJumpComponent::JumpTo(int rowTranslation, int colTranslation)
 			{
 				//Set flag for lost life
 				m_NeedsRespawn = true;
+				m_pSubject->Notify(m_pGameObject, (int)GameEvent::EVENT_JUMPER_WILL_FALL_OFF);
 
 				//Translate to left or right depending on movement
 				int rowTrans = -1 * rowTranslation;
@@ -193,7 +194,7 @@ void HexJumpComponent::JumpTo(int rowTranslation, int colTranslation)
 	m_C = m_InitPos.y - m_A * (m_InitPos.x * m_InitPos.x) - m_B * m_InitPos.x;
 
 	//Notify that jumper has jumped
-	m_pSubject->Notify(m_pGameObject, Event::EVENT_JUMPER_JUMPED);
+	m_pSubject->Notify(m_pGameObject, (int)GameEvent::EVENT_JUMPER_JUMPED);
 }
 
 void HexJumpComponent::ResetToOriginalCoordinate()
@@ -204,7 +205,7 @@ void HexJumpComponent::ResetToOriginalCoordinate()
 
 	m_CurrentCoordinate = m_OriginalStartCoordinate;
 	m_pHexGrid->GetHexPosition(m_CurrentCoordinate, m_InitPos);
-	m_pGameObject->SetPosition(m_InitPos.x, m_InitPos.y);
+	//m_pGameObject->SetPosition(m_InitPos.x, m_InitPos.y);
 }
 
 void HexJumpComponent::ResetToTop()
@@ -215,5 +216,5 @@ void HexJumpComponent::ResetToTop()
 
 	m_CurrentCoordinate = m_pHexGrid->GetTop()->GetHexCoordinate();
 	m_pHexGrid->GetHexPosition(m_CurrentCoordinate, m_InitPos);
-	m_pGameObject->SetPosition(m_InitPos.x, m_InitPos.y);
+	//m_pGameObject->SetPosition(m_InitPos.x, m_InitPos.y);
 }

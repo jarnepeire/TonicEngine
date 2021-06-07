@@ -2,7 +2,7 @@
 #include "InputLocator.h"
 #include "ImageComponent.h"
 
-using namespace dae;
+using namespace Tonic;
 MenuButton::MenuButton(std::shared_ptr<ImageComponent> buttonComp, std::shared_ptr<ImageComponent> buttonHoverComp)
 	: m_ButtonComp(buttonComp)
 	, m_ButtonHoverComp(buttonHoverComp)
@@ -20,7 +20,7 @@ void MenuButton::Update(float dt)
 		m_ButtonComp->CanRender(false);
 		m_ButtonHoverComp->CanRender(true);
 
-		if (InputLocator::GetInputManager().IsMouseButtonDown(MouseButton::LMB, dae::TriggerState::Pressed))
+		if (InputLocator::GetInputManager().IsMouseButtonDown(MouseButton::LMB, Tonic::TriggerState::Pressed))
 		{
 			//Is pressing
 			m_IsPressed = true;

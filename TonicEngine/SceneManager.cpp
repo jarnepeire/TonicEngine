@@ -6,8 +6,7 @@
 #include "AudioSystem.h"
 #include <algorithm>
 
-
-void dae::SceneManager::InitializeScenegraph()
+void Tonic::SceneManager::InitializeScenegraph()
 {
 	for (auto& scene : m_Scenes)
 	{
@@ -15,25 +14,25 @@ void dae::SceneManager::InitializeScenegraph()
 	}
 }
 
-void dae::SceneManager::FixedUpdate(float dt)
+void Tonic::SceneManager::FixedUpdate(float dt)
 {
 	m_Scenes[m_ActiveSceneIdx]->RootFixedUpdate(dt);
 	m_Scenes[m_ActiveSceneIdx]->FixedUpdate(dt);
 }
 
-void dae::SceneManager::Update(float dt)
+void Tonic::SceneManager::Update(float dt)
 {
 	m_Scenes[m_ActiveSceneIdx]->RootUpdate(dt);
 	m_Scenes[m_ActiveSceneIdx]->Update(dt);
 }
 
-void dae::SceneManager::Render()
+void Tonic::SceneManager::Render()
 {
 	m_Scenes[m_ActiveSceneIdx]->RootRender();
 	m_Scenes[m_ActiveSceneIdx]->Render();
 }
 
-void dae::SceneManager::SetActiveScene(int index)
+void Tonic::SceneManager::SetActiveScene(int index)
 {
 	if (size_t(index) < m_Scenes.size() && m_Scenes[index])
 		m_ActiveSceneIdx = index;
@@ -47,11 +46,11 @@ void dae::SceneManager::SetActiveScene(int index)
 	InputLocator::RegisterInputManager(pInput);
 
 	//Swap out audio system for new scene's input
-	AudioSystem* pAudioSystem = m_Scenes[m_ActiveSceneIdx]->GetAudioSystem().get();
+	Tonic::AudioSystem* pAudioSystem = m_Scenes[m_ActiveSceneIdx]->GetAudioSystem().get();
 	AudioLocator::RegisterAudioSystem(pAudioSystem);
 }
 
-void dae::SceneManager::SetActiveScene(const std::string& name)
+void Tonic::SceneManager::SetActiveScene(const std::string& name)
 {
 	std::vector<std::shared_ptr<Scene>>::iterator it = std::find_if(m_Scenes.begin(), m_Scenes.end(), [&name](std::shared_ptr<Scene>& pScene) { return (pScene->GetName() == name); });
 	if (it == m_Scenes.end())
@@ -69,19 +68,19 @@ void dae::SceneManager::SetActiveScene(const std::string& name)
 	AudioLocator::RegisterAudioSystem(pAudioSystem);
 }
 
-//void dae::SceneManager::AddScene(const std::shared_ptr<dae::Scene>& scene)
+//void Tonic::SceneManager::AddScene(const std::shared_ptr<Tonic::Scene>& scene)
 //{
 //	m_ActiveSceneIdx = (int)m_Scenes.size();
 //	m_Scenes.push_back(scene);
 //}
 
-void dae::SceneManager::AddGameScene(std::shared_ptr<Scene> scene)
+void Tonic::SceneManager::AddGameScene(std::shared_ptr<Scene> scene)
 {
 	m_ActiveSceneIdx = (int)m_Scenes.size();
 	m_Scenes.push_back(scene);
 }
 
-dae::Scene* dae::SceneManager::GetScene(const int index) const
+Tonic::Scene* Tonic::SceneManager::GetScene(const int index) const
 {
 	if (size_t(index) < m_Scenes.size() && m_Scenes[index])
 		return m_Scenes[index].get();
@@ -89,7 +88,7 @@ dae::Scene* dae::SceneManager::GetScene(const int index) const
 		return nullptr;
 }
 
-dae::Scene* dae::SceneManager::GetScene(const std::string& sceneTag) const
+Tonic::Scene* Tonic::SceneManager::GetScene(const std::string& sceneTag) const
 {
 	std::vector<std::shared_ptr<Scene>>::const_iterator it = std::find_if(m_Scenes.begin(), m_Scenes.end(), 
 		[&sceneTag](const std::shared_ptr<Scene>& pScene) 
@@ -103,7 +102,7 @@ dae::Scene* dae::SceneManager::GetScene(const std::string& sceneTag) const
 		return (*it).get();
 }
 
-dae::Scene* dae::SceneManager::GetCurrentScene() const
+Tonic::Scene* Tonic::SceneManager::GetCurrentScene() const
 {
 	return m_Scenes[m_ActiveSceneIdx].get();
 }

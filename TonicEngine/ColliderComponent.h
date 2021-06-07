@@ -2,7 +2,7 @@
 #include "Component.h"
 #include <memory>
 
-namespace dae
+namespace Tonic
 {
 	struct ColliderBox
 	{
@@ -41,7 +41,7 @@ namespace dae
 	class ColliderComponent : public Component
 	{
 	public:
-		ColliderComponent(dae::GameObject* parent, CollisionLayer collisionLayer, bool canCheckForCollision, float width, float height);
+		ColliderComponent(Tonic::GameObject* parent, CollisionLayer collisionLayer, bool canCheckForCollision, float width, float height);
 		virtual ~ColliderComponent() = default;
 
 		void Initialize() override;

@@ -20,17 +20,12 @@
 //Commands
 #include "Command.h"
 
-//Observers
-#include "HealthDisplay.h"
-#include "ScoreDisplay.h"
 
 //Components
 #include "FPSComponent.h"
 #include "TextComponent.h"
 #include "RenderComponent.h"
 #include "ImageComponent.h"
-#include "HealthComponent.h"
-#include "CharacterComponent.h"
 
 //Game
 #include "BaseGameThanol.h"
@@ -38,7 +33,7 @@
 using namespace std;
 using namespace std::chrono;
 
-void dae::TonicEngine::Initialize(dae::BaseGameThanol* pGame)
+void Tonic::TonicEngine::Initialize(Tonic::BaseGameThanol* pGame)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
@@ -70,11 +65,11 @@ void dae::TonicEngine::Initialize(dae::BaseGameThanol* pGame)
 /**
  * Code constructing the scene world starts here
  */
-void dae::TonicEngine::LoadGame() const
+void Tonic::TonicEngine::LoadGame() const
 {
 }
 
-void dae::TonicEngine::Cleanup()
+void Tonic::TonicEngine::Cleanup()
 {
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_Window);
@@ -82,7 +77,7 @@ void dae::TonicEngine::Cleanup()
 	SDL_Quit();
 }
 
-void dae::TonicEngine::Run(dae::BaseGameThanol* pGame)
+void Tonic::TonicEngine::Run(Tonic::BaseGameThanol* pGame)
 {
 	//Initializes the SDL Renderer, setup for window
 	Initialize(pGame);

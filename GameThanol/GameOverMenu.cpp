@@ -13,9 +13,9 @@
 #include <SpriteComponent.h>
 #include "Colors.h"
 
-using namespace dae;
+using namespace Tonic;
 GameOverMenu::GameOverMenu(const std::string& name, int idx)
-	: dae::Scene(name, idx)
+	: Tonic::Scene(name, idx)
 	, m_pToMainMenuButton()
 	, m_pFinalScoreObj()
 	, m_ClickSoundID()
@@ -24,21 +24,21 @@ GameOverMenu::GameOverMenu(const std::string& name, int idx)
 
 void GameOverMenu::Initialize()
 {
-	auto font48 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 48);
-	auto font36 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto menuFont = ResourceManager::GetInstance().LoadFont("VCR_OSD_MONO.otf", 16);
+	auto font48 = ResourceManager::GetInstance().LoadFont("QBert/Fonts/Lingua.otf", 48);
+	auto font36 = ResourceManager::GetInstance().LoadFont("QBert/Fonts/Lingua.otf", 36);
+	auto menuFont = ResourceManager::GetInstance().LoadFont("QBert/Fonts/VCR_OSD_MONO.otf", 16);
 
 	//Background
 	auto bgObject = std::make_shared<GameObject>();
-	bgObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(bgObject.get(), "QBert/MenuBackground.png"));
-	bgObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(bgObject.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	bgObject->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(bgObject.get(), "QBert/Menu/MenuBackground.png"));
+	bgObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(bgObject.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
 	Add(bgObject);
 
 	//UI Text
 	auto pEndText = std::make_shared<GameObject>();;
 	pEndText->SetPosition(30, 200);
 
-	pEndText->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pEndText.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	pEndText->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pEndText.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
 	auto pTextComp = pEndText->AddComponent<TextComponent>(std::make_shared<TextComponent>(pEndText.get(), "You Lose!", font48));
 	pTextComp->SetColor(Colors::COLOR_TABLE[ColorName::Red]);
 	Add(pEndText);
@@ -47,16 +47,16 @@ void GameOverMenu::Initialize()
 	m_pFinalScoreObj = std::make_shared<GameObject>();
 	m_pFinalScoreObj->SetPosition(30, 265);
 
-	m_pFinalScoreObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pFinalScoreObj.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	m_pFinalScoreObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pFinalScoreObj.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
 	m_pFinalScoreObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(m_pFinalScoreObj.get(), "Final Score: 0", font36));
 	Add(m_pFinalScoreObj);
 
 	//Coily on block
 	auto pCoily = std::make_shared<GameObject>();
 	pCoily->SetPosition(450, 150);
-	pCoily->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pCoily.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	pCoily->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pCoily.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
 
-	auto pCoilySpriteComp = pCoily->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(pCoily.get(), "QBert/Coily_Spritesheet.png", 16, 32, 1, 125, 2.5f));
+	auto pCoilySpriteComp = pCoily->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(pCoily.get(), "QBert/Characters/Coily_Spritesheet.png", 16, 32, 1, 125, 2.5f));
 	pCoilySpriteComp->SetAnimationRow(1);
 	pCoilySpriteComp->SetIsLeft(true);
 
@@ -68,9 +68,9 @@ void GameOverMenu::Initialize()
 		auto playObj = std::make_shared<GameObject>();
 		playObj->SetPosition(250, 400);
 
-		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/ToMenuButton.png", 1.f));
-		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/ToMenuButtonHover.png", 1.f));
-		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(playObj.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/Menu/ToMenuButton.png", 1.f));
+		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(playObj.get(), "QBert/Menu/ToMenuButtonHover.png", 1.f));
+		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(playObj.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
 		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>(playObj.get(), "(A)", menuFont));
 		pTextComp->SetLocalPosition(85, 17.5f);
 		pTextComp->SetColor(Colors::COLOR_TABLE[ColorName::DarkLimeGreen]);
@@ -81,7 +81,7 @@ void GameOverMenu::Initialize()
 
 	//Sound
 	SDLAudio* pSDLAudio = new SDLAudio();
-	m_ClickSoundID = pSDLAudio->AddSound("../Data/Sounds/sfx_ClickSound.wav");
+	m_ClickSoundID = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_ClickSound.wav");
 
 	m_pAudioSytem = std::make_shared<LogAudio>(pSDLAudio);
 	AudioLocator::RegisterAudioSystem(m_pAudioSytem.get());
@@ -94,7 +94,7 @@ void GameOverMenu::FixedUpdate(float dt)
 void GameOverMenu::Update(float dt)
 {
 	m_pToMainMenuButton->Update(dt);
-	if (m_pToMainMenuButton->IsPressed() || m_Input.IsInputTriggered(ControllerButton::ButtonA, ControllerButtonType::wButton, dae::TriggerState::Released))
+	if (m_pToMainMenuButton->IsPressed() || m_Input.IsInputTriggered(ControllerButton::ButtonA, ControllerButtonType::wButton, Tonic::TriggerState::Released))
 	{
 		//Go to main menu
 		m_pAudioSytem->Play(m_ClickSoundID, 0.5f);

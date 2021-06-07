@@ -6,9 +6,10 @@
 #include <vector>
 #include <memory>
 
-class AudioSystem;
-namespace dae
+
+namespace Tonic
 {
+	class AudioSystem;
 	class ColliderComponent;
 	class GameObject;
 	class Scene

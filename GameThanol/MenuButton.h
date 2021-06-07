@@ -1,11 +1,15 @@
 #pragma once
 #include <memory>
 
-class ImageComponent;
+namespace Tonic
+{
+	class ImageComponent;
+}
+
 class MenuButton
 {
 public:
-	MenuButton(std::shared_ptr<ImageComponent> buttonComp, std::shared_ptr<ImageComponent> buttonHoverComp);
+	MenuButton(std::shared_ptr<Tonic::ImageComponent> buttonComp, std::shared_ptr<Tonic::ImageComponent> buttonHoverComp);
 	virtual ~MenuButton() = default;
 
 	MenuButton(const MenuButton & other) = delete;
@@ -19,8 +23,8 @@ public:
 	const bool IsPressed() const { return m_IsPressed; }
 	
 private:
-	std::shared_ptr<ImageComponent> m_ButtonComp;
-	std::shared_ptr<ImageComponent> m_ButtonHoverComp;
+	std::shared_ptr<Tonic::ImageComponent> m_ButtonComp;
+	std::shared_ptr<Tonic::ImageComponent> m_ButtonHoverComp;
 	bool m_IsPressed;
 	bool m_IsHovered;
 

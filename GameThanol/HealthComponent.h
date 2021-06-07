@@ -1,11 +1,11 @@
 #pragma once
-#include "Component.h"
+#include <Component.h>
 class RespawnComponent;
 
-class HealthComponent : public Component
+class HealthComponent : public Tonic::Component
 {
 public:
-	HealthComponent(dae::GameObject* parent, int nbLives = 5);
+	HealthComponent(Tonic::GameObject* parent, int nbLives = 5);
 	virtual ~HealthComponent() = default;
 
 	void Initialize() override;

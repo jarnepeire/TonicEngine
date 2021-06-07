@@ -2,7 +2,7 @@
 #include <Scene.h>
 class MenuButton;
 
-class GameOverMenu : public dae::Scene
+class GameOverMenu : public Tonic::Scene
 {
 public:
 	GameOverMenu(const std::string& name, int idx);
@@ -15,7 +15,7 @@ public:
 	void SetFinalScore(int score);
 private:
 	std::shared_ptr<MenuButton> m_pToMainMenuButton;
-	std::shared_ptr<dae::GameObject> m_pFinalScoreObj;
+	std::shared_ptr<Tonic::GameObject> m_pFinalScoreObj;
 	unsigned int m_ClickSoundID;
 };
 

@@ -2,7 +2,7 @@
 #include <Scene.h>
 class MenuButton;
 
-class ControlsMenu : public dae::Scene
+class ControlsMenu : public Tonic::Scene
 {
 public:
 	ControlsMenu(const std::string& name, int idx);

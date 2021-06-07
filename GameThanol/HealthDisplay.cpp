@@ -3,7 +3,9 @@
 #include "GameObject.h"
 #include "TextComponent.h"
 #include "HealthComponent.h"
+#include "GameEvent.h"
 
+using namespace Tonic;
 HealthDisplay::HealthDisplay(const std::shared_ptr<TextComponent>& pTextComponent)
 	: m_pHealthText(pTextComponent)
 {
@@ -15,9 +17,9 @@ HealthDisplay::HealthDisplay(const std::shared_ptr<TextComponent>& pTextComponen
 	m_pHealthText->SetLocalPosition(x, y);
 }
 
-void HealthDisplay::Notify(dae::GameObject* object, Event e)
+void HealthDisplay::Notify(Tonic::GameObject* object, int eventId)
 {
-	if (e == Event::EVENT_CHARACTER_LOST_LIFE || e == Event::EVENT_LEVEL_RESET)
+	if (eventId == (int)GameEvent::EVENT_CHARACTER_LOST_LIFE || eventId == (int)GameEvent::EVENT_LEVEL_RESET)
 	{
 		auto health = object->GetComponent<HealthComponent>();
 		if (health != nullptr)

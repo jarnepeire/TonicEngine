@@ -9,13 +9,14 @@
 #include "QBertGame.h"
 #include <iostream>
 
+using namespace Tonic;
 int main(int, char* [])
 {
     //Seed random generator
     srand(static_cast<unsigned>(time(0)));
 
     QBertGame* pGame = new QBertGame();
-    dae::TonicEngine engine;
+    Tonic::TonicEngine engine;
     engine.Run(pGame);
     delete pGame;
     return 0;

@@ -99,22 +99,10 @@
     <ClInclude Include="Command.h">
       <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterComponent.h">
-      <Filter>Component Files</Filter>
-    </ClInclude>
     <ClInclude Include="Observer.h">
       <Filter>Observers</Filter>
     </ClInclude>
     <ClInclude Include="Subject.h">
-      <Filter>Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Component Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthDisplay.h">
-      <Filter>Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreDisplay.h">
       <Filter>Observers</Filter>
     </ClInclude>
     <ClInclude Include="AudioSystem.h">
@@ -161,9 +149,6 @@
     </ClInclude>
     <ClInclude Include="InputLocator.h">
       <Filter>ServiceLocators</Filter>
-    </ClInclude>
-    <ClInclude Include="RespawnComponent.h">
-      <Filter>Component Files</Filter>
     </ClInclude>
     <ClInclude Include="MathHelper.h">
       <Filter>Helpers</Filter>
@@ -239,22 +224,10 @@
     <ClCompile Include="Command.cpp">
       <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterComponent.cpp">
-      <Filter>Component Files</Filter>
-    </ClCompile>
     <ClCompile Include="Observer.cpp">
       <Filter>Observers</Filter>
     </ClCompile>
     <ClCompile Include="Subject.cpp">
-      <Filter>Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Component Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthDisplay.cpp">
-      <Filter>Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreDisplay.cpp">
       <Filter>Observers</Filter>
     </ClCompile>
     <ClCompile Include="AudioSystem.cpp">
@@ -292,9 +265,6 @@
     </ClCompile>
     <ClCompile Include="InputLocator.cpp">
       <Filter>ServiceLocators</Filter>
-    </ClCompile>
-    <ClCompile Include="RespawnComponent.cpp">
-      <Filter>Component Files</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Rendering</Filter>

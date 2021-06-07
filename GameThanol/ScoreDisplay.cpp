@@ -3,7 +3,9 @@
 #include "GameObject.h"
 #include "TextComponent.h"
 #include "CharacterComponent.h"
+#include "GameEvent.h"
 
+using namespace Tonic;
 ScoreDisplay::ScoreDisplay(const std::shared_ptr<TextComponent>& pTextComponent)
 	: m_pScoreText(pTextComponent)
 {
@@ -15,9 +17,9 @@ ScoreDisplay::ScoreDisplay(const std::shared_ptr<TextComponent>& pTextComponent,
 	m_pScoreText->SetLocalPosition(x, y);
 }
 
-void ScoreDisplay::Notify(dae::GameObject* object, Event e)
+void ScoreDisplay::Notify(Tonic::GameObject* object, int eventId)
 {
-	if (e == Event::EVENT_PLAYER_SCORED || e == Event::EVENT_LEVEL_RESET)
+	if (eventId == (int)GameEvent::EVENT_PLAYER_SCORED || eventId == (int)GameEvent::EVENT_LEVEL_RESET)
 	{
 		auto character = object->GetComponent<CharacterComponent>();
 		if (character != nullptr)

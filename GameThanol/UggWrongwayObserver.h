@@ -4,12 +4,12 @@
 #include <string>
 class HexGrid;
 
-class UggWrongwayObserver : public Observer
+class UggWrongwayObserver : public Tonic::Observer
 {
 public:
 	UggWrongwayObserver(std::shared_ptr<HexGrid> currentLevelGrid);
 	virtual ~UggWrongwayObserver() = default;
-	void Notify(dae::GameObject * object, Event e) override;
+	void Notify(Tonic::GameObject * object, int eventId) override;
 
 private:
 	std::weak_ptr<HexGrid> m_pGrid;

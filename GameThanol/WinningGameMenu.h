@@ -1,11 +1,11 @@
 #pragma once
 #include <Scene.h>
 class MenuButton;
-namespace dae
+namespace Tonic
 {
 	class GameObject;
 }
-class WinningGameMenu : public dae::Scene
+class WinningGameMenu : public Tonic::Scene
 {
 public:
 	WinningGameMenu(const std::string& name, int idx);
@@ -18,7 +18,7 @@ public:
 	void SetFinalScore(int score);
 private:
 	std::shared_ptr<MenuButton> m_pToMainMenuButton;
-	std::shared_ptr<dae::GameObject> m_pFinalScoreObj;
+	std::shared_ptr<Tonic::GameObject> m_pFinalScoreObj;
 	unsigned int m_ClickSoundID;
 };
 

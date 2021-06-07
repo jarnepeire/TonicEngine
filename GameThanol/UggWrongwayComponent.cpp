@@ -1,6 +1,7 @@
 #include "UggWrongwayComponent.h"
 
-UggWrongwayComponent::UggWrongwayComponent(dae::GameObject* parent, UggWrongway type, unsigned int jumpSoundId)
+using namespace Tonic;
+UggWrongwayComponent::UggWrongwayComponent(Tonic::GameObject* parent, UggWrongway type, unsigned int jumpSoundId)
     : HexJumpAIComponent(parent, 1.25f, jumpSoundId)
     , m_UggWrongway(type)
 {

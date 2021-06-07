@@ -2,14 +2,14 @@
 #include <Observer.h>
 #include <memory>
 
-class EnemyObserver : public Observer
+class EnemyObserver : public Tonic::Observer
 {
 public:
-	EnemyObserver(std::shared_ptr<dae::GameObject> qbertObject);
+	EnemyObserver(std::shared_ptr<Tonic::GameObject> qbertObject);
 	virtual ~EnemyObserver() = default;
-	void Notify(dae::GameObject* object, Event e) override;
+	void Notify(Tonic::GameObject* object, int eventId) override;
 
 private:
-	std::weak_ptr<dae::GameObject> m_QBert;
+	std::weak_ptr<Tonic::GameObject> m_QBert;
 };
 

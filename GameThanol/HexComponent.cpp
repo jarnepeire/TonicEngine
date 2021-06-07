@@ -5,8 +5,8 @@
 #include <RenderComponent.h>
 #include <MathHelper.h>
 
-using namespace dae;
-HexComponent::HexComponent(dae::GameObject* parent, std::vector<std::shared_ptr<ImageComponent>> imageComps, int nbVisitsNeeded, int row, int col, int hexWidth, int hexHeight, const glm::vec2& pos)
+using namespace Tonic;
+HexComponent::HexComponent(Tonic::GameObject* parent, std::vector<std::shared_ptr<ImageComponent>> imageComps, int nbVisitsNeeded, int row, int col, int hexWidth, int hexHeight, const glm::vec2& pos)
 	: Component(parent)
 	, m_ImageComponents(imageComps)
 	, m_HexWidth(hexWidth)

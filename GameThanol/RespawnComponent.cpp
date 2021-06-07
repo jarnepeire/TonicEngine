@@ -1,9 +1,10 @@
 #include "TonicEnginePCH.h"
 #include "RespawnComponent.h"
 #include "MathHelper.h"
-#include "GameObject.h"
+#include <GameObject.h>
 
-RespawnComponent::RespawnComponent(dae::GameObject* parent, const glm::vec2& respawnPos, float respawnTime)
+using namespace Tonic;
+RespawnComponent::RespawnComponent(Tonic::GameObject* parent, const glm::vec2& respawnPos, float respawnTime)
 	: Component(parent)
 	, m_RespawnPosition(respawnPos)
 	, m_InitPosition(glm::vec2(respawnPos.x, -35.f)) //offset above screen
@@ -51,4 +52,3 @@ void RespawnComponent::Respawn()
 {
 	m_CanRespawn = true;
 }
-

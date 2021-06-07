@@ -3,14 +3,14 @@
 #include <string>
 #include "HexCoordinate.h"
 
-namespace dae
+namespace Tonic
 {
 	class GameObject;
 }
 
 class HexGrid;
 class GameLevelInfo;
-class QBertScene : public dae::Scene
+class QBertScene : public Tonic::Scene
 {
 public:
 	QBertScene(const std::string& name, int idx, const std::wstring& levelFile);
@@ -25,22 +25,22 @@ public:
 	void SetStartScore(int score);
 	void SetStartLives(int nbLives);
 
-	std::shared_ptr<dae::GameObject> GetHexGridObject() { return m_pHexGridObject; }
+	std::shared_ptr<Tonic::GameObject> GetHexGridObject() { return m_pHexGridObject; }
 	std::shared_ptr<GameLevelInfo> GetGameLevelInfo() { return m_pGameLevelInfo; }
 protected:
 	std::shared_ptr<GameLevelInfo> m_pGameLevelInfo;
-	std::shared_ptr<dae::GameObject> m_pQBert;
+	std::shared_ptr<Tonic::GameObject> m_pQBert;
 
-	std::shared_ptr<dae::GameObject> m_pSam;
-	std::shared_ptr<dae::GameObject> m_pSlick;
+	std::shared_ptr<Tonic::GameObject> m_pSam;
+	std::shared_ptr<Tonic::GameObject> m_pSlick;
 	
-	std::shared_ptr<dae::GameObject> m_pUgg;
-	std::shared_ptr<dae::GameObject> m_pWrongway;
+	std::shared_ptr<Tonic::GameObject> m_pUgg;
+	std::shared_ptr<Tonic::GameObject> m_pWrongway;
 
-	std::shared_ptr<dae::GameObject> m_pHexGridObject;
+	std::shared_ptr<Tonic::GameObject> m_pHexGridObject;
 
 	unsigned int m_NbDisks;
-	std::vector<std::shared_ptr<dae::GameObject>> m_pDisks;
+	std::vector<std::shared_ptr<Tonic::GameObject>> m_pDisks;
 	std::vector<HexCoordinate> m_DiskHexCoordinates;
 
 	void AddDiskToGrid(std::shared_ptr<HexGrid> hexGrid, const HexCoordinate& hc, unsigned int moveSoundId);

@@ -232,7 +232,6 @@
     <ClInclude Include="AudioLocator.h" />
     <ClInclude Include="AudioSystem.h" />
     <ClInclude Include="BaseGameThanol.h" />
-    <ClInclude Include="CharacterComponent.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="ColliderManager.h" />
     <ClInclude Include="Command.h" />
@@ -242,8 +241,6 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="HealthComponent.h" />
-    <ClInclude Include="HealthDisplay.h" />
     <ClInclude Include="ImageComponent.h" />
     <ClInclude Include="InputLocator.h" />
     <ClInclude Include="InputManager.h" />
@@ -253,8 +250,6 @@
     <ClInclude Include="NullAudio.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="RenderComponent.h" />
-    <ClInclude Include="RespawnComponent.h" />
-    <ClInclude Include="ScoreDisplay.h" />
     <ClInclude Include="SDLAudio.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="Subject.h" />
@@ -315,7 +310,6 @@
     <ClCompile Include="AudioLocator.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="BaseGameThanol.cpp" />
-    <ClCompile Include="CharacterComponent.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="ColliderManager.cpp" />
     <ClCompile Include="Command.cpp" />
@@ -323,8 +317,6 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="HealthComponent.cpp" />
-    <ClCompile Include="HealthDisplay.cpp" />
     <ClCompile Include="ImageComponent.cpp" />
     <ClCompile Include="InputLocator.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -333,8 +325,6 @@
     <ClCompile Include="NullAudio.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
-    <ClCompile Include="RespawnComponent.cpp" />
-    <ClCompile Include="ScoreDisplay.cpp" />
     <ClCompile Include="SDLAudio.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="Subject.cpp" />

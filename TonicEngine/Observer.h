@@ -1,16 +1,16 @@
 #pragma once
 #include "Event.h"
-namespace dae
+namespace Tonic
 {
 	class GameObject;
+
+	class Observer
+	{
+	public:
+		virtual ~Observer() = default;
+		virtual void Notify(Tonic::GameObject* object, int eventId) = 0;
+
+	protected:
+		Observer() = default;
+	};
 }
-
-class Observer
-{
-public:
-	virtual ~Observer() = default;
-	virtual void Notify(dae::GameObject* object, Event e) = 0;
-
-protected:
-	Observer() = default;
-};

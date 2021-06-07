@@ -5,19 +5,19 @@
 #include <vector>
 #include <string>
 
-namespace dae
+namespace Tonic
 {
 	class GameObject;
+	class ImageComponent;
 }
 
 class DiskComponent;
-class ImageComponent;
 class HexComponent;
 
-class HexGrid : public Component
+class HexGrid : public Tonic::Component
 {
 public:
-	HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, const std::vector<std::string>& hexImagePaths, bool isAlternating = false);
+	HexGrid(Tonic::GameObject* parent, int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, const std::vector<std::string>& hexImagePaths, bool isAlternating = false);
 	virtual ~HexGrid();
 
 	void Initialize() override;
@@ -45,7 +45,7 @@ public:
 	int GetRemainingDiskAmount() const { return (int)m_Disks.size(); }
 
 private:
-	std::vector<std::shared_ptr<ImageComponent>> m_ImageComponents;
+	std::vector<std::shared_ptr<Tonic::ImageComponent>> m_ImageComponents;
 	int m_GridSize;
 	std::vector<std::shared_ptr<HexComponent>> m_Grid;
 	std::shared_ptr<HexComponent> m_Top;

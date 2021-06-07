@@ -5,9 +5,10 @@
 #include "Observer.h"
 #include "InputManager.h"
 #include "RespawnComponent.h"
+#include "GameEvent.h"
 
-using namespace dae;
-HealthComponent::HealthComponent(dae::GameObject* parent, int nbLives)
+using namespace Tonic;
+HealthComponent::HealthComponent(Tonic::GameObject* parent, int nbLives)
 	: Component(parent)
 	, m_NbLives(nbLives)
 	, m_NbLivesOriginal(nbLives)
@@ -41,13 +42,13 @@ void HealthComponent::Render()
 void HealthComponent::SetNbLives(int lives)
 {
 	m_NbLives = lives;
-	m_pSubject->Notify(m_pGameObject, Event::EVENT_CHARACTER_LOST_LIFE);
+	m_pSubject->Notify(m_pGameObject, (int)GameEvent::EVENT_CHARACTER_LOST_LIFE);
 }
 
 void HealthComponent::ResetLives()
 {
 	m_NbLives = m_NbLivesOriginal;
-	m_pSubject->Notify(m_pGameObject, Event::EVENT_LEVEL_RESET);
+	m_pSubject->Notify(m_pGameObject, (int)GameEvent::EVENT_LEVEL_RESET);
 }
 
 void HealthComponent::LoseLife()
@@ -57,13 +58,13 @@ void HealthComponent::LoseLife()
 	{
 		if (m_RespawnComponent)
 			m_RespawnComponent->Respawn();
-		m_pSubject->Notify(m_pGameObject, Event::EVENT_CHARACTER_LOST_LIFE);
+		m_pSubject->Notify(m_pGameObject, (int)GameEvent::EVENT_CHARACTER_LOST_LIFE);
 	}
 	else
 	{
 		//Notify death
 		m_HasDied = true;
-		m_pSubject->Notify(m_pGameObject, Event::EVENT_CHARACTER_DIED);
+		m_pSubject->Notify(m_pGameObject, (int)GameEvent::EVENT_CHARACTER_DIED);
 	}
 
 }

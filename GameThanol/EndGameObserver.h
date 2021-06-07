@@ -5,16 +5,17 @@
 
 class HealthComponent;
 class HexGrid;
-class EndGameObserver : public Observer
+class EndGameObserver : public Tonic::Observer
 {
 public:
 	//To create link it to an existing health component
-	EndGameObserver(const std::string& endGameSceneName);
+	EndGameObserver(const std::string& endGameSceneName, unsigned int endGameSoundId);
 
 	virtual ~EndGameObserver() = default;
-	void Notify(dae::GameObject * object, Event e) override;
+	void Notify(Tonic::GameObject * object, int eventId) override;
 
 private:
 	std::string m_EndGameSceneName;
+	unsigned int m_EndGameSoundID;
 };
 

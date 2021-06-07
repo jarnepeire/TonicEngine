@@ -2,7 +2,7 @@
 #include <vector>
 #include <memory>
 
-namespace dae
+namespace Tonic
 {
 	class ColliderComponent;
 	class ColliderManager

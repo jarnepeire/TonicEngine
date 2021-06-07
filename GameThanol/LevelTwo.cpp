@@ -15,8 +15,8 @@
 #include <TextComponent.h>
 #include "ResourceManager.h"
 
-#include <HealthDisplay.h>
-#include <ScoreDisplay.h>
+#include "HealthDisplay.h"
+#include "ScoreDisplay.h"
 #include "CharacterComponent.h"
 #include "AudioLocator.h"
 #include <SDLAudio.h>
@@ -36,7 +36,7 @@
 #include "UggWrongwayComponent.h"
 #include "UggWrongwayObserver.h"
 
-using namespace dae;
+using namespace Tonic;
 LevelTwo::LevelTwo(const std::string& name, int idx)
 	: QBertScene(name, idx, L"../Data/QBert/Levels/LevelTwo.json")
 {
@@ -49,36 +49,40 @@ void LevelTwo::Initialize()
 
 	//Sound
 	SDLAudio* pSDLAudio = new SDLAudio();
-	unsigned int jumpSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_QBertJump.wav");
-	unsigned int samSlickJumpSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_SlickSamJump.wav");
-	unsigned int samSlickDeathSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_SlickSamDeath.wav");
+	unsigned int jumpSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_QBertJump.wav");
+	unsigned int samSlickJumpSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_SlickSamJump.wav");
+	unsigned int samSlickDeathSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_SlickSamDeath.wav");
 
-	unsigned int uggWrongwayJumpSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_UggWrongwayJump.wav");
-	unsigned int uggWrongwayDeathSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_UggWrongwayDeath.wav");
+	unsigned int uggWrongwayJumpSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_UggWrongwayJump.wav");
+	unsigned int uggWrongwayDeathSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_UggWrongwayDeath.wav");
 
-	unsigned int scoreSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_gain_score.wav");
-	unsigned int diedSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_Death.wav");
-	unsigned int movingDiskSoundId = pSDLAudio->AddSound("../Data/Sounds/sfx_DiskMoving.wav");
+	unsigned int scoreSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_gain_score.wav");
+	unsigned int diedSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_Death.wav");
+	unsigned int movingDiskSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_DiskMoving.wav");
+
+	unsigned int endGameSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_EndGame.wav");
+	unsigned int nextLevelSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_NextLevel.wav");
+	unsigned int winGameSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_WinGame.wav");
 
 	m_pAudioSytem = std::make_shared<LogAudio>(pSDLAudio);
 	AudioLocator::RegisterAudioSystem(m_pAudioSytem.get());
 
 	//Level
-	auto qBertSmallFont = ResourceManager::GetInstance().LoadFont("CooperBlack.otf", 16);
+	auto qBertSmallFont = ResourceManager::GetInstance().LoadFont("QBert/Fonts/CooperBlack.otf", 16);
 
 	//UI
 	//Player 1 Animation Text
 	auto pPlayerUI = std::make_shared<GameObject>();
 	pPlayerUI->SetPosition(30, 60);
-	pPlayerUI->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pPlayerUI.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
-	pPlayerUI->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(pPlayerUI.get(), "QBert/PlayerOne_Spritesheet.png", 51, 7, 6, 100));
-	auto pPlayerIcon = pPlayerUI->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(pPlayerUI.get(), "QBert/PlayerOneIcon.png"));
+	pPlayerUI->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pPlayerUI.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+	pPlayerUI->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(pPlayerUI.get(), "QBert/PlayerUI/PlayerOne_Spritesheet.png", 51, 7, 6, 100));
+	auto pPlayerIcon = pPlayerUI->AddComponent<ImageComponent>(std::make_shared<ImageComponent>(pPlayerUI.get(), "QBert/PlayerUI/PlayerOneIcon.png"));
 	pPlayerIcon->SetLocalPosition(110, -7);
 	Add(pPlayerUI);
 
 	auto pLevelUI = std::make_shared<GameObject>();
 	pLevelUI->SetPosition(30, 85);
-	pLevelUI->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pLevelUI.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	pLevelUI->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pLevelUI.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
 	auto pLevelText = pLevelUI->AddComponent<TextComponent>(std::make_shared<TextComponent>(pLevelUI.get(), "Level: 2", qBertSmallFont));
 	pLevelText->SetColor(Colors::COLOR_TABLE[ColorName::DarkLimeGreen]);
 	Add(pLevelUI);
@@ -86,7 +90,7 @@ void LevelTwo::Initialize()
 	//Text object for display
 	auto pPlayerInfo = std::make_shared<GameObject>();;
 	pPlayerInfo->SetPosition(30, 110);
-	pPlayerInfo->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pPlayerInfo.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	pPlayerInfo->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(pPlayerInfo.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
 
 	auto healthTextComp = pPlayerInfo->AddComponent<TextComponent>(std::make_shared<TextComponent>(pPlayerInfo.get(), "Lives: 3", qBertSmallFont));
 	healthTextComp->SetColor(Colors::COLOR_TABLE[ColorName::CottonCandyPink]);
@@ -100,12 +104,12 @@ void LevelTwo::Initialize()
 	m_pHexGridObject->SetPosition(100, 350);
 
 	std::vector<std::string> hexImagePaths{};
-	hexImagePaths.push_back("QBert/L2_Block.png");
-	hexImagePaths.push_back("QBert/L2_BlockIntermediate.png");
-	hexImagePaths.push_back("QBert/L2_BlockVisited.png");
+	hexImagePaths.push_back("QBert/Props/BlockBlue.png");
+	hexImagePaths.push_back("QBert/Props/BlockYellow.png");
+	hexImagePaths.push_back("QBert/Props/BlockGreen.png");
 	auto hexGridComp = m_pHexGridObject->AddComponent<HexGrid>(std::make_shared<HexGrid>(m_pHexGridObject.get(), levelInfo.GridSize, 64, 64, levelInfo.NbVisits, hexImagePaths, levelInfo.IsAlternating));
 
-	m_pHexGridObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pHexGridObject.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	m_pHexGridObject->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pHexGridObject.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
 	Add(m_pHexGridObject);
 	auto topPos = hexGridComp->GetTop()->GetHexPosition();
 
@@ -120,15 +124,15 @@ void LevelTwo::Initialize()
 	auto qBertScoreDisplay = std::make_shared<ScoreDisplay>(scoreTextComp);
 	auto qBertObserver = std::make_shared<QBertObserver>(hexGridComp, m_pQBert);
 	//auto qBertObserver = std::make_shared<QBertObserver>(hexGridComp);
-	auto endGameObserver = std::make_shared<EndGameObserver>("GameOver");
-	auto pNextLevelObserver = std::make_shared<NextLevelObserver>(hexGridComp, "LevelThree");
+	auto endGameObserver = std::make_shared<EndGameObserver>("GameOver", endGameSoundId);
+	auto pNextLevelObserver = std::make_shared<NextLevelObserver>(hexGridComp, "LevelThree", nextLevelSoundId);
 
 
 	//QBert
 	m_pQBert->SetDepthValue(-1.f);
-	m_pQBert->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pQBert.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
+	m_pQBert->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pQBert.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
 
-	auto pSpriteComp = m_pQBert->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(m_pQBert.get(), "QBert/QBert_Spritesheet.png", 37, 36, 8, 125, 0.6f));
+	auto pSpriteComp = m_pQBert->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(m_pQBert.get(), "QBert/Characters/QBert_Spritesheet.png", 37, 36, 8, 125, 0.6f));
 	pSpriteComp->SetLocalPosition(8, -25);
 
 	auto pCharComp = m_pQBert->AddComponent<CharacterComponent>(std::make_shared<CharacterComponent>(m_pQBert.get()));
@@ -159,8 +163,8 @@ void LevelTwo::Initialize()
 	auto pUggWrongwayObserver = std::make_shared<UggWrongwayObserver>(hexGridComp);
 
 	//Sam
-	m_pSam->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pSam.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
-	auto pSamSprite = m_pSam->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(m_pSam.get(), "QBert/Sam_Spritesheet.png", 11, 16, 1, 100));
+	m_pSam->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pSam.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+	auto pSamSprite = m_pSam->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(m_pSam.get(), "QBert/Characters/Sam_Spritesheet.png", 11, 16, 1, 100));
 	pSamSprite->SetLocalPosition(18, -12);
 
 	auto pSamEnemyComp = m_pSam->AddComponent<EnemyComponent>(std::make_shared<EnemyComponent>(m_pSam.get(), EnemyType::SamSlick, 300, 5.f, 10.f, samSlickDeathSoundId));
@@ -182,8 +186,8 @@ void LevelTwo::Initialize()
 	Add(m_pSam);
 
 	//Slick
-	m_pSlick->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pSlick.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
-	auto pSlickSprite = m_pSlick->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(m_pSlick.get(), "QBert/Slick_Spritesheet.png", 12, 16, 1, 100));
+	m_pSlick->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pSlick.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+	auto pSlickSprite = m_pSlick->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(m_pSlick.get(), "QBert/Characters/Slick_Spritesheet.png", 12, 16, 1, 100));
 	pSlickSprite->SetLocalPosition(18, -12);
 
 	auto pSlickEnemyComp = m_pSlick->AddComponent<EnemyComponent>(std::make_shared<EnemyComponent>(m_pSlick.get(), EnemyType::SamSlick, 300, 15.f, 25.f, samSlickDeathSoundId));
@@ -205,8 +209,8 @@ void LevelTwo::Initialize()
 	Add(m_pSlick);
 
 	//Ugg
-	m_pUgg->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pUgg.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
-	auto pUggSprite = m_pUgg->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(m_pUgg.get(), "QBert/Ugg_Spritesheet.png", 16, 16, 1, 100));
+	m_pUgg->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pUgg.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+	auto pUggSprite = m_pUgg->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(m_pUgg.get(), "QBert/Characters/Ugg_Spritesheet.png", 16, 16, 1, 100));
 	pUggSprite->SetLocalPosition(35, 30);
 
 	auto pUggEnemyComp = m_pUgg->AddComponent<EnemyComponent>(std::make_shared<EnemyComponent>(m_pUgg.get(), EnemyType::UggWrongway, 0, 2.f, 3.f, uggWrongwayDeathSoundId));
@@ -227,8 +231,8 @@ void LevelTwo::Initialize()
 	Add(m_pUgg);
 
 	//Wrongway
-	m_pWrongway->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pWrongway.get(), dae::Renderer::GetInstance().GetSDLRenderer()));
-	auto pWrongwaySprite = m_pWrongway->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(m_pWrongway.get(), "QBert/Wrongway_Spritesheet.png", 16, 16, 1, 100));
+	m_pWrongway->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(m_pWrongway.get(), Tonic::Renderer::GetInstance().GetSDLRenderer()));
+	auto pWrongwaySprite = m_pWrongway->AddComponent<SpriteComponent>(std::make_shared<SpriteComponent>(m_pWrongway.get(), "QBert/Characters/Wrongway_Spritesheet.png", 16, 16, 1, 100));
 	pWrongwaySprite->SetLocalPosition(-8, 24);
 
 	auto pWrongwayEnemyComp = m_pWrongway->AddComponent<EnemyComponent>(std::make_shared<EnemyComponent>(m_pWrongway.get(), EnemyType::UggWrongway, 0, 5.f, 7.f, uggWrongwayDeathSoundId));

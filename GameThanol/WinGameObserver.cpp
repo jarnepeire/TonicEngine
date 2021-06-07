@@ -6,15 +6,20 @@
 #include "QBertScene.h"
 #include "GameScores.h"
 #include "CharacterComponent.h"
-WinGameObserver::WinGameObserver(std::shared_ptr<HexGrid> currentLevelGrid, const std::string& winningSceneName)
+#include "AudioLocator.h"
+#include "GameEvent.h"
+
+using namespace Tonic;
+WinGameObserver::WinGameObserver(std::shared_ptr<HexGrid> currentLevelGrid, const std::string& winningSceneName, unsigned int winGameSoundId)
 	: m_pGrid(currentLevelGrid)
 	, m_WinningSceneName(winningSceneName)
+	, m_WinGameSoundID(winGameSoundId)
 {
 }
 
-void WinGameObserver::Notify(dae::GameObject* object, Event e)
+void WinGameObserver::Notify(Tonic::GameObject* object, int eventId)
 {
-	if (e == Event::EVENT_JUMPER_LANDED)
+	if (eventId == (int)GameEvent::EVENT_JUMPER_LANDED)
 	{
 		//Pointer expired
 		auto pGrid = m_pGrid.lock();
@@ -23,7 +28,7 @@ void WinGameObserver::Notify(dae::GameObject* object, Event e)
 
 		if (pGrid->IsGridCompleted())
 		{
-			auto pScene = dae::SceneManager::GetInstance().GetScene(m_WinningSceneName);
+			auto pScene = Tonic::SceneManager::GetInstance().GetScene(m_WinningSceneName);
 			auto pWinningScene = dynamic_cast<WinningGameMenu*>(pScene);
 			if (pWinningScene)
 			{
@@ -38,7 +43,9 @@ void WinGameObserver::Notify(dae::GameObject* object, Event e)
 				if (pScoreComp)
 					pWinningScene->SetFinalScore(pScoreComp->GetScore() + diskScore);		
 			}
-			dae::SceneManager::GetInstance().SetActiveScene(m_WinningSceneName);
+
+			AudioLocator::GetAudioSystem().Play(m_WinGameSoundID, 0.25f);
+			Tonic::SceneManager::GetInstance().SetActiveScene(m_WinningSceneName);
 		}
 	}
 }

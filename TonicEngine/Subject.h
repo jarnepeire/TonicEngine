@@ -1,23 +1,24 @@
 #pragma once
 #include <vector>
 #include <memory>
+#include "Event.h"
 
-namespace dae { class GameObject; }
-enum class Event;
-class Observer;
-
-class Subject
+namespace Tonic
 {
-public:
-	Subject() = default;
-	~Subject() = default;
+	class GameObject;
+	class Observer;
 
-	void AddObserver(std::shared_ptr<Observer> pObserver);
-	void RemoveObserver(std::shared_ptr<Observer> pObserver);
-	void Notify(dae::GameObject* pGameObject, Event e);
+	class Subject
+	{
+	public:
+		Subject() = default;
+		~Subject() = default;
 
-private:
-	std::vector<std::shared_ptr<Observer>> m_pObservers;
+		void AddObserver(std::shared_ptr<Observer> pObserver);
+		void RemoveObserver(std::shared_ptr<Observer> pObserver);
+		void Notify(Tonic::GameObject* pGameObject, int eventId);
 
-};
-
+	private:
+		std::vector<std::shared_ptr<Observer>> m_pObservers;
+	};
+}

@@ -175,6 +175,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CharacterComponent.cpp" />
     <ClCompile Include="ControlsMenu.cpp" />
     <ClCompile Include="DiskComponent.cpp" />
     <ClCompile Include="EndGameObserver.cpp" />
@@ -183,6 +184,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="GameLevelInfo.cpp" />
     <ClCompile Include="GameOverMenu.cpp" />
     <ClCompile Include="GameThanol.cpp" />
+    <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="HealthDisplay.cpp" />
     <ClCompile Include="HexComponent.cpp" />
     <ClCompile Include="HexGrid.cpp" />
     <ClCompile Include="HexJumpAIComponent.cpp" />
@@ -197,8 +200,10 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="QBertGame.cpp" />
     <ClCompile Include="QBertObserver.cpp" />
     <ClCompile Include="QBertScene.cpp" />
+    <ClCompile Include="RespawnComponent.cpp" />
     <ClCompile Include="SamSlickComponent.cpp" />
     <ClCompile Include="SamSlickObserver.cpp" />
+    <ClCompile Include="ScoreDisplay.cpp" />
     <ClCompile Include="ToSceneCommand.cpp" />
     <ClCompile Include="UggWrongwayComponent.cpp" />
     <ClCompile Include="UggWrongwayObserver.cpp" />
@@ -206,15 +211,19 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="WinningGameMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CharacterComponent.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="ControlsMenu.h" />
     <ClInclude Include="DiskComponent.h" />
     <ClInclude Include="EndGameObserver.h" />
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="EnemyObserver.h" />
+    <ClInclude Include="GameEvent.h" />
     <ClInclude Include="GameLevelInfo.h" />
     <ClInclude Include="GameOverMenu.h" />
     <ClInclude Include="GameScores.h" />
+    <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="HealthDisplay.h" />
     <ClInclude Include="HexComponent.h" />
     <ClInclude Include="HexCoordinate.h" />
     <ClInclude Include="HexGrid.h" />
@@ -230,8 +239,10 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="QBertGame.h" />
     <ClInclude Include="QBertObserver.h" />
     <ClInclude Include="QBertScene.h" />
+    <ClInclude Include="RespawnComponent.h" />
     <ClInclude Include="SamSlickComponent.h" />
     <ClInclude Include="SamSlickObserver.h" />
+    <ClInclude Include="ScoreDisplay.h" />
     <ClInclude Include="ToSceneCommand.h" />
     <ClInclude Include="UggWrongwayComponent.h" />
     <ClInclude Include="UggWrongwayObserver.h" />

@@ -4,15 +4,17 @@
 #include "HexJumpComponent.h"
 #include <SpriteComponent.h>
 #include "ColliderComponent.h"
+#include "GameEvent.h"
 
+using namespace Tonic;
 SamSlickObserver::SamSlickObserver(std::shared_ptr<HexGrid> currentLevelGrid)
 	: m_pGrid(currentLevelGrid)
 {
 }
 
-void SamSlickObserver::Notify(dae::GameObject* object, Event e)
+void SamSlickObserver::Notify(Tonic::GameObject* object, int eventId)
 {
-	if (e == Event::EVENT_JUMPER_LANDED)
+	if (eventId == (int)GameEvent::EVENT_JUMPER_LANDED)
 	{
 		//Pointer expired
 		auto pGrid = m_pGrid.lock();
@@ -23,7 +25,7 @@ void SamSlickObserver::Notify(dae::GameObject* object, Event e)
 		const auto& hc = pHexJump->GetJumpToCoordinate();
 		pGrid->UnvisitHex(hc);
 	}
-	else if (e == Event::EVENT_ENEMY_SPAWNED)
+	else if (eventId == (int)GameEvent::EVENT_ENEMY_SPAWNED)
 	{
 		//Pointer expired
 		auto pGrid = m_pGrid.lock();
@@ -34,13 +36,13 @@ void SamSlickObserver::Notify(dae::GameObject* object, Event e)
 		const auto& hc = pHexJump->GetCurrentCoordinate();
 		pGrid->UnvisitHex(hc);
 	}
-	else if (e == Event::EVENT_ENEMY_FALLS)
+	else if (eventId == (int)GameEvent::EVENT_ENEMY_FALLS)
 	{
 		auto pSprite = object->GetComponent<SpriteComponent>();
 		pSprite->SetEnableRender(true);
 
 		//Dont want to suddenly collide mid-air if we happen to fall on another object
-		auto pCollider = object->GetComponent<dae::ColliderComponent>();
+		auto pCollider = object->GetComponent<Tonic::ColliderComponent>();
 		if (pCollider)
 			pCollider->SetCanReceiveCheckForCollision(false);
 	}

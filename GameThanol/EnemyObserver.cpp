@@ -6,25 +6,27 @@
 #include "SpriteComponent.h"
 #include "ColliderComponent.h"
 #include "EnemyComponent.h"
+#include "GameEvent.h"
 
-EnemyObserver::EnemyObserver(std::shared_ptr<dae::GameObject> qbertObject)
+using namespace Tonic;
+EnemyObserver::EnemyObserver(std::shared_ptr<Tonic::GameObject> qbertObject)
 	: m_QBert(qbertObject)
 {
 }
 
-void EnemyObserver::Notify(dae::GameObject* object, Event e)
+void EnemyObserver::Notify(Tonic::GameObject* object, int eventId)
 {
-	if (e == Event::EVENT_ENEMY_SPAWNED)
+	if (eventId == (int)GameEvent::EVENT_ENEMY_SPAWNED)
 	{
 		auto pHexJumpAI = object->GetComponent<HexJumpAIComponent>();
 		if (pHexJumpAI)
 			pHexJumpAI->StartWaiting();
 
-		auto pCollider = object->GetComponent<dae::ColliderComponent>();
+		auto pCollider = object->GetComponent<Tonic::ColliderComponent>();
 		if (pCollider) 
 			pCollider->SetCanReceiveCheckForCollision(true);
 	}
-	else if (e == Event::EVENT_JUMPER_LANDED)
+	else if (eventId == (int)GameEvent::EVENT_JUMPER_LANDED)
 	{
 		auto pHexJumpAI = object->GetComponent<HexJumpAIComponent>();
 		if (pHexJumpAI)
@@ -32,8 +34,20 @@ void EnemyObserver::Notify(dae::GameObject* object, Event e)
 
 		auto pSpriteComponent = object->GetComponent<SpriteComponent>();
 		if (pSpriteComponent) pSpriteComponent->SetAnimationRow(0);
+
 	}
-	else if (e == Event::EVENT_JUMPER_FELL_OFF_GRID)
+	else if (eventId == (int)GameEvent::EVENT_JUMPER_WILL_FALL_OFF)
+	{
+		//Dont want to suddenly collide mid-air if we happen to fall on another object
+		auto pCollider = object->GetComponent<Tonic::ColliderComponent>();
+		if (pCollider)
+			pCollider->SetCanReceiveCheckForCollision(false);
+
+		auto pEnemyComp = object->GetComponent<EnemyComponent>();
+		if (pEnemyComp)
+			pEnemyComp->Kill();
+	}
+	else if (eventId == (int)GameEvent::EVENT_JUMPER_FELL_OFF_GRID)
 	{
 		auto pHealth = object->GetComponent<HealthComponent>();
 		if (pHealth)
@@ -46,7 +60,7 @@ void EnemyObserver::Notify(dae::GameObject* object, Event e)
 			}
 		}
 	}
-	else if (e == Event::EVENT_JUMPER_SAVED_BY_DISK)
+	else if (eventId == (int)GameEvent::EVENT_JUMPER_SAVED_BY_DISK)
 	{
 		auto pHealth = object->GetComponent<HealthComponent>();
 		if (pHealth)
@@ -56,18 +70,32 @@ void EnemyObserver::Notify(dae::GameObject* object, Event e)
 			{
 				auto pHexJumpAI = object->GetComponent<HexJumpAIComponent>();
 				pHexJumpAI->SetActive(false);
+
+				auto pHexJump = object->GetComponent<HexJumpComponent>();
+				pHexJump->ResetToOriginalCoordinate();
+
+				auto pCollider = object->GetComponent<Tonic::ColliderComponent>();
+				if (pCollider)
+					pCollider->SetCanReceiveCheckForCollision(false);
+
+				auto pEnemyComp = object->GetComponent<EnemyComponent>();
+				if (pEnemyComp)
+					pEnemyComp->Kill();
 			}
 		}
 	}
-	else if (e == Event::EVENT_CHARACTER_DIED)
+	else if (eventId == (int)GameEvent::EVENT_CHARACTER_DIED)
 	{
 		auto pHexJumpAI = object->GetComponent<HexJumpAIComponent>();
 		pHexJumpAI->SetActive(false);
 
+		auto pHexJump = object->GetComponent<HexJumpComponent>();
+		pHexJump->ResetToOriginalCoordinate();
+
 		auto pSpriteComp = object->GetComponent<SpriteComponent>();
 		pSpriteComp->SetEnableRender(false);
 
-		auto pCollider = object->GetComponent<dae::ColliderComponent>();
+		auto pCollider = object->GetComponent<Tonic::ColliderComponent>();
 		if (pCollider) 
 			pCollider->SetCanReceiveCheckForCollision(false);
 
@@ -76,7 +104,7 @@ void EnemyObserver::Notify(dae::GameObject* object, Event e)
 			pEnemyComp->Kill();
 
 	}
-	else if (e == Event::EVENT_JUMPER_JUMPED)
+	else if (eventId == (int)GameEvent::EVENT_JUMPER_JUMPED)
 	{
 		auto pHexJump = object->GetComponent<HexJumpComponent>();
 		if (pHexJump)

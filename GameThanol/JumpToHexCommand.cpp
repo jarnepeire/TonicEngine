@@ -5,7 +5,8 @@
 #include "RespawnComponent.h"
 #include <iostream>
 
-JumpToHexCommand::JumpToHexCommand(dae::GameObject* object, int rowJump, int colJump, unsigned int jumpSoundId, unsigned int deathSoundId)
+using namespace Tonic;
+JumpToHexCommand::JumpToHexCommand(Tonic::GameObject* object, int rowJump, int colJump, unsigned int jumpSoundId, unsigned int deathSoundId)
 	: Command(object)
 	, m_RowJump(rowJump)
 	, m_ColJump(colJump)
@@ -38,22 +39,22 @@ void JumpToHexCommand::Execute()
 	}
 }
 
-JumpToHexTopLeftCommand::JumpToHexTopLeftCommand(dae::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId)
+JumpToHexTopLeftCommand::JumpToHexTopLeftCommand(Tonic::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId)
 	: JumpToHexCommand(object, 1, -1, jumpSoundId, deathSoundId)
 {
 }
 
-JumpToHexBottomLeftCommand::JumpToHexBottomLeftCommand(dae::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId)
+JumpToHexBottomLeftCommand::JumpToHexBottomLeftCommand(Tonic::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId)
 	: JumpToHexCommand(object, -1, 0, jumpSoundId, deathSoundId)
 {
 }
 
-JumpToHexTopRightCommand::JumpToHexTopRightCommand(dae::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId)
+JumpToHexTopRightCommand::JumpToHexTopRightCommand(Tonic::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId)
 	: JumpToHexCommand(object, 1, 0, jumpSoundId, deathSoundId)
 {
 }
 
-JumpToHexBottomRightCommand::JumpToHexBottomRightCommand(dae::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId)
+JumpToHexBottomRightCommand::JumpToHexBottomRightCommand(Tonic::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId)
 	: JumpToHexCommand(object, -1, 1, jumpSoundId, deathSoundId)
 {
 }

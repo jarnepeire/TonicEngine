@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "TextComponent.h"
 
-FPSComponent::FPSComponent(dae::GameObject* parent, const std::shared_ptr<TextComponent>& pTextComp)
+Tonic::FPSComponent::FPSComponent(Tonic::GameObject* parent, const std::shared_ptr<TextComponent>& pTextComp)
 	: Component(parent)
 	, m_DisplayFPS(true)
 	, m_Frames()
@@ -13,7 +13,7 @@ FPSComponent::FPSComponent(dae::GameObject* parent, const std::shared_ptr<TextCo
 {
 }
 
-FPSComponent::FPSComponent(dae::GameObject* parent, const std::shared_ptr<dae::Font>& font)
+Tonic::FPSComponent::FPSComponent(Tonic::GameObject* parent, const std::shared_ptr<Tonic::Font>& font)
 	: Component(parent)
 	, m_DisplayFPS(true)
 	, m_Frames()
@@ -24,20 +24,20 @@ FPSComponent::FPSComponent(dae::GameObject* parent, const std::shared_ptr<dae::F
 	m_pTextComponent = m_pGameObject->AddComponent<TextComponent>(std::make_shared<TextComponent>(m_pGameObject, "0", font));
 }
 
-void FPSComponent::Initialize()
+void Tonic::FPSComponent::Initialize()
 {
 }
 
-void FPSComponent::PostInitialize()
+void Tonic::FPSComponent::PostInitialize()
 {
 }
 
-void FPSComponent::FixedUpdate(float dt)
+void Tonic::FPSComponent::FixedUpdate(float dt)
 {
 	UNREFERENCED_PARAMETER(dt);
 }
 
-void FPSComponent::Update(float dt)
+void Tonic::FPSComponent::Update(float dt)
 {
 	m_Frames++;
 	m_TotalTime += dt;
@@ -57,6 +57,6 @@ void FPSComponent::Update(float dt)
 	}
 }
 
-void FPSComponent::Render()
+void Tonic::FPSComponent::Render()
 {
 }

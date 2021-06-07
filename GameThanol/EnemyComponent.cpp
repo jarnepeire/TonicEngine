@@ -1,6 +1,6 @@
 #include "EnemyComponent.h"
 #include <GameObject.h>
-#include "Event.h"
+#include "GameEvent.h"
 #include "HexJumpComponent.h"
 #include "HexGrid.h"
 #include "HexComponent.h"
@@ -9,7 +9,8 @@
 #include <SpriteComponent.h>
 #include "AudioLocator.h"
 
-EnemyComponent::EnemyComponent(dae::GameObject* parent, EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime, unsigned int deathSoundId)
+using namespace Tonic;
+EnemyComponent::EnemyComponent(Tonic::GameObject* parent, EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime, unsigned int deathSoundId)
 	: Component(parent)
 	, m_EnemyType(enemyType)
 	, m_DefeatingScore(defeatingScore)
@@ -77,7 +78,7 @@ void EnemyComponent::Update(float dt)
 			m_SpawnTimer = 0.f;
 
 			//Notify it is falling spawned
-			m_pSubject->Notify(m_pGameObject, Event::EVENT_ENEMY_FALLS);
+			m_pSubject->Notify(m_pGameObject, (int)GameEvent::EVENT_ENEMY_FALLS);
 			m_CanFall = true;
 		}
 	}
@@ -91,7 +92,7 @@ void EnemyComponent::Update(float dt)
 			m_FallTimer = 0.f;
 
 			//Notify it has spawned
-			m_pSubject->Notify(m_pGameObject, Event::EVENT_ENEMY_SPAWNED);
+			m_pSubject->Notify(m_pGameObject, (int)GameEvent::EVENT_ENEMY_SPAWNED);
 		}
 		else
 		{

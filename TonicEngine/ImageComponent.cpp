@@ -6,8 +6,7 @@
 #include "GameObject.h"
 #include "Texture2D.h"
 
-using namespace dae;
-ImageComponent::ImageComponent(dae::GameObject* parent, const std::string& filename, float scale)
+Tonic::ImageComponent::ImageComponent(Tonic::GameObject* parent, const std::string& filename, float scale)
 	: Component(parent)
 	, m_Texture(ResourceManager::GetInstance().LoadTexture(filename))
 	, m_Scale(scale)
@@ -21,7 +20,7 @@ ImageComponent::ImageComponent(dae::GameObject* parent, const std::string& filen
 	//m_ImageHeight = h * scale;
 }
 
-void ImageComponent::Initialize()
+void Tonic::ImageComponent::Initialize()
 {
 	int w{}, h{};
 	SDL_QueryTexture(m_Texture->GetSDLTexture(), nullptr, nullptr, &w, &h);
@@ -29,21 +28,21 @@ void ImageComponent::Initialize()
 	m_ImageHeight = h * m_Scale;
 }
 
-void ImageComponent::PostInitialize()
+void Tonic::ImageComponent::PostInitialize()
 {
 }
 
-void ImageComponent::FixedUpdate(float dt)
-{
-	UNREFERENCED_PARAMETER(dt);
-}
-
-void ImageComponent::Update(float dt)
+void Tonic::ImageComponent::FixedUpdate(float dt)
 {
 	UNREFERENCED_PARAMETER(dt);
 }
 
-void ImageComponent::Render()
+void Tonic::ImageComponent::Update(float dt)
+{
+	UNREFERENCED_PARAMETER(dt);
+}
+
+void Tonic::ImageComponent::Render()
 {
 	if (m_CanRender && m_Texture != nullptr)
 	{
@@ -53,7 +52,7 @@ void ImageComponent::Render()
 	}
 }
 
-void ImageComponent::SetTexture(const std::string& filename)
+void Tonic::ImageComponent::SetTexture(const std::string& filename)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
 }

@@ -3,17 +3,21 @@
 #include "SceneManager.h"
 #include "GameOverMenu.h"
 #include "CharacterComponent.h"
+#include "AudioLocator.h"
+#include "GameEvent.h"
 
-EndGameObserver::EndGameObserver(const std::string& endGameSceneName)
+using namespace Tonic;
+EndGameObserver::EndGameObserver(const std::string& endGameSceneName, unsigned int endGameSoundId)
 	:  m_EndGameSceneName(endGameSceneName)
+	, m_EndGameSoundID(endGameSoundId)
 {
 }
 
-void EndGameObserver::Notify(dae::GameObject* object, Event e)
+void EndGameObserver::Notify(Tonic::GameObject* object, int eventId)
 {
-	if (e == Event::EVENT_CHARACTER_DIED)
+	if (eventId == (int)GameEvent::EVENT_CHARACTER_DIED)
 	{
-		auto pScene = dae::SceneManager::GetInstance().GetScene(m_EndGameSceneName);
+		auto pScene = Tonic::SceneManager::GetInstance().GetScene(m_EndGameSceneName);
 		auto pGameOverScene = dynamic_cast<GameOverMenu*>(pScene);
 		if (pGameOverScene)
 		{
@@ -22,6 +26,7 @@ void EndGameObserver::Notify(dae::GameObject* object, Event e)
 				pGameOverScene->SetFinalScore(pScoreComp->GetScore());
 		}
 
-		dae::SceneManager::GetInstance().SetActiveScene(m_EndGameSceneName);
+		AudioLocator::GetAudioSystem().Play(m_EndGameSoundID, 0.25f);
+		Tonic::SceneManager::GetInstance().SetActiveScene(m_EndGameSceneName);
 	}
 }

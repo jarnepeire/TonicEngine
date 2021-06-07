@@ -4,12 +4,12 @@
 #include <string>
 
 class HexGrid;
-class SpriteComponent;
 
-class DiskComponent : public Component
+
+class DiskComponent : public Tonic::Component
 {
 public:
-	DiskComponent(dae::GameObject* parent, float timeToMove, std::shared_ptr<HexGrid> hexGrid, const HexCoordinate& hc);
+	DiskComponent(Tonic::GameObject* parent, float timeToMove, std::shared_ptr<HexGrid> hexGrid, const HexCoordinate& hc);
 	virtual ~DiskComponent() = default;
 
 	void Initialize() override;
@@ -18,13 +18,13 @@ public:
 	void Update(float dt) override;
 	void Render() override;
 
-	void Move(dae::GameObject* pObjToMove, const glm::vec2& toPosition);
+	void Move(Tonic::GameObject* pObjToMove, const glm::vec2& toPosition);
 	void AttachToGrid(std::shared_ptr<HexGrid> hexGrid, const HexCoordinate& hc);
 	void SetMovingSoundID(unsigned int id) { m_MovingSoundID = id; }
 private:
 	std::shared_ptr<HexGrid> m_Grid;
 	bool m_CanMove;
-	dae::GameObject* m_pObjectToMove;
+	Tonic::GameObject* m_pObjectToMove;
 	glm::vec2 m_StartPosition;
 	glm::vec2 m_MoveToPosition;
 	float m_Timer;

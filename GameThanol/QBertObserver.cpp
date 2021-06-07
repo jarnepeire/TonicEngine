@@ -10,16 +10,18 @@
 #include "GameScores.h"
 #include <ColliderComponent.h>
 #include "EnemyComponent.h"
+#include "GameEvent.h"
 
-QBertObserver::QBertObserver(std::shared_ptr<HexGrid> currentLevelGrid, std::shared_ptr<dae::GameObject> pQbertObj)
+using namespace Tonic;
+QBertObserver::QBertObserver(std::shared_ptr<HexGrid> currentLevelGrid, std::shared_ptr<Tonic::GameObject> pQbertObj)
 	: m_pGrid(currentLevelGrid)
 	, m_pQBert(pQbertObj)
 {
 }
 
-void QBertObserver::Notify(dae::GameObject* object, Event e)
+void QBertObserver::Notify(Tonic::GameObject* object, int eventId)
 {
-	if (e == Event::EVENT_JUMPER_SAVED_BY_DISK)
+	if (eventId == (int)GameEvent::EVENT_JUMPER_SAVED_BY_DISK)
 	{
 		//Pointer expired
 		auto pGrid = m_pGrid.lock();
@@ -41,7 +43,7 @@ void QBertObserver::Notify(dae::GameObject* object, Event e)
 				pDisk->Move(object, topPos);
 		}
 	}
-	else if (e == Event::EVENT_JUMPER_LANDED)
+	else if (eventId == (int)GameEvent::EVENT_JUMPER_LANDED)
 	{
 		//Pointer expired
 		auto pGrid = m_pGrid.lock();
@@ -52,7 +54,7 @@ void QBertObserver::Notify(dae::GameObject* object, Event e)
 		const auto& hc = pHexJump->GetJumpToCoordinate();
 		pGrid->VisitHex(hc);
 	}
-	else if (e == Event::EVENT_JUMPER_JUMPED)
+	else if (eventId == (int)GameEvent::EVENT_JUMPER_JUMPED)
 	{
 		auto pSpriteComp = object->GetComponent<SpriteComponent>();
 		auto pHexJump = object->GetComponent<HexJumpComponent>();
@@ -80,7 +82,7 @@ void QBertObserver::Notify(dae::GameObject* object, Event e)
 			}
 		}
 	}
-	else if (e == Event::EVENT_JUMPER_FELL_OFF_GRID)
+	else if (eventId == (int)GameEvent::EVENT_JUMPER_FELL_OFF_GRID)
 	{
 		//Respawn to top
 		auto pHexJump = object->GetComponent<HexJumpComponent>();
@@ -97,20 +99,20 @@ void QBertObserver::Notify(dae::GameObject* object, Event e)
 		if (pSpriteComp) pSpriteComp->SetAnimationRow(0);
 		if (pSpriteComp) pSpriteComp->SetIsLeft(false);
 	}
-	else if (e == Event::EVENT_CHARACTER_DIED)
+	else if (eventId == (int)GameEvent::EVENT_CHARACTER_DIED)
 	{
 		//Reset anim
 		auto pSpriteComp = object->GetComponent<SpriteComponent>();
 		if (pSpriteComp) pSpriteComp->SetAnimationRow(0);
 		if (pSpriteComp) pSpriteComp->SetIsLeft(false);
 	}
-	else if (e == Event::EVENT_JUMPER_COLOR_CHANGE)
+	else if (eventId == (int)GameEvent::EVENT_JUMPER_COLOR_CHANGE)
 	{
 		auto pCharacter = object->GetComponent<CharacterComponent>();
 		if (pCharacter)
 			pCharacter->GainScore((int)GameScore::SCORE_COLOR_CHANGE);
 	}
-	else if (e == Event::EVENT_OBJECT_COLLIDE)
+	else if (eventId == (int)Tonic::Event::EVENT_OBJECT_COLLIDE)
 	{
 		auto pEnemyComponent = object->GetComponent<EnemyComponent>();
 		if (!pEnemyComponent)

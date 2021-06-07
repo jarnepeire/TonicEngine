@@ -10,8 +10,7 @@
 #include "GameObject.h"
 #include "RenderComponent.h"
 
-using namespace dae;
-TextComponent::TextComponent(dae::GameObject* parent, const std::string& text, const std::shared_ptr<Font>& font, const SDL_Color& color)
+Tonic::TextComponent::TextComponent(Tonic::GameObject* parent, const std::string& text, const std::shared_ptr<Font>& font, const SDL_Color& color)
 	: Component(parent)
 	, m_NeedsUpdate(true)
 	, m_Text(text)
@@ -21,20 +20,20 @@ TextComponent::TextComponent(dae::GameObject* parent, const std::string& text, c
 {
 }
 
-void TextComponent::Initialize()
+void Tonic::TextComponent::Initialize()
 {
 }
 
-void TextComponent::PostInitialize()
+void Tonic::TextComponent::PostInitialize()
 {
 }
 
-void TextComponent::FixedUpdate(float dt)
+void Tonic::TextComponent::FixedUpdate(float dt)
 {
 	UNREFERENCED_PARAMETER(dt);
 }
 
-void TextComponent::Update(float dt)
+void Tonic::TextComponent::Update(float dt)
 {
 	UNREFERENCED_PARAMETER(dt);
 	if (m_NeedsUpdate)
@@ -55,7 +54,7 @@ void TextComponent::Update(float dt)
 	}
 }
 
-void TextComponent::Render()
+void Tonic::TextComponent::Render()
 {
 	if (m_Texture != nullptr)
 	{
@@ -66,25 +65,25 @@ void TextComponent::Render()
 }
 
 // This implementation uses the "dirty flag" pattern
-void TextComponent::SetText(const std::string& text)
+void Tonic::TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;
 }
 
-void TextComponent::SetFont(std::shared_ptr<dae::Font> pFont)
+void Tonic::TextComponent::SetFont(std::shared_ptr<Tonic::Font> pFont)
 {
 	m_Font = pFont;
 }
 
-void TextComponent::SetColor(int r, int g, int b)
+void Tonic::TextComponent::SetColor(int r, int g, int b)
 {
 	m_Color.r = (Uint8)r;
 	m_Color.g = (Uint8)g;
 	m_Color.b = (Uint8)b;
 }
 
-void TextComponent::SetColor(SDL_Color c)
+void Tonic::TextComponent::SetColor(SDL_Color c)
 {
 	m_Color = c;
 }

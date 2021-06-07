@@ -4,10 +4,10 @@
 
 class HexGrid;
 
-class HexJumpComponent : public Component
+class HexJumpComponent : public Tonic::Component
 {
 public:
-	HexJumpComponent(dae::GameObject* parent, HexGrid* pHexGrid, int startRow, int startCol, float timeToJump = 1.f);
+	HexJumpComponent(Tonic::GameObject* parent, HexGrid* pHexGrid, int startRow, int startCol, float timeToJump = 1.f);
 	virtual ~HexJumpComponent() = default;
 
 	void Initialize() override;

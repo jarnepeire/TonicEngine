@@ -10,7 +10,7 @@ public:
 		Wrongway
 	};
 
-	UggWrongwayComponent(dae::GameObject* parent, UggWrongway type, unsigned int jumpSoundId);
+	UggWrongwayComponent(Tonic::GameObject* parent, UggWrongway type, unsigned int jumpSoundId);
 	virtual ~UggWrongwayComponent() = default;
 
 protected:

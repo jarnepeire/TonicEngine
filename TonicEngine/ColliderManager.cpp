@@ -5,13 +5,12 @@
 #include "Event.h"
 #include "SpriteComponent.h"
 
-using namespace dae;
-dae::ColliderManager::ColliderManager()
+Tonic::ColliderManager::ColliderManager()
 	: m_Colliders(0)
 {
 }
 
-void dae::ColliderManager::FixedUpdate(float)
+void Tonic::ColliderManager::FixedUpdate(float)
 {
 	for (auto pCollider : m_Colliders)
 	{
@@ -29,20 +28,20 @@ void dae::ColliderManager::FixedUpdate(float)
 				bool collides = pCollider->CollideCheck(pOtherCollider);
 				if (collides)
 				{
-					dae::GameObject* pCollidingObject = pOtherCollider->GetParentObject();
-					pCollider->GetSubject()->Notify(pCollidingObject, Event::EVENT_OBJECT_COLLIDE);
+					Tonic::GameObject* pCollidingObject = pOtherCollider->GetParentObject();
+					pCollider->GetSubject()->Notify(pCollidingObject, (int)Tonic::Event::EVENT_OBJECT_COLLIDE);
 				}
 			}
 		}
 	}
 }
 
-void dae::ColliderManager::Update(float)
+void Tonic::ColliderManager::Update(float)
 {
 	
 }
 
-void dae::ColliderManager::AddCollider(ColliderComponent* pCollider)
+void Tonic::ColliderManager::AddCollider(ColliderComponent* pCollider)
 {
 	m_Colliders.push_back(pCollider);
 }

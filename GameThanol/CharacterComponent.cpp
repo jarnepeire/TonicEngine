@@ -5,9 +5,10 @@
 #include "Observer.h"
 #include "InputManager.h"
 #include "Subject.h"
+#include "GameEvent.h"
 
-using namespace dae;
-CharacterComponent::CharacterComponent(dae::GameObject* parent)
+using namespace Tonic;
+CharacterComponent::CharacterComponent(Tonic::GameObject* parent)
 	: Component(parent)
 	, m_Score(0)
 {
@@ -38,11 +39,11 @@ void CharacterComponent::Render()
 void CharacterComponent::GainScore(int score)
 {
 	m_Score += score;
-	m_pSubject->Notify(m_pGameObject, Event::EVENT_PLAYER_SCORED);
+	m_pSubject->Notify(m_pGameObject, (int)GameEvent::EVENT_PLAYER_SCORED);
 }
 
 void CharacterComponent::ResetScore()
 {
 	m_Score = 0;
-	m_pSubject->Notify(m_pGameObject, Event::EVENT_LEVEL_RESET);
+	m_pSubject->Notify(m_pGameObject, (int)GameEvent::EVENT_LEVEL_RESET);
 }

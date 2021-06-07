@@ -2,14 +2,19 @@
 #include <Command.h>
 #include <string>
 
-class JumpToHexCommand : public Command
+namespace Tonic
+{
+	class GameObject;
+}
+
+class JumpToHexCommand : public Tonic::Command
 {
 public:
 	virtual ~JumpToHexCommand() = default;
 	void Execute() override;
 
 protected:
-	JumpToHexCommand(dae::GameObject* object, int rowJump, int colJump, unsigned int jumpSoundId, unsigned int deathSoundId);
+	JumpToHexCommand(Tonic::GameObject* object, int rowJump, int colJump, unsigned int jumpSoundId, unsigned int deathSoundId);
 
 private:
 	int m_RowJump;
@@ -21,27 +26,27 @@ private:
 class JumpToHexTopLeftCommand : public JumpToHexCommand
 {
 public:
-	JumpToHexTopLeftCommand(dae::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId);
+	JumpToHexTopLeftCommand(Tonic::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId);
 	virtual ~JumpToHexTopLeftCommand() = default;
 };
 
 class JumpToHexBottomLeftCommand : public JumpToHexCommand
 {
 public:
-	JumpToHexBottomLeftCommand(dae::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId);
+	JumpToHexBottomLeftCommand(Tonic::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId);
 	virtual ~JumpToHexBottomLeftCommand() = default;
 };
 
 class JumpToHexTopRightCommand : public JumpToHexCommand
 {
 public:
-	JumpToHexTopRightCommand(dae::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId);
+	JumpToHexTopRightCommand(Tonic::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId);
 	virtual ~JumpToHexTopRightCommand() = default;
 };
 
 class JumpToHexBottomRightCommand : public JumpToHexCommand
 {
 public:
-	JumpToHexBottomRightCommand(dae::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId);
+	JumpToHexBottomRightCommand(Tonic::GameObject* object, unsigned int jumpSoundId, unsigned int deathSoundId);
 	virtual ~JumpToHexBottomRightCommand() = default;
 };

@@ -3,8 +3,7 @@
 #include "GameObject.h"
 #include "Scene.h"
 
-using namespace dae;
-ColliderComponent::ColliderComponent(dae::GameObject* parent, CollisionLayer collisionLayer, bool canCheckForCollision, float width, float height)
+Tonic::ColliderComponent::ColliderComponent(Tonic::GameObject* parent, CollisionLayer collisionLayer, bool canCheckForCollision, float width, float height)
 	: Component(parent)
 	, m_ColliderBox()
 	, m_CollisionLayer(collisionLayer)
@@ -15,11 +14,11 @@ ColliderComponent::ColliderComponent(dae::GameObject* parent, CollisionLayer col
 {
 }
 
-void ColliderComponent::Initialize()
+void Tonic::ColliderComponent::Initialize()
 {
 }
 
-void ColliderComponent::PostInitialize()
+void Tonic::ColliderComponent::PostInitialize()
 {
 	const auto& parentPos = m_pGameObject->GetTransform().GetPosition();
 	const auto& compPos = m_Transform.GetPosition();
@@ -32,7 +31,7 @@ void ColliderComponent::PostInitialize()
 	m_pGameObject->GetParentScene()->AddColliderToScene(this);
 }
 
-void dae::ColliderComponent::Update(float)
+void Tonic::ColliderComponent::Update(float)
 {
 	//Update location of collision box
 	const auto& parentPos = m_pGameObject->GetTransform().GetPosition();
@@ -44,7 +43,7 @@ void dae::ColliderComponent::Update(float)
 	m_ColliderBox.TopRight.y = (parentPos.y + compPos.y) - (m_Height / 2.f);
 }
 
-bool ColliderComponent::CollideCheck(ColliderComponent* pCollider)
+bool Tonic::ColliderComponent::CollideCheck(ColliderComponent* pCollider)
 {
 	//Same layer means no collision
 	if (m_CollisionLayer == pCollider->GetCollisionLayer())
@@ -65,25 +64,4 @@ bool ColliderComponent::CollideCheck(ColliderComponent* pCollider)
 		}	
 	}
 	return false;
-
-	//if (m_ColliderBox.BottomLeft.x > otherColliderBox.TopRight.x || otherColliderBox.BottomLeft.x > m_ColliderBox.TopRight.x)
-	//{
-	//	return false;
-	//
-	//}
-	//if (m_ColliderBox.BottomLeft.y < otherColliderBox.TopRight.y || otherColliderBox.BottomLeft.y < m_ColliderBox.TopRight.y)
-	//{
-	//	return false;
-	//}
-	//return true;
 }
-
-//void dae::ColliderComponent::AddCollidingObject(dae::GameObject* pObj)
-//{
-//	m_CollidingObjects[m_NbCollidingObjects++] = pObj;
-//}
-//
-//void dae::ColliderComponent::ResetForCollisionChecks()
-//{
-//	m_NbCollidingObjects = 0;
-//}

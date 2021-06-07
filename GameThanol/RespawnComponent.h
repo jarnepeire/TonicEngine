@@ -1,10 +1,10 @@
 #pragma once
 #include "Component.h"
 
-class RespawnComponent : public Component
+class RespawnComponent : public Tonic::Component
 {
 public:
-	RespawnComponent(dae::GameObject* parent, const glm::vec2& respawnPos, float respawnTime = 3.f);
+	RespawnComponent(Tonic::GameObject* parent, const glm::vec2& respawnPos, float respawnTime = 3.f);
 	virtual ~RespawnComponent() {}
 
 	void Initialize() override;

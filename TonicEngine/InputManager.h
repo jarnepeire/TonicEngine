@@ -14,7 +14,7 @@
 //#pragma warning (disable:4201)
 //#include "glm/glm.hpp"
 //
-//namespace dae
+//namespace Tonic
 //{
 //	enum class TriggerState
 //	{
@@ -70,14 +70,14 @@
 //	private:
 //		XINPUT_STATE m_PrevControllerState;
 //		XINPUT_STATE m_CurrControllerState;
-//		std::map<dae::InputSetting, std::shared_ptr<Command>> m_InputActions;
-//		//std::unordered_map<dae::InputSetting, std::shared_ptr<Command>> m_InputActions;
+//		std::map<Tonic::InputSetting, std::shared_ptr<Command>> m_InputActions;
+//		//std::unordered_map<Tonic::InputSetting, std::shared_ptr<Command>> m_InputActions;
 //
 //		/* Private functions */
 //		bool IsPressed(ControllerButton button) const;
 //		bool WasPressed(ControllerButton button) const;
 //
-//		dae::TriggerState GetCurrentTriggerState(ControllerButton button);
+//		Tonic::TriggerState GetCurrentTriggerState(ControllerButton button);
 //		bool DidThumbstickMove(ControllerButton button);
 //		bool IsTriggerPressed(ControllerButton button);
 //	};
@@ -101,7 +101,7 @@
 #include "glm/glm.hpp"
 #include <SDL_events.h>
 
-namespace dae
+namespace Tonic
 {
 	enum class TriggerState
 	{
@@ -201,15 +201,15 @@ namespace dae
 
 		XINPUT_STATE m_PrevControllerState;
 		XINPUT_STATE m_CurrControllerState;
-		//std::map<dae::InputSetting, std::shared_ptr<Command>> m_InputActions;
-		std::map<dae::InputSettingALT, std::shared_ptr<Command>> m_InputActions;
+		//std::map<Tonic::InputSetting, std::shared_ptr<Command>> m_InputActions;
+		std::map<Tonic::InputSettingALT, std::shared_ptr<Command>> m_InputActions;
 
 		/* Private functions */
 		bool IsInputTriggered(int keyboardKey, TriggerState triggerState, SDL_Event& e);
 		bool IsPressed(ControllerButton button) const;
 		bool WasPressed(ControllerButton button) const;
 
-		dae::TriggerState GetCurrentTriggerState(ControllerButton button);
+		Tonic::TriggerState GetCurrentTriggerState(ControllerButton button);
 		bool DidThumbstickMove(ControllerButton button);
 		bool IsTriggerPressed(ControllerButton button);
 

@@ -3,7 +3,7 @@
 #include "HexCoordinate.h"
 #include <vector>
 
-namespace dae
+namespace Tonic
 {
 	class GameObject;
 }

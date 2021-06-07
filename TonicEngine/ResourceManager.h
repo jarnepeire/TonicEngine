@@ -1,7 +1,7 @@
 #pragma once
 #include "Singleton.h"
 
-namespace dae
+namespace Tonic
 {
 	class Texture2D;
 	class Font;

@@ -1,18 +1,16 @@
 #include "TonicEnginePCH.h"
 #include "AudioLocator.h"
 
-AudioSystem* AudioLocator::m_pAudioSystem = nullptr;
-NullAudio AudioLocator::m_pNullAudio = NullAudio();
-//std::mutex AudioLocator::m_Mutex = std::mutex();
+Tonic::AudioSystem* Tonic::AudioLocator::m_pAudioSystem = nullptr;
+Tonic::NullAudio Tonic::AudioLocator::m_pNullAudio = Tonic::NullAudio();
 
-AudioLocator::AudioLocator()
+Tonic::AudioLocator::AudioLocator()
 {
 	m_pAudioSystem = &m_pNullAudio;
 }
 
-void AudioLocator::RegisterAudioSystem(AudioSystem* pAudioSystem)
+void Tonic::AudioLocator::RegisterAudioSystem(AudioSystem* pAudioSystem)
 {
-	//std::lock_guard<std::mutex> lock{ m_Mutex }; //Overkill 
 	if (pAudioSystem)
 		m_pAudioSystem = pAudioSystem;
 	else

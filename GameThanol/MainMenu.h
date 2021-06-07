@@ -3,7 +3,7 @@
 
 class MenuButton;
 
-class MainMenu : public dae::Scene
+class MainMenu : public Tonic::Scene
 {
 public:
 	MainMenu(const std::string& name, int idx);

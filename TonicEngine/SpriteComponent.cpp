@@ -4,8 +4,7 @@
 #include "GameObject.h"
 #include "RenderComponent.h"
 
-using namespace dae;
-SpriteComponent::SpriteComponent(dae::GameObject* parent, const std::string& filename, int frameWidth, int frameHeight, int nbColumns, int animationSpeedInMS, float scale)
+Tonic::SpriteComponent::SpriteComponent(Tonic::GameObject* parent, const std::string& filename, int frameWidth, int frameHeight, int nbColumns, int animationSpeedInMS, float scale)
 	: Component(parent)
 	, m_EnableRender(true)
 	, m_Texture(ResourceManager::GetInstance().LoadTexture(filename))
@@ -38,19 +37,19 @@ SpriteComponent::SpriteComponent(dae::GameObject* parent, const std::string& fil
 	m_Dest.h = int((float)m_Dest.h * m_Scale);
 }
 
-void SpriteComponent::Initialize()
+void Tonic::SpriteComponent::Initialize()
 {
 }
 
-void SpriteComponent::PostInitialize()
+void Tonic::SpriteComponent::PostInitialize()
 {
 }
 
-void SpriteComponent::FixedUpdate(float)
+void Tonic::SpriteComponent::FixedUpdate(float)
 {
 }
 
-void SpriteComponent::Update(float)
+void Tonic::SpriteComponent::Update(float)
 {
 	//Set dest to current position
 	const auto pos = m_Transform.GetPosition() + m_pGameObject->GetTransform().GetPosition();
@@ -67,7 +66,7 @@ void SpriteComponent::Update(float)
 	m_Src.x = m_Src.w * static_cast<int>((SDL_GetTicks() / m_AnimationSpeedInMS) % m_NbColumns);
 }
 
-void SpriteComponent::Render()
+void Tonic::SpriteComponent::Render()
 {
 	if (m_Texture != nullptr && m_EnableRender)
 	{
@@ -76,7 +75,7 @@ void SpriteComponent::Render()
 	}
 }
 
-void SpriteComponent::SetIsLeft(bool isLeft)
+void Tonic::SpriteComponent::SetIsLeft(bool isLeft)
 {
 	m_Flip = (isLeft) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 }

@@ -7,7 +7,8 @@
 #include "HexJumpComponent.h"
 #include <AudioLocator.h>
 
-DiskComponent::DiskComponent(dae::GameObject* parent, float timeToMove, std::shared_ptr<HexGrid> hexGrid, const HexCoordinate& hc)
+using namespace Tonic;
+DiskComponent::DiskComponent(Tonic::GameObject* parent, float timeToMove, std::shared_ptr<HexGrid> hexGrid, const HexCoordinate& hc)
 	: Component(parent)
 	, m_Grid(hexGrid)
 	, m_CanMove(false)
@@ -68,7 +69,7 @@ void DiskComponent::Render()
 {
 }
 
-void DiskComponent::Move(dae::GameObject* pObjToMove, const glm::vec2& toPosition)
+void DiskComponent::Move(Tonic::GameObject* pObjToMove, const glm::vec2& toPosition)
 {
 	m_CanMove = true;
 	m_pObjectToMove = pObjToMove;

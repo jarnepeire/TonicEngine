@@ -10,7 +10,7 @@
 #include "backends/imgui_impl_opengl2.h"
 #include "backends/imgui_impl_sdl.h"
 
-using namespace dae;
+using namespace Tonic;
 int GetOpenGLDriverIndex()
 {
 	auto openglIndex = -1;
@@ -25,7 +25,7 @@ int GetOpenGLDriverIndex()
 	return openglIndex;
 }
 
-void dae::Renderer::Init(SDL_Window * window)
+void Tonic::Renderer::Init(SDL_Window * window)
 {
 	m_pWindow = window;
 	m_Renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED /*| SDL_RENDERER_PRESENTVSYNC*/);
@@ -41,7 +41,7 @@ void dae::Renderer::Init(SDL_Window * window)
 	ImGui_ImplOpenGL2_Init();
 }
 
-void dae::Renderer::Render() const
+void Tonic::Renderer::Render() const
 {
 	SDL_RenderClear(m_Renderer);
 
@@ -62,7 +62,7 @@ void dae::Renderer::Render() const
 	SDL_RenderPresent(m_Renderer);
 }
 
-void dae::Renderer::Destroy()
+void Tonic::Renderer::Destroy()
 {
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
@@ -75,7 +75,7 @@ void dae::Renderer::Destroy()
 	}
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void Tonic::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
@@ -84,7 +84,7 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void Tonic::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
@@ -94,7 +94,7 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void dae::Renderer::DisplayUI() const
+void Tonic::Renderer::DisplayUI() const
 {
 	ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.59f, 0.52f, 1.f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.60f, 0.56f, 1.f));

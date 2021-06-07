@@ -2,7 +2,7 @@
 #include <Command.h>
 #include <string>
 
-class ToSceneCommand : public Command
+class ToSceneCommand : public Tonic::Command
 {
 public:
 	ToSceneCommand(const std::string& sceneName) 

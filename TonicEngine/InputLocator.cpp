@@ -1,15 +1,15 @@
 #include "TonicEnginePCH.h"
 #include "InputLocator.h"
 
-dae::InputManager* dae::InputLocator::m_pInputManager = nullptr;
-dae::InputManager dae::InputLocator::m_pNullInput = dae::InputManager();
+Tonic::InputManager* Tonic::InputLocator::m_pInputManager = nullptr;
+Tonic::InputManager Tonic::InputLocator::m_pNullInput = Tonic::InputManager();
 
-dae::InputLocator::InputLocator()
+Tonic::InputLocator::InputLocator()
 {
 	m_pInputManager = &m_pNullInput;
 }
 
-void dae::InputLocator::RegisterInputManager(InputManager* pInputManager)
+void Tonic::InputLocator::RegisterInputManager(InputManager* pInputManager)
 {
 	if (pInputManager)
 		m_pInputManager = pInputManager;

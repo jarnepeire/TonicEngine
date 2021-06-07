@@ -1,7 +1,7 @@
 #include "ToSceneCommand.h"
 #include <SceneManager.h>
 
-using namespace dae;
+using namespace Tonic;
 void ToSceneCommand::Execute()
 {
 	if (m_SceneIdx == -1)

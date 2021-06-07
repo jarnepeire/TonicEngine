@@ -1,7 +1,7 @@
 #pragma once
 #include <Component.h>
 
-namespace dae
+namespace Tonic
 {
 	class GameObject;
 }
@@ -13,11 +13,11 @@ enum class EnemyType
 	Coily
 };
 
-class EnemyComponent : public Component
+class EnemyComponent : public Tonic::Component
 {
 public:
 
-	EnemyComponent(dae::GameObject* parent, EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime, unsigned int deathSoundId);
+	EnemyComponent(Tonic::GameObject* parent, EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime, unsigned int deathSoundId);
 	virtual ~EnemyComponent() = default;
 
 	void Initialize() override;

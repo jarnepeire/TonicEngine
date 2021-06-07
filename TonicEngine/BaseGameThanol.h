@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 
-namespace dae
+namespace Tonic
 {
 	class BaseGameThanol
 	{

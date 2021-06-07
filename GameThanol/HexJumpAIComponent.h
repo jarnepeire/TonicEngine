@@ -2,17 +2,17 @@
 #include <Component.h>
 #include "HexCoordinate.h"
 
-namespace dae
+namespace Tonic
 {
 	class GameObject;
 }
 class HexGrid;
 class HexJumpComponent;
 
-class HexJumpAIComponent : public Component
+class HexJumpAIComponent : public Tonic::Component
 {
 public:
-	HexJumpAIComponent(dae::GameObject* parent, float postJumpWaitingTime, unsigned int jumpSoundId);
+	HexJumpAIComponent(Tonic::GameObject* parent, float postJumpWaitingTime, unsigned int jumpSoundId);
 	virtual ~HexJumpAIComponent() = default;
 
 	void Initialize() override;

@@ -6,11 +6,11 @@
 #include "FPSComponent.h"
 #include "Subject.h"
 
-dae::GameObject::~GameObject()
+Tonic::GameObject::~GameObject()
 {
 }
 
-void dae::GameObject::Initialize()
+void Tonic::GameObject::Initialize()
 {
 	for (auto pComp : m_pComponents)
 	{
@@ -18,7 +18,7 @@ void dae::GameObject::Initialize()
 	}
 }
 
-void dae::GameObject::PostInitialize()
+void Tonic::GameObject::PostInitialize()
 {
 	for (auto pComp : m_pComponents)
 	{
@@ -26,7 +26,7 @@ void dae::GameObject::PostInitialize()
 	}
 }
 
-void dae::GameObject::FixedUpdate(float dt)
+void Tonic::GameObject::FixedUpdate(float dt)
 {
 	for (auto pComp : m_pComponents)
 	{
@@ -34,7 +34,7 @@ void dae::GameObject::FixedUpdate(float dt)
 	}
 }
 
-void dae::GameObject::Update(float dt)
+void Tonic::GameObject::Update(float dt)
 {
 	for (auto pComp : m_pComponents)
 	{
@@ -42,7 +42,7 @@ void dae::GameObject::Update(float dt)
 	}
 }
 
-void dae::GameObject::Render() const
+void Tonic::GameObject::Render() const
 {
 	for (auto pComp : m_pComponents)
 	{
@@ -50,7 +50,7 @@ void dae::GameObject::Render() const
 	}
 }
 
-void dae::GameObject::SetPosition(float x, float y, float z)
+void Tonic::GameObject::SetPosition(float x, float y, float z)
 {
 	m_Transform.SetPosition(x, y, z);
 }

@@ -5,7 +5,8 @@
 #include "SpriteComponent.h"
 #include "HexComponent.h"
 
-HexGrid::HexGrid(dae::GameObject* parent, int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, const std::vector<std::string>& hexImagePaths, bool isAlternating)
+using namespace Tonic;
+HexGrid::HexGrid(Tonic::GameObject* parent, int gridSize, int hexWidth, int hexHeight, int nbVisitsNeeded, const std::vector<std::string>& hexImagePaths, bool isAlternating)
 	: Component(parent)
 	, m_ImageComponents()
 	, m_GridSize(gridSize)
