@@ -39,8 +39,8 @@ void NextLevelObserver::Notify(Tonic::GameObject* object, int eventId)
 				auto pPrevScene = object->GetParentScene();
 				auto pPrevQBertScene = dynamic_cast<QBertScene*>(pPrevScene);
 
-				auto pGrid = pPrevQBertScene->GetHexGridObject()->GetComponent<HexGrid>();
-				int diskScore = pGrid->GetRemainingDiskAmount() * (int)GameScore::SCORE_REMAINING_DISKS;
+				auto pGridPrev = pPrevQBertScene->GetHexGridObject()->GetComponent<HexGrid>();
+				int diskScore = pGridPrev->GetRemainingDiskAmount() * (int)GameScore::SCORE_REMAINING_DISKS;
 
 				auto pScoreComp = object->GetComponent<CharacterComponent>();
 				if (pScoreComp)

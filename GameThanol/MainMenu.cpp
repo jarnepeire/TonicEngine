@@ -227,7 +227,7 @@ void MainMenu::Initialize()
 
 }
 
-void MainMenu::FixedUpdate(float dt)
+void MainMenu::FixedUpdate(float)
 {
 }
 

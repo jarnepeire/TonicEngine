@@ -57,7 +57,6 @@ void LevelThree::Initialize()
 	unsigned int uggWrongwayJumpSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_UggWrongwayJump.wav");
 	unsigned int uggWrongwayDeathSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_UggWrongwayDeath.wav");
 
-	unsigned int scoreSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_gain_score.wav");
 	unsigned int diedSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_Death.wav");
 	unsigned int movingDiskSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_DiskMoving.wav");
 	
@@ -257,11 +256,11 @@ void LevelThree::Initialize()
 
 }
 
-void LevelThree::FixedUpdate(float dt)
+void LevelThree::FixedUpdate(float)
 {
 }
 
-void LevelThree::Update(float dt)
+void LevelThree::Update(float)
 {
 }
 

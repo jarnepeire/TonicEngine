@@ -48,7 +48,7 @@ void HexJumpComponent::PostInitialize()
 {
 }
 
-void HexJumpComponent::FixedUpdate(float dt)
+void HexJumpComponent::FixedUpdate(float)
 {
 }
 

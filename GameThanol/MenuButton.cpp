@@ -11,7 +11,7 @@ MenuButton::MenuButton(std::shared_ptr<ImageComponent> buttonComp, std::shared_p
 {
 }
 
-void MenuButton::Update(float dt)
+void MenuButton::Update(float)
 {
 	m_IsPressed = false;
 	m_IsHovered = IsOverlappingButton();

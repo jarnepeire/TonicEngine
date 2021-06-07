@@ -56,13 +56,11 @@ void LevelOne::Initialize()
 	unsigned int uggWrongwayJumpSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_UggWrongwayJump.wav");
 	unsigned int uggWrongwayDeathSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_UggWrongwayDeath.wav");
 
-	unsigned int scoreSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_gain_score.wav");
 	unsigned int diedSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_Death.wav");
 	unsigned int movingDiskSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_DiskMoving.wav");
 	
 	unsigned int endGameSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_EndGame.wav");
 	unsigned int nextLevelSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_NextLevel.wav");
-	unsigned int winGameSoundId = pSDLAudio->AddSound("../Data/QBert/Sounds/sfx_WinGame.wav");
 
 	m_pAudioSytem = std::make_shared<LogAudio>(pSDLAudio);
 	AudioLocator::RegisterAudioSystem(m_pAudioSytem.get());
@@ -259,11 +257,11 @@ void LevelOne::Initialize()
 
 }
 
-void LevelOne::FixedUpdate(float dt)
+void LevelOne::FixedUpdate(float)
 {
 }
 
-void LevelOne::Update(float dt)
+void LevelOne::Update(float)
 {
 }
 

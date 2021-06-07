@@ -22,7 +22,7 @@ public:
 
 	void Initialize() override;
 	void PostInitialize() override;
-	void FixedUpdate(float dt) override {}
+	void FixedUpdate(float) override {}
 	void Update(float dt) override;
 	void Render() override {}
 

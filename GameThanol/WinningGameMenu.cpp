@@ -72,9 +72,9 @@ void WinningGameMenu::Initialize()
 		auto pButtonImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>( "QBert/Menu/ToMenuButton.png", 1.f));
 		auto pButtonHoverImage = playObj->AddComponent<ImageComponent>(std::make_shared<ImageComponent>( "QBert/Menu/ToMenuButtonHover.png", 1.f));
 		playObj->AddComponent<RenderComponent>(std::make_shared<RenderComponent>(Tonic::Renderer::GetInstance().GetSDLRenderer()));
-		auto pTextComp = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("(A)", menuFont));
-		pTextComp->SetLocalPosition(85, 17.5f);
-		pTextComp->SetColor(Colors::COLOR_TABLE[ColorName::DarkLimeGreen]);
+		auto pTextComp2 = playObj->AddComponent<TextComponent>(std::make_shared<TextComponent>("(A)", menuFont));
+		pTextComp2->SetLocalPosition(85, 17.5f);
+		pTextComp2->SetColor(Colors::COLOR_TABLE[ColorName::DarkLimeGreen]);
 		Add(playObj);
 
 		m_pToMainMenuButton = std::make_shared<MenuButton>(pButtonImage, pButtonHoverImage);
@@ -88,7 +88,7 @@ void WinningGameMenu::Initialize()
 	AudioLocator::RegisterAudioSystem(m_pAudioSytem.get());
 }
 
-void WinningGameMenu::FixedUpdate(float dt)
+void WinningGameMenu::FixedUpdate(float)
 {
 }
 

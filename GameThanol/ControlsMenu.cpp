@@ -71,7 +71,7 @@ void ControlsMenu::Initialize()
 	AudioLocator::RegisterAudioSystem(m_pAudioSytem.get());
 }
 
-void ControlsMenu::FixedUpdate(float dt)
+void ControlsMenu::FixedUpdate(float)
 {
 }
 

@@ -33,9 +33,6 @@ void HexGrid::Initialize()
 	int offsetPerRow = int(m_HexWidth / 2.f);
 	int offsetPerCol = int(m_HexHeight / 4.f);
 
-	int horSize = int(m_HexWidth / 2.f);
-	int verSize = int(m_HexHeight / 2.f);
-
 	for (int row = 0; row <= m_GridSize; row++)
 	{
 		for (int col = 0; col < m_GridSize - row; col++)

@@ -31,7 +31,7 @@ void DiskComponent::PostInitialize()
 	AttachToGrid(m_Grid, m_AttachedHexCoordinate);
 }
 
-void DiskComponent::FixedUpdate(float dt)
+void DiskComponent::FixedUpdate(float)
 {
 }
 

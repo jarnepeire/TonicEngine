@@ -17,8 +17,8 @@ public:
 	~QBertScene() = default;
 
 	virtual void Initialize() override {}
-	virtual void FixedUpdate(float dt) override {}
-	virtual void Update(float dt) override {}
+	virtual void FixedUpdate(float) override {}
+	virtual void Update(float) override {}
 	virtual void Render() const override {}
 
 	virtual void ResetLevel() = 0;
