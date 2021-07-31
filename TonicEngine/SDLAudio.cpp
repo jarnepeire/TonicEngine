@@ -47,7 +47,7 @@ void Tonic::SDLAudio::ProcessRequests()
 	{
 		//Start lock here, we don't want the possibility for the m_Head to be changed and used as a thread goes over the code
 		//Reason for unique_lock: works better with conditional variable for manual unlocking on notifies (ref: feedback ppt w07) 
-		std::unique_lock<std::mutex> lock{ m_Mutex };
+
 		if (m_Head != m_Tail)
 		{
 			//Timing for the duplicate requests reset (compared and calculated in seconds!)
@@ -74,14 +74,26 @@ void Tonic::SDLAudio::ProcessRequests()
 				Mix_PlayChannel(m_Channel, pSound, 0);
 			}
 			
+			std::unique_lock<std::mutex> lock{ m_Mutex };
+
 			//We advance the 'head pointer' to the next element, or wrap it back around the buffer if needed
 			m_Head = (m_Head + 1) % m_MaxPending;
 
+			//Meaning there's no requests, the head caught up with the tail so wait for new requests
+			if (m_Head == m_Tail)
+				m_HasRequests.wait(lock);
+
+		}
+		else
+		{
+			std::unique_lock<std::mutex> lock{ m_Mutex };
+
+			//Meaning there's no requests, the head caught up with the tail so wait for new requests
+			if (m_Head == m_Tail)
+				m_HasRequests.wait(lock);
 		}
 
-		//Meaning there's no requests, the head caught up with the tail so wait for new requests
-		if (m_Head == m_Tail)
-			m_HasRequests.wait(lock);
+
 
 	} 	while (m_Head != m_Tail);
 }
