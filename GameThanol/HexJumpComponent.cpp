@@ -14,6 +14,7 @@
 #include "GameScores.h"
 #include "HexComponent.h"
 #include "GameEvent.h"
+#include <Subject.h>
 
 using namespace Tonic;
 HexJumpComponent::HexJumpComponent(HexGrid* pHexGrid, int startRow, int startCol, float timeToJump)

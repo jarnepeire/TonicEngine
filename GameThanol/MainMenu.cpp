@@ -1,11 +1,11 @@
+//General 
 #include "MainMenu.h"
-#include <InputManager.h>
 #include <ResourceManager.h>
-
-#include <GameObject.h>
-#include <Scene.h>
 #include <Renderer.h>
-#include <KeyboardMapping.h>
+
+//Project includes
+#include "Colors.h"
+#include "QBertScene.h"
 #include <iostream>
 
 //UI
@@ -17,17 +17,14 @@
 #include "LogAudio.h"
 
 //Commands
-#include "Command.h"
 #include "ToSceneCommand.h"
 
 //Components
-#include <FPSComponent.h>
+#include <GameObject.h>
 #include <TextComponent.h>
 #include <RenderComponent.h>
 #include <ImageComponent.h>
 #include <SpriteComponent.h>
-#include "QBertScene.h"
-#include "Colors.h"
 
 using namespace Tonic;
 MainMenu::MainMenu(const std::string& name)
@@ -215,15 +212,6 @@ void MainMenu::Initialize()
 
 	//Input
 	m_Input.AddInputAction((int)KeyboardButton::F2, ControllerButton::NULL_VALUE, ControllerButtonType::NULL_VALUE, TriggerState::Pressed, std::make_shared<ToSceneCommand>("LevelOne"));
-
-	//m_Input.AddInputAction((int)KeyboardButton::A, ControllerButton::ButtonA, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(qBert.get(), scoreSoundId));
-	//m_Input.AddInputAction((int)KeyboardButton::B, ControllerButton::ButtonB, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(qBert.get(), diedSoundId));
-	//
-	//m_Input.AddInputAction((int)KeyboardButton::X, ControllerButton::ButtonX, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<ScoreCommand>(p2.get(), scoreSoundId));
-	//m_Input.AddInputAction((int)KeyboardButton::Y, ControllerButton::ButtonY, ControllerButtonType::wButton, TriggerState::Pressed, std::make_shared<DieCommand>(p2.get(), diedSoundId));
-	
-
-
 
 }
 

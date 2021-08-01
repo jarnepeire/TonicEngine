@@ -8,7 +8,6 @@ class WinGameObserver : public Tonic::Observer
 {
 public:
 	WinGameObserver(std::shared_ptr<HexGrid> currentLevelGrid, const std::string& winningSceneName, unsigned int winGameSoundId);
-
 	virtual ~WinGameObserver() = default;
 	void Notify(Tonic::GameObject * object, int eventId) override;
 

@@ -1,13 +1,17 @@
 #include "TonicEnginePCH.h"
 #include "Component.h"
-#include "Subject.h"
 #include "GameObject.h"
+#include "Subject.h"
 
 Tonic::Component::Component()
 	: m_pGameObject(nullptr)
+	, m_Transform()
 	, m_pSubject(std::make_unique<Subject>())
+	//, m_pSubject(new Subject())
 {
 }
+
+Tonic::Component::~Component() = default;
 
 void Tonic::Component::SetLocalPosition(const float x, const float y)
 {

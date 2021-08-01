@@ -8,6 +8,7 @@
 #include "QBertGame.h"
 #include <SpriteComponent.h>
 #include "AudioLocator.h"
+#include <Subject.h>
 
 using namespace Tonic;
 EnemyComponent::EnemyComponent(EnemyType enemyType, int defeatingScore, float minSpawnTime, float maxSpawnTime, unsigned int deathSoundId)

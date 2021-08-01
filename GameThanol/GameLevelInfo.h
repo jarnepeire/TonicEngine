@@ -1,7 +1,7 @@
 #pragma once
-#include <string>
 #include "HexCoordinate.h"
 #include <vector>
+#include <string>
 
 struct LevelInfo
 {

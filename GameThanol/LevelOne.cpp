@@ -35,6 +35,7 @@
 #include "ColliderComponent.h"
 #include "UggWrongwayComponent.h"
 #include "UggWrongwayObserver.h"
+#include <Subject.h>
 
 using namespace Tonic;
 LevelOne::LevelOne(const std::string& name)

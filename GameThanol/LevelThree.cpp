@@ -36,6 +36,7 @@
 #include "SamSlickObserver.h"
 #include "UggWrongwayComponent.h"
 #include "UggWrongwayObserver.h"
+#include <Subject.h>
 
 using namespace Tonic;
 LevelThree::LevelThree(const std::string& name)

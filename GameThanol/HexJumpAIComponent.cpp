@@ -17,7 +17,6 @@ HexJumpAIComponent::HexJumpAIComponent(float postJumpWaitingTime, unsigned int j
 {
 }
 
-
 void HexJumpAIComponent::Initialize()
 {
 }

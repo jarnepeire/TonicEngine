@@ -1,13 +1,16 @@
 #include "WinGameObserver.h"
-#include <GameObject.h>
 #include "SceneManager.h"
-#include "HexGrid.h"
-#include "WinningGameMenu.h"
 #include "QBertScene.h"
+#include "WinningGameMenu.h"
 #include "GameScores.h"
+#include "GameEvent.h"
+
+//Components
+#include <GameObject.h>
+#include "HexGrid.h"
 #include "CharacterComponent.h"
 #include "AudioLocator.h"
-#include "GameEvent.h"
+
 
 using namespace Tonic;
 WinGameObserver::WinGameObserver(std::shared_ptr<HexGrid> currentLevelGrid, const std::string& winningSceneName, unsigned int winGameSoundId)

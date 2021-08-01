@@ -3,6 +3,7 @@
 #include "ColliderComponent.h"
 #include "GameObject.h"
 #include "Event.h"
+#include "Subject.h"
 
 Tonic::ColliderManager::ColliderManager()
 	: m_pColliders()

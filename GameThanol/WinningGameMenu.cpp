@@ -1,17 +1,23 @@
+//General
 #include "WinningGameMenu.h"
+#include <ResourceManager.h>
+#include <Renderer.h>
+
+//Components
 #include <GameObject.h>
 #include <RenderComponent.h>
 #include <TextComponent.h>
-#include <Renderer.h>
-#include <ResourceManager.h>
-#include "MenuButton.h"
-#include "ImageComponent.h"
+#include <SpriteComponent.h>
+#include <ImageComponent.h>
+
+//Sound
+#include <AudioLocator.h>
 #include <SDLAudio.h>
 #include <LogAudio.h>
-#include <AudioLocator.h>
-#include <iostream>
+
+//Project includes
 #include "Colors.h"
-#include <SpriteComponent.h>
+#include "MenuButton.h"
 
 using namespace Tonic;
 WinningGameMenu::WinningGameMenu(const std::string& name)

@@ -1,6 +1,11 @@
 #pragma once
 #include "Transform.h"
-#include "Subject.h"
+#include <memory>
+
+namespace Tonic
+{
+	class Subject;
+}
 
 namespace Tonic
 {
@@ -8,8 +13,7 @@ namespace Tonic
 	class Component
 	{
 	public:
-		Component();
-		virtual ~Component() = default;
+		virtual ~Component();
 
 		Component(const Component& other) = delete;
 		Component(Component&& other) = delete;
@@ -42,17 +46,18 @@ namespace Tonic
 		void SetLocalPosition(const float x, const float y);
 
 		/* Get subject object of component, to be used to add observers to */
-		const std::unique_ptr<Subject>& GetSubject() const { return m_pSubject; }
+		const std::unique_ptr<Tonic::Subject>& GetSubject() const { return m_pSubject; }
 
 		/* Returns world position of component (local position within the game object + game object's position) */
 		glm::vec3 GetWorldPosition() const;
 
 		/* Returns a pointer to the parent game object */
-		Tonic::GameObject* GetParentObject() { return m_pGameObject; }
+		Tonic::GameObject* GetParentObject() const { return m_pGameObject; }
 
 	protected:
-		Tonic::GameObject* m_pGameObject = nullptr;
+		Component();
+		Tonic::GameObject* m_pGameObject;
 		Tonic::Transform m_Transform;
-		std::unique_ptr<Subject> m_pSubject;
+		std::unique_ptr<Tonic::Subject> m_pSubject;
 	};
 }

@@ -1,17 +1,30 @@
+//General 
 #include "GameOverMenu.h"
-#include <GameObject.h>
-#include <RenderComponent.h>
-#include <TextComponent.h>
-#include <Renderer.h>
 #include <ResourceManager.h>
-#include "MenuButton.h"
-#include "ImageComponent.h"
-#include <SDLAudio.h>
-#include <LogAudio.h>
-#include <AudioLocator.h>
-#include <iostream>
-#include <SpriteComponent.h>
+#include <Renderer.h>
+
+//Project includes
 #include "Colors.h"
+#include "QBertScene.h"
+#include <iostream>
+
+//UI
+#include "MenuButton.h"
+
+//Sound
+#include "AudioLocator.h"
+#include "SDLAudio.h"
+#include "LogAudio.h"
+
+//Commands
+#include "ToSceneCommand.h"
+
+//Components
+#include <GameObject.h>
+#include <TextComponent.h>
+#include <RenderComponent.h>
+#include <ImageComponent.h>
+#include <SpriteComponent.h>
 
 using namespace Tonic;
 GameOverMenu::GameOverMenu(const std::string& name)

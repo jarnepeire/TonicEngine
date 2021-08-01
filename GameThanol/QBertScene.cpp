@@ -1,19 +1,20 @@
+//General
 #include "QBertScene.h"
-#include "CharacterComponent.h"
-#include <GameObject.h>
-#include "HealthComponent.h"
-#include "GameEvent.h"
-#include "HexGrid.h"
-#include "HexComponent.h"
-#include "DiskComponent.h"
-#include <RenderComponent.h>
 #include <Renderer.h>
+
+//Components
+#include <GameObject.h>
 #include <SpriteComponent.h>
+#include <RenderComponent.h>
+#include "CharacterComponent.h"
+#include "HealthComponent.h"
+#include "DiskComponent.h"
 #include "GameLevelInfo.h"
 
 using namespace Tonic;
 QBertScene::QBertScene(const std::string& name, const std::wstring& levelFile)
 	: Scene(name)
+	, m_pGameLevelInfo(std::make_shared<GameLevelInfo>(levelFile))
 	, m_pQBert(std::make_shared<GameObject>())
 	, m_pSam(std::make_shared<GameObject>())
 	, m_pSlick(std::make_shared<GameObject>())
@@ -23,7 +24,6 @@ QBertScene::QBertScene(const std::string& name, const std::wstring& levelFile)
 	, m_NbDisks()
 	, m_pDisks()
 	, m_DiskHexCoordinates()
-	, m_pGameLevelInfo(std::make_shared<GameLevelInfo>(levelFile))
 {
 }
 
