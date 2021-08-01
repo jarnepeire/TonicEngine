@@ -1,15 +1,17 @@
 #include "TonicEnginePCH.h"
 #include "Scene.h"
 #include "GameObject.h"
-#include <algorithm>
 #include "ColliderManager.h"
+#include "InputLocator.h"
+#include <algorithm>
 
 Tonic::Scene::Scene(const std::string& name)
-	: m_SceneIndex(-1)
-	, m_Name(name) 
-	, m_Input()
+	: m_Input()
 	, m_ColliderManager()
 	, m_pAudioSytem()
+	, m_SceneIndex(-1)
+	, m_Name(name)
+	, m_pObjects()
 {}
 
 Tonic::Scene::~Scene() = default;
@@ -63,4 +65,10 @@ void Tonic::Scene::AddColliderToScene(ColliderComponent* pCollider)
 void Tonic::Scene::SetSceneIndex(int index)
 {
 	m_SceneIndex = index;
+}
+
+void Tonic::Scene::CarryOverInput(const InputManager& input)
+{
+	m_Input.CarryOverInput(input);
+	InputLocator::RegisterInputManager(&m_Input);
 }

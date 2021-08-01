@@ -256,16 +256,16 @@ float Tonic::InputManager::GetTriggerForce(ControllerButton b) const
 		return (float)m_CurrControllerState.Gamepad.bRightTrigger / 255.f;
 }
 
-void Tonic::InputManager::CarryOverInput(InputManager* pInput)
+void Tonic::InputManager::CarryOverInput(const InputManager& pInput)
 {
-	m_PrevMouseButtonState = pInput->m_PrevMouseButtonState;
-	m_MouseButtonState = pInput->m_MouseButtonState;
+	m_PrevMouseButtonState = pInput.m_PrevMouseButtonState;
+	m_MouseButtonState = pInput.m_MouseButtonState;
 
-	m_CurrMousePos = pInput->m_CurrMousePos;
-	m_PrevMousePos = pInput->m_PrevMousePos;
-	m_RelativeMouseMove = pInput->m_RelativeMouseMove;
+	m_CurrMousePos = pInput.m_CurrMousePos;
+	m_PrevMousePos = pInput.m_PrevMousePos;
+	m_RelativeMouseMove = pInput.m_RelativeMouseMove;
 
-	m_PrevControllerState = pInput->m_PrevControllerState;
-	m_CurrControllerState = pInput->m_CurrControllerState;
+	m_PrevControllerState = pInput.m_PrevControllerState;
+	m_CurrControllerState = pInput.m_CurrControllerState;
 }
 

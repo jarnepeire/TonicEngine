@@ -2,14 +2,9 @@
 namespace Tonic
 {
 	class GameObject;
-
 	class Command
 	{
 	public:
-		Command(Tonic::GameObject* object)
-		{
-			m_pObject = object;
-		}
 
 		virtual ~Command() = default;
 
@@ -17,6 +12,11 @@ namespace Tonic
 		virtual void Execute() = 0;
 
 	protected:
+		Command(Tonic::GameObject* object)
+		{
+			m_pObject = object;
+		}
+
 		Tonic::GameObject* m_pObject;
 	};
 }

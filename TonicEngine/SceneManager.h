@@ -48,7 +48,7 @@ namespace Tonic
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
 
-		int m_ActiveSceneIdx = 0;
-		std::vector<std::shared_ptr<Scene>> m_pScenes{};
+		int m_ActiveSceneIdx;
+		std::vector<std::shared_ptr<Scene>> m_pScenes;
 	};
 }

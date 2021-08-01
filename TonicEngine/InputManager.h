@@ -88,8 +88,8 @@ namespace Tonic
 		/* Returns trigger force of the controller trigger given */
 		float GetTriggerForce(Tonic::ControllerButton button) const;
 
-		/* Makes sure that old input doesn't impact the new scene */
-		void CarryOverInput(InputManager* pInput);
+		/* Makes sure the old input before this went inactive doesn't impact the game when this scene becomes active again */
+		void CarryOverInput(const InputManager& pInput);
 
 	private:
 		Uint32 m_PrevMouseButtonState{};

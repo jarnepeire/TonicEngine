@@ -34,7 +34,7 @@ void Tonic::SceneManager::Render()
 
 void Tonic::SceneManager::SetActiveScene(int index)
 {
-	InputManager* pOldInput = &m_pScenes[m_ActiveSceneIdx]->GetInput();
+	const InputManager& pOldInput = m_pScenes[m_ActiveSceneIdx]->GetInput();
 
 	if (size_t(index) < m_pScenes.size() && m_pScenes[index])
 		m_ActiveSceneIdx = index;
@@ -44,12 +44,10 @@ void Tonic::SceneManager::SetActiveScene(int index)
 		m_ActiveSceneIdx = 0;
 
 	//Swap out input for new scene's input
-	InputManager* pInput = &m_pScenes[m_ActiveSceneIdx]->GetInput();
-	pInput->CarryOverInput(pOldInput);
-	InputLocator::RegisterInputManager(pInput);
+	m_pScenes[m_ActiveSceneIdx]->CarryOverInput(pOldInput);
 
 	//Swap out audio system for new scene's input
-	Tonic::AudioSystem* pAudioSystem = m_pScenes[m_ActiveSceneIdx]->GetAudioSystem().get();
+	AudioSystem* pAudioSystem = m_pScenes[m_ActiveSceneIdx]->GetAudioSystem().get();
 	AudioLocator::RegisterAudioSystem(pAudioSystem);
 }
 
@@ -59,15 +57,13 @@ void Tonic::SceneManager::SetActiveScene(const std::string& name)
 	if (it == m_pScenes.end())
 		return;
 
-	InputManager* pOldInput = &m_pScenes[m_ActiveSceneIdx]->GetInput();
+	const InputManager& pOldInput = m_pScenes[m_ActiveSceneIdx]->GetInput();
 
 	std::shared_ptr<Scene> pScene = *it;
 	m_ActiveSceneIdx = pScene->GetSceneIndex();
 
 	//Swap out input for new scene's input
-	InputManager* pInput = &m_pScenes[m_ActiveSceneIdx]->GetInput();
-	pInput->CarryOverInput(pOldInput);
-	InputLocator::RegisterInputManager(pInput);
+	m_pScenes[m_ActiveSceneIdx]->CarryOverInput(pOldInput);
 
 	//Swap out audio system for new scene's input
 	AudioSystem* pAudioSystem = m_pScenes[m_ActiveSceneIdx]->GetAudioSystem().get();
@@ -77,7 +73,7 @@ void Tonic::SceneManager::SetActiveScene(const std::string& name)
 void Tonic::SceneManager::AddGameScene(const std::shared_ptr<Tonic::Scene>& scene)
 {
 	m_ActiveSceneIdx = (int)m_pScenes.size();
-	m_pScenes.push_back(scene);
+	m_pScenes.push_back(std::move(scene));
 	scene->SetSceneIndex(m_ActiveSceneIdx);
 }
 

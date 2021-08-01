@@ -7,7 +7,6 @@ namespace Tonic
 	{
 	public:
 		NullAudio() = default;
-		NullAudio();
 		NullAudio(const NullAudio& other) = delete;
 		NullAudio(NullAudio&& other) = delete;
 		NullAudio& operator=(const NullAudio& other) = delete;

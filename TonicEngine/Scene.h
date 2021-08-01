@@ -35,7 +35,7 @@ namespace Tonic
 		const int GetSceneIndex() const { return m_SceneIndex; }
 
 		/* Returns input manager of scene */
-		InputManager& GetInput() { return m_Input; }
+		const InputManager& GetInput() const { return m_Input; }
 
 		/* Returns audio system of scene */
 		const std::shared_ptr<AudioSystem>& GetAudioSystem() { return m_pAudioSytem; }
@@ -54,7 +54,7 @@ namespace Tonic
 		/* Unique scene information */
 		int m_SceneIndex;
 		std::string m_Name;
-		std::vector<std::shared_ptr<GameObject>> m_pObjects{};
+		std::vector<std::shared_ptr<GameObject>> m_pObjects;
 
 		/* Private functions */
 		void RootFixedUpdate(float deltaT);
@@ -62,6 +62,7 @@ namespace Tonic
 		void RootRender();
 		void AddColliderToScene(ColliderComponent* pCollider);
 		void SetSceneIndex(int index);
+		void CarryOverInput(const InputManager& input);
 	};
 
 }
