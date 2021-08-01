@@ -14,8 +14,8 @@
 #include "Colors.h"
 
 using namespace Tonic;
-ControlsMenu::ControlsMenu(const std::string& name, int idx)
-	: Tonic::Scene(name, idx)
+ControlsMenu::ControlsMenu(const std::string& name)
+	: Tonic::Scene(name)
 	, m_pToMainMenuButton()
 	, m_ClickSoundID()
 {

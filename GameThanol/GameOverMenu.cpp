@@ -14,8 +14,8 @@
 #include "Colors.h"
 
 using namespace Tonic;
-GameOverMenu::GameOverMenu(const std::string& name, int idx)
-	: Tonic::Scene(name, idx)
+GameOverMenu::GameOverMenu(const std::string& name)
+	: Tonic::Scene(name)
 	, m_pToMainMenuButton()
 	, m_pFinalScoreObj()
 	, m_ClickSoundID()

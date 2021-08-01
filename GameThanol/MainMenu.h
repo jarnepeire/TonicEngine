@@ -6,7 +6,7 @@ class MenuButton;
 class MainMenu : public Tonic::Scene
 {
 public:
-	MainMenu(const std::string& name, int idx);
+	MainMenu(const std::string& name);
 
 	void Initialize() override;
 	void FixedUpdate(float dt) override;

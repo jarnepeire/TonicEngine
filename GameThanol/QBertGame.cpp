@@ -20,12 +20,12 @@ QBertGame::QBertGame(uint32_t windowWidth, uint32_t windowHeight, float cappedFP
 void QBertGame::CreateGameScenes()
 {
 	//Scene
-	Tonic::SceneManager::GetInstance().AddGameScene(std::make_shared<MainMenu>("Menu", 0));
-	Tonic::SceneManager::GetInstance().AddGameScene(std::make_shared<LevelOne>("LevelOne", 1));
-	Tonic::SceneManager::GetInstance().AddGameScene(std::make_shared<LevelTwo>("LevelTwo", 2));
-	Tonic::SceneManager::GetInstance().AddGameScene(std::make_shared<LevelThree>("LevelThree", 3));
-	Tonic::SceneManager::GetInstance().AddGameScene(std::make_shared<GameOverMenu>("GameOver", 4));
-	Tonic::SceneManager::GetInstance().AddGameScene(std::make_shared<WinningGameMenu>("WinningGame", 5));
-	Tonic::SceneManager::GetInstance().AddGameScene(std::make_shared<ControlsMenu>("ControlsMenu", 6));
+	Tonic::SceneManager::GetInstance().AddGameScene(std::make_shared<MainMenu>("Menu"));
+	Tonic::SceneManager::GetInstance().AddGameScene(std::make_shared<LevelOne>("LevelOne"));
+	Tonic::SceneManager::GetInstance().AddGameScene(std::make_shared<LevelTwo>("LevelTwo"));
+	Tonic::SceneManager::GetInstance().AddGameScene(std::make_shared<LevelThree>("LevelThree"));
+	Tonic::SceneManager::GetInstance().AddGameScene(std::make_shared<GameOverMenu>("GameOver"));
+	Tonic::SceneManager::GetInstance().AddGameScene(std::make_shared<WinningGameMenu>("WinningGame"));
+	Tonic::SceneManager::GetInstance().AddGameScene(std::make_shared<ControlsMenu>("ControlsMenu"));
 	Tonic::SceneManager::GetInstance().SetActiveScene("Menu");
 }

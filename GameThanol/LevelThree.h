@@ -3,7 +3,7 @@
 class LevelThree : public QBertScene
 {
 public:
-	LevelThree(const std::string& name, int idx);
+	LevelThree(const std::string& name);
 	~LevelThree() = default;
 
 	virtual void Initialize() override;

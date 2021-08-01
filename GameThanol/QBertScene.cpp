@@ -12,8 +12,8 @@
 #include "GameLevelInfo.h"
 
 using namespace Tonic;
-QBertScene::QBertScene(const std::string& name, int idx, const std::wstring& levelFile)
-	: Scene(name, idx)
+QBertScene::QBertScene(const std::string& name, const std::wstring& levelFile)
+	: Scene(name)
 	, m_pQBert(std::make_shared<GameObject>())
 	, m_pSam(std::make_shared<GameObject>())
 	, m_pSlick(std::make_shared<GameObject>())

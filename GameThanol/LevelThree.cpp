@@ -38,8 +38,8 @@
 #include "UggWrongwayObserver.h"
 
 using namespace Tonic;
-LevelThree::LevelThree(const std::string& name, int idx)
-	: QBertScene(name, idx, L"../Data/QBert/Levels/LevelThree.json")
+LevelThree::LevelThree(const std::string& name)
+	: QBertScene(name, L"../Data/QBert/Levels/LevelThree.json")
 {
 }
 

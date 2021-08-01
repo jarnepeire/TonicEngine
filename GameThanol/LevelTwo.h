@@ -4,7 +4,7 @@
 class LevelTwo : public QBertScene
 {
 public:
-	LevelTwo(const std::string& name, int idx);
+	LevelTwo(const std::string& name);
 	~LevelTwo() = default;
 
 	virtual void Initialize() override;

@@ -4,8 +4,8 @@
 #include <algorithm>
 #include "ColliderManager.h"
 
-Tonic::Scene::Scene(const std::string& name, int idx)
-	: m_SceneIndex(idx)
+Tonic::Scene::Scene(const std::string& name)
+	: m_SceneIndex(-1)
 	, m_Name(name) 
 	, m_Input()
 	, m_ColliderManager()
@@ -58,4 +58,9 @@ void Tonic::Scene::RootRender()
 void Tonic::Scene::AddColliderToScene(ColliderComponent* pCollider)
 {
 	m_ColliderManager.AddCollider(pCollider);
+}
+
+void Tonic::Scene::SetSceneIndex(int index)
+{
+	m_SceneIndex = index;
 }

@@ -8,7 +8,7 @@ namespace Tonic
 class WinningGameMenu : public Tonic::Scene
 {
 public:
-	WinningGameMenu(const std::string& name, int idx);
+	WinningGameMenu(const std::string& name);
 
 	void Initialize() override;
 	void FixedUpdate(float dt) override;

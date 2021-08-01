@@ -13,7 +13,7 @@ class HexGrid;
 class LevelOne : public QBertScene
 {
 public:
-	LevelOne(const std::string& name, int idx);
+	LevelOne(const std::string& name);
 	~LevelOne() = default;
 
 	virtual void Initialize() override;

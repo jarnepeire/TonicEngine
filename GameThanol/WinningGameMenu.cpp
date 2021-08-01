@@ -14,8 +14,8 @@
 #include <SpriteComponent.h>
 
 using namespace Tonic;
-WinningGameMenu::WinningGameMenu(const std::string& name, int idx)
-	: Tonic::Scene(name, idx)
+WinningGameMenu::WinningGameMenu(const std::string& name)
+	: Tonic::Scene(name)
 	, m_pToMainMenuButton()
 	, m_pFinalScoreObj()
 	, m_ClickSoundID()

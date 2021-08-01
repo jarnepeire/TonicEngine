@@ -78,6 +78,7 @@ void Tonic::SceneManager::AddGameScene(const std::shared_ptr<Tonic::Scene>& scen
 {
 	m_ActiveSceneIdx = (int)m_pScenes.size();
 	m_pScenes.push_back(scene);
+	scene->SetSceneIndex(m_ActiveSceneIdx);
 }
 
 Tonic::Scene* Tonic::SceneManager::GetScene(const int index) const

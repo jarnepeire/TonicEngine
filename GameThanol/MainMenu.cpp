@@ -30,8 +30,8 @@
 #include "Colors.h"
 
 using namespace Tonic;
-MainMenu::MainMenu(const std::string& name, int idx)
-	: Scene(name, idx)
+MainMenu::MainMenu(const std::string& name)
+	: Scene(name)
 	, m_pOnePlayerButton()
 	, m_ClickSoundID()
 {

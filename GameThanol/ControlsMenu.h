@@ -5,7 +5,7 @@ class MenuButton;
 class ControlsMenu : public Tonic::Scene
 {
 public:
-	ControlsMenu(const std::string& name, int idx);
+	ControlsMenu(const std::string& name);
 	virtual ~ControlsMenu() = default;
 
 	void Initialize() override;

@@ -13,7 +13,7 @@ class GameLevelInfo;
 class QBertScene : public Tonic::Scene
 {
 public:
-	QBertScene(const std::string& name, int idx, const std::wstring& levelFile);
+	QBertScene(const std::string& name, const std::wstring& levelFile);
 	~QBertScene() = default;
 
 	virtual void Initialize() override {}

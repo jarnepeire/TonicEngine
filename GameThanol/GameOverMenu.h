@@ -5,7 +5,7 @@ class MenuButton;
 class GameOverMenu : public Tonic::Scene
 {
 public:
-	GameOverMenu(const std::string& name, int idx);
+	GameOverMenu(const std::string& name);
 
 	void Initialize() override;
 	void FixedUpdate(float dt) override;

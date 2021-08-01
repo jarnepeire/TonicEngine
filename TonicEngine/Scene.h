@@ -41,7 +41,7 @@ namespace Tonic
 		const std::shared_ptr<AudioSystem>& GetAudioSystem() { return m_pAudioSytem; }
 
 	protected:
-		explicit Scene(const std::string& name, int idx);
+		explicit Scene(const std::string& name);
 
 		InputManager m_Input;
 		ColliderManager m_ColliderManager;
@@ -52,7 +52,7 @@ namespace Tonic
 		friend class ColliderComponent;
 
 		/* Unique scene information */
-		const int m_SceneIndex;
+		int m_SceneIndex;
 		std::string m_Name;
 		std::vector<std::shared_ptr<GameObject>> m_pObjects{};
 
@@ -61,6 +61,7 @@ namespace Tonic
 		void RootUpdate(float deltaT);
 		void RootRender();
 		void AddColliderToScene(ColliderComponent* pCollider);
+		void SetSceneIndex(int index);
 	};
 
 }
