@@ -12,6 +12,10 @@ namespace Tonic
 	class AudioSystem
 	{
 	public:
+		AudioSystem(const AudioSystem& other) = delete;
+		AudioSystem(AudioSystem&& other) = delete;
+		AudioSystem& operator=(const AudioSystem& other) = delete;
+		AudioSystem& operator=(AudioSystem&& other) = delete;
 		virtual ~AudioSystem() = default;
 		virtual void Play(unsigned int id, float volumePercentage = 1.f) = 0;
 

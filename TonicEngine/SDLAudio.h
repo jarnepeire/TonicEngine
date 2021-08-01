@@ -1,17 +1,19 @@
 #pragma once
 #include "AudioSystem.h"
-#include <SDL.h>
-#include <SDL_mixer.h>
-
 #include <unordered_map>
 #include <mutex>
 
+struct Mix_Chunk;
 namespace Tonic
 {
 	class SDLAudio final : public AudioSystem
 	{
 	public:
 		SDLAudio();
+		SDLAudio(const SDLAudio& other) = delete;
+		SDLAudio(SDLAudio&& other) = delete;
+		SDLAudio& operator=(const SDLAudio& other) = delete;
+		SDLAudio& operator=(SDLAudio&& other) = delete;
 		virtual ~SDLAudio();
 
 		void Play(unsigned int id, float volume) override;

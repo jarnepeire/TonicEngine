@@ -37,7 +37,7 @@ namespace Tonic
 		void Render() const;
 		
 		/* Returns pointer to scene this object belongs to */
-		Tonic::Scene* GetParentScene() { return m_pParentScene; }
+		Tonic::Scene* GetParentScene() const { return m_pParentScene; }
 
 		/* Returns reference to the transform of the game object */
 		Tonic::Transform& GetTransform() { return m_Transform; }

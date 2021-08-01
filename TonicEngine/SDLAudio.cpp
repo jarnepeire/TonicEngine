@@ -1,5 +1,7 @@
 #include "TonicEnginePCH.h"
 #include "SDLAudio.h"
+#include <SDL.h>
+#include <SDL_mixer.h>
 
 #include <chrono>
 using namespace std::chrono;
@@ -16,6 +18,8 @@ Tonic::SDLAudio::SDLAudio()
 	//other numbers are fixed channels to play sound on
 	, m_Channel(-1)
 	, m_SoundsMap()
+	, m_Mutex()
+	, m_HasRequests()
 	, m_Thread(std::thread([this]() { this->ProcessRequests(); }))
 {
 }
@@ -42,15 +46,11 @@ void Tonic::SDLAudio::ProcessRequests()
 	//Timer start
 	auto lastRequest = high_resolution_clock::now();
 
-	//Play the earliest request, located at 'head'
 	do
 	{
-		//Start lock here, we don't want the possibility for the m_Head to be changed and used as a thread goes over the code
-		//Reason for unique_lock: works better with conditional variable for manual unlocking on notifies (ref: feedback ppt w07) 
-
 		if (m_Head != m_Tail)
 		{
-			//Timing for the duplicate requests reset (compared and calculated in seconds!)
+			//Timing for the duplicate requests reset (compared and calculated in seconds)
 			auto now = high_resolution_clock::now();
 			auto duration = duration_cast<milliseconds>(now - lastRequest);
 
@@ -65,15 +65,18 @@ void Tonic::SDLAudio::ProcessRequests()
 			//Also checks for already requested sounds 
 			canPlay = CanPlaySound(&pSound, id);
 
+			//If all went well, play the actual sound
 			if (canPlay)
 			{
-				//If all went well, play the actual sound
+				//Play the earliest request, located at 'head'
 				m_Requests[m_Head].IsRequested = true;
 				int sdlVolume = int(m_Requests[m_Head].VolumePercentage * (float)SDL_MIX_MAXVOLUME);
 				Mix_VolumeChunk(pSound, sdlVolume);
 				Mix_PlayChannel(m_Channel, pSound, 0);
 			}
 			
+			//Start lock here, we don't want the possibility for the m_Head to be changed and used as a thread goes over the code
+			//Reason for unique_lock: works better with conditional variable for manual unlocking on notifies
 			std::unique_lock<std::mutex> lock{ m_Mutex };
 
 			//We advance the 'head pointer' to the next element, or wrap it back around the buffer if needed
@@ -84,16 +87,17 @@ void Tonic::SDLAudio::ProcessRequests()
 				m_HasRequests.wait(lock);
 
 		}
+		//Falls in here on first entry when the software just launched, or when the head caught up with the tail
+		//Meaning there's no requests, so wait for new requests
 		else
 		{
+			//Start lock here, we don't want the possibility for the m_Head to be changed and used as a thread goes over the code
+			//Reason for unique_lock: works better with conditional variable for manual unlocking on notifies
 			std::unique_lock<std::mutex> lock{ m_Mutex };
 
-			//Meaning there's no requests, the head caught up with the tail so wait for new requests
 			if (m_Head == m_Tail)
 				m_HasRequests.wait(lock);
 		}
-
-
 
 	} 	while (m_Head != m_Tail);
 }
@@ -119,7 +123,8 @@ bool Tonic::SDLAudio::CanPlaySound(Mix_Chunk** storedSound, unsigned int id)
 	}
 	else
 	{
-		//Else continue with next request, if there are any! We need to call a wait otherwise we can skip the wait call
+		//Else continue with next request, if there are any
+		//We need to call a wait otherwise we can skip the wait call
 		canPlay = false;
 	}
 	return canPlay;
@@ -149,7 +154,7 @@ bool Tonic::SDLAudio::IsDuplicateRequest(unsigned int id)
 
 void Tonic::SDLAudio::Play(unsigned int id, float volume)
 {
-	//Best to start locking here, we don't want a double to double size twice, nor accidentally overwrite the future value in array
+	//Best to start locking here, we don't want a thread to double size twice, nor accidentally overwrite the future value in array
 	std::lock_guard<std::mutex> lock{ m_Mutex };
 
 	//Meaning the max amount of requests are already pending
